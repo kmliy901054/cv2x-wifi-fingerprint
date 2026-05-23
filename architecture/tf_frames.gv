@@ -1,0 +1,14 @@
+digraph TF {
+    rankdir=TB; node [shape=ellipse, style=filled, fillcolor="#cfe8ff"];
+    map [fillcolor="#fff3a0"];
+    odom [fillcolor="#fff3a0"];
+
+    map -> odom [label="amcl (or cartographer)\n[VM]"];
+    odom -> base_footprint [label="diff_drive_controller\n[Pi]"];
+    base_footprint -> base_link [label="static\n[robot_state_pub]"];
+    base_link -> base_scan [label="static"];
+    base_link -> imu_link [label="static"];
+    base_link -> caster_back_link [label="static"];
+    base_link -> wheel_left_link [label="static"];
+    base_link -> wheel_right_link [label="static"];
+}

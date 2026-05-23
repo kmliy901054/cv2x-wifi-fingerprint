@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ROS 2 build artifacts
+build/
+install/
+log/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*~
+
+# Intermediate / temp
+*.tmp
+*.bak
+
+# Large binary intermediates (we keep .pgm but exclude raw point cloud dumps if any)
+*.pbstream
+
+# rqt cache
+.rqt_pose_config

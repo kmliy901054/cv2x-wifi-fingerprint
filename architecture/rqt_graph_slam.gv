@@ -1,0 +1,94 @@
+digraph rqt_slam {
+    rankdir=LR;
+    compound=true;
+    fontname="Helvetica"; node [fontname="Helvetica"]; edge [fontname="Helvetica"];
+
+    subgraph cluster_pi {
+        label="🤖  Pi (wayne@wayne.local)"; style=filled; fillcolor="#fff8e1";
+        node [shape=box, style=filled, fillcolor="#ffe082"];
+        rsp   [label="robot_state_publisher"];
+        hlds  [label="hlds_laser_publisher"];
+        tb3   [label="turtlebot3_node\n(+ diff_drive_controller)"];
+        twmux [label="twist_mux"];
+    }
+    subgraph cluster_vm {
+        label="🖥  VM — SLAM 建圖"; style=filled; fillcolor="#e3f2fd";
+        node [shape=box, style=filled, fillcolor="#90caf9"];
+        carto    [label="cartographer_node\n(scan→pose graph→map)"];
+        carto_og [label="cartographer_\noccupancy_grid_node"];
+        nav2_bt  [label="bt_navigator"];
+        nav2_ctl [label="controller_server"];
+        nav2_pln [label="planner_server"];
+        nav2_beh [label="behavior_server"];
+        nav2_sm  [label="smoother_server"];
+        nav2_vs  [label="velocity_smoother"];
+        nav2_wp  [label="waypoint_follower"];
+        nav2_lm  [label="lifecycle_manager\n_navigation"];
+        rviz     [label="rviz2", fillcolor="#a5d6a7"];
+    }
+    subgraph cluster_user {
+        label="👤  User"; style=filled; fillcolor="#fce4ec";
+        node [shape=box, style=filled, fillcolor="#f48fb1"];
+        kbd   [label="teleop_keyboard\n(可選)"];
+    }
+    subgraph cluster_storage {
+        label="💾  Disk (output)"; style=dashed;
+        node [shape=cylinder, style=filled, fillcolor="#cfd8dc"];
+        pgm  [label="psquare.pgm\n+ .pbstream"];
+    }
+
+    // Topics
+    node [shape=diamond, style=filled, fillcolor="#fff59d"];
+    t_scan   [label="/scan"];
+    t_odom   [label="/odom"];
+    t_tf     [label="/tf  /tf_static"];
+    t_map    [label="/map"];
+    t_goal   [label="/goal_pose"];
+    t_cmd    [label="/cmd_vel"];
+    t_cmdn   [label="/cmd_vel_nav"];
+    t_cmdt   [label="/cmd_vel_teleop"];
+    t_subm   [label="/submap_list"];
+    t_path   [label="/plan"];
+
+    // ── Pi 連線 ────────────────
+    rsp -> t_tf;
+    hlds -> t_scan;
+    tb3 -> t_odom;
+    tb3 -> t_tf;
+    t_cmd -> tb3;
+    twmux -> t_cmd;
+    t_cmdt -> twmux;
+    t_cmdn -> twmux;
+
+    // ── Cartographer 邊建邊發 map ──
+    t_scan -> carto;
+    t_odom -> carto;
+    t_tf   -> carto;
+    carto  -> t_tf [label="map→odom"];
+    carto  -> t_subm;
+    t_subm -> carto_og;
+    carto_og -> t_map;
+    carto -> pgm [style=dotted, label="save (manual)"];
+
+    // ── Nav2 ──────────────────
+    t_goal -> nav2_bt;
+    nav2_bt -> nav2_ctl;
+    nav2_bt -> nav2_pln;
+    nav2_bt -> nav2_beh;
+    nav2_pln -> t_path;
+    nav2_ctl -> nav2_vs;
+    nav2_vs -> t_cmdn;
+    nav2_sm -> nav2_ctl;
+    nav2_lm -> nav2_bt [style=dotted, label="lifecycle"];
+    nav2_lm -> nav2_ctl [style=dotted];
+    nav2_lm -> nav2_pln [style=dotted];
+
+    // RViz
+    rviz -> t_goal;     // 2D Goal Pose
+    t_map  -> rviz;
+    t_scan -> rviz;
+    t_tf   -> rviz;
+    t_path -> rviz;
+
+    kbd -> t_cmdt;
+}

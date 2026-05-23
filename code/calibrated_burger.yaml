@@ -1,0 +1,43 @@
+# Calibrated burger.yaml — overrides for ~/turtlebot3_ws/src/turtlebot3/turtlebot3_bringup/param/humble/burger.yaml
+#
+# Differences from stock TurtleBot3 burger:
+#   wheels.separation      0.160  → 0.1744   (+9.0%)   measured by 360° spin calibration
+#   wheels.radius          0.033  → 0.03201  (-3.0%)   measured by 1-metre straight calibration
+#   diff_drive_controller.odometry.use_imu  true → false   (user disabled IMU; MPU9250 noisy on this unit)
+#
+# Apply on Pi:
+#   1. ssh wayne@wayne.local
+#   2. nano ~/turtlebot3_ws/src/turtlebot3/turtlebot3_bringup/param/humble/burger.yaml
+#   3. Edit the fields below.
+#   4. cd ~/turtlebot3_ws && colcon build --packages-select turtlebot3_bringup
+#   5. source install/setup.bash
+#   6. ros2 launch turtlebot3_bringup robot.launch.py
+
+turtlebot3_node:
+  ros__parameters:
+    opencr:
+      id: 200
+      baud_rate: 1000000
+      protocol_version: 2.0
+    wheels:
+      separation: 0.1744      # was 0.160 — calibrated by 360° spin (under-rotation ratio measured, separation back-computed)
+      radius: 0.03201         # was 0.033  — calibrated by 1 m straight drive
+
+    sensors:
+      bumper_1: false
+      bumper_2: false
+      illumination: false
+      ir: false
+      sonar: false
+
+    motors:
+      profile_acceleration_constant: 214.577
+      profile_acceleration: 0.0
+
+diff_drive_controller:
+  ros__parameters:
+    odometry:
+      publish_tf: true
+      use_imu: false          # was true — IMU disabled (MPU9250 noisy)
+      frame_id: "odom"
+      child_frame_id: "base_footprint"

@@ -1,0 +1,90 @@
+digraph rqt_amcl {
+    rankdir=LR;
+    compound=true;
+    fontname="Helvetica"; node [fontname="Helvetica"]; edge [fontname="Helvetica"];
+
+    subgraph cluster_pi {
+        label="🤖  Pi (wayne@wayne.local)"; style=filled; fillcolor="#fff8e1";
+        node [shape=box, style=filled, fillcolor="#ffe082"];
+        rsp     [label="robot_state_publisher"];
+        hlds    [label="hlds_laser_publisher"];
+        tb3     [label="turtlebot3_node\n(+ diff_drive_controller)"];
+        twmux   [label="twist_mux"];
+        esp32   [label="esp32_bridge_node"];
+        ptn     [label="pose_tracker_node"];
+        dcn     [label="data_collector_node"];
+        tvn     [label="trajectory_visualizer_node"];
+    }
+    subgraph cluster_vm {
+        label="🖥  VM"; style=filled; fillcolor="#e3f2fd";
+        node [shape=box, style=filled, fillcolor="#90caf9"];
+        ms   [label="map_server"];
+        amcl [label="amcl\n(particle filter)"];
+        lm   [label="lifecycle_manager\n_localization"];
+        ppp  [label="previous_paths_publisher"];
+        rviz [label="rviz2", fillcolor="#a5d6a7"];
+    }
+    subgraph cluster_user {
+        label="👤  User"; style=filled; fillcolor="#fce4ec";
+        node [shape=box, style=filled, fillcolor="#f48fb1"];
+        kbd   [label="teleop_keyboard"];
+    }
+    subgraph cluster_storage {
+        label="💾  Disk"; style=dashed;
+        node [shape=cylinder, style=filled, fillcolor="#cfd8dc"];
+        jsonl [label="~/wifi_data/\nwifi_*.jsonl"];
+        csv   [label="trajectories_slim.csv\n(prev sessions)"];
+    }
+
+    // Topics 用菱形
+    node [shape=diamond, style=filled, fillcolor="#fff59d"];
+    t_scan   [label="/scan"];
+    t_odom   [label="/odom"];
+    t_tf     [label="/tf  /tf_static"];
+    t_map    [label="/map"];
+    t_init   [label="/initialpose"];
+    t_cmd    [label="/cmd_vel"];
+    t_cmdt   [label="/cmd_vel_teleop"];
+    t_wifi   [label="/wifi_scan"];
+    t_pose   [label="/robot_pose"];
+    t_traj   [label="/trajectory"];
+    t_prev   [label="/previous_paths"];
+
+    // ── Pi 連線 ────────────────
+    rsp -> t_tf;
+    hlds -> t_scan;
+    tb3 -> t_odom;
+    tb3 -> t_tf;
+    t_cmd -> tb3;
+    twmux -> t_cmd;
+    t_cmdt -> twmux;
+    esp32 -> t_wifi;
+    t_wifi -> dcn;
+    t_tf  -> dcn;
+    dcn -> jsonl;
+    t_tf  -> ptn;
+    ptn -> t_pose;
+    t_tf  -> tvn;
+    tvn -> t_traj;
+
+    // ── VM 連線 ────────────────
+    ms -> t_map;
+    t_map -> amcl;
+    t_scan -> amcl;
+    t_odom -> amcl;
+    t_init -> amcl;
+    amcl -> t_tf;
+    lm -> ms [style=dotted, label="lifecycle"];
+    lm -> amcl [style=dotted];
+    csv -> ppp;
+    ppp -> t_prev;
+
+    // ── User ──────────────────
+    kbd -> t_cmdt;
+    rviz -> t_init;          // 2D Pose Estimate
+    t_map -> rviz;
+    t_scan -> rviz;
+    t_tf  -> rviz;
+    t_prev -> rviz;
+    t_traj -> rviz;
+}
