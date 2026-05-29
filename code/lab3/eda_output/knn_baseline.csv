@@ -1,0 +1,10 @@
+split,k,n_train,n_test,median_err_m,mean_err_m,p90_err_m,p10_err_m
+A: random 80/20 (all data),1,1449,363,1.6490000486373901,2.1689999103546143,5.252,0.0
+A: random 80/20 (all data),3,1449,363,1.665,1.843,3.865,0.0
+A: random 80/20 (all data),5,1449,363,1.568,1.82,4.07,0.0
+B: morning 80/20 (in-distribution),1,729,183,2.434000015258789,2.869999885559082,6.741,0.189
+B: morning 80/20 (in-distribution),3,729,183,2.097,2.425,4.681,0.228
+B: morning 80/20 (in-distribution),5,729,183,1.994,2.345,4.736,0.42
+C: morning → evening (covariate shift),1,912,900,3.125,3.63700008392334,6.612,0.586
+C: morning → evening (covariate shift),3,912,900,2.945,3.106,5.513,1.008
+C: morning → evening (covariate shift),5,912,900,2.754,3.015,5.325,1.109

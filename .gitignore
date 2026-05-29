@@ -25,3 +25,10 @@ log/
 
 # rqt cache
 .rqt_pose_config
+
+# Lab 3 — large model checkpoints (239 MB, regenerable via training scripts)
+code/lab3/outputs/checkpoints/
+
+# Claude Code working files (local notes / settings, not project deliverables)
+.claude/
+memory/

@@ -1,0 +1,257 @@
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:429: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified upper bound 10.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:429: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified upper bound 10.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 0.5. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 0.5. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 0.5. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:429: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified upper bound 10.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:429: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified upper bound 10.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:429: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified upper bound 10.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:429: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified upper bound 10.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:429: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified upper bound 10.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:429: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified upper bound 10.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 0.5. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:429: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified upper bound 10.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:429: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified upper bound 10.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:429: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified upper bound 10.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:429: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified upper bound 10.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:429: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified upper bound 10.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:419: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified lower bound 1.0. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+device: cuda
+[load] real records ...
+
+[gen] fitting GPs + synth (one-time) ...
+[synth] fitting KNN detection classifier (k=10)...
+[synth] sampling 5000 synthetic scans over 73 fitted APs...
+  20/73  F4:2E:7F:D2:93:A1  detected 3732/5000 positions
+  40/73  F4:54:24:77:67:15  detected 308/5000 positions
+  60/73  08:BF:B8:7A:DD:08  detected 118/5000 positions
+[synth] done  (4.0s)
+[gen] done (185.8s)
+[setup] combined train: 6449
+[cmixup] building combined sampler ...
+[cmixup] sampler done (0.6s)
+
+══════════ seed 42 ══════════
+  [s42] epoch   1  val_loss 4.3733  best 4.3733
+  [s42] epoch  40  val_loss 2.8402  best 2.7353
+  [s42] epoch  80  val_loss 2.6454  best 2.6044
+  [s42] epoch 120  val_loss 2.4851  best 2.4255
+  [s42] epoch 160  val_loss 2.4266  best 2.3697
+  [s42] epoch 200  val_loss 2.3711  best 2.3246
+  [s42] early stop @ epoch 237, best val = 2.3246
+  seed 42: median=1.002  mean=1.313  p90=3.218  val=2.325
+
+══════════ seed 43 ══════════
+  [s43] epoch   1  val_loss 4.6528  best 4.6528
+  [s43] epoch  40  val_loss 2.8594  best 2.8594
+  [s43] epoch  80  val_loss 2.7280  best 2.5847
+  [s43] epoch 120  val_loss 2.5121  best 2.4834
+  [s43] epoch 160  val_loss 2.4242  best 2.3424
+  [s43] epoch 200  val_loss 2.4524  best 2.3424
+  [s43] early stop @ epoch 203, best val = 2.3424
+  seed 43: median=0.916  mean=1.280  p90=3.139  val=2.342
+
+══════════ seed 44 ══════════
+  [s44] epoch   1  val_loss 4.4810  best 4.4810
+  [s44] epoch  40  val_loss 2.7581  best 2.6656
+  [s44] epoch  80  val_loss 2.7419  best 2.4225
+  [s44] epoch 120  val_loss 2.2958  best 2.2958
+  [s44] epoch 160  val_loss 2.4191  best 2.2958
+  [s44] early stop @ epoch 170, best val = 2.2958
+  seed 44: median=0.981  mean=1.290  p90=2.994  val=2.296
+
+══════════ seed 45 ══════════
+  [s45] epoch   1  val_loss 4.6720  best 4.6720
+  [s45] epoch  40  val_loss 2.9187  best 2.7096
+  [s45] epoch  80  val_loss 2.5341  best 2.5161
+  [s45] epoch 120  val_loss 2.5582  best 2.4310
+  [s45] early stop @ epoch 144, best val = 2.4310
+  seed 45: median=1.053  mean=1.389  p90=3.299  val=2.431
+
+══════════ seed 46 ══════════
+  [s46] epoch   1  val_loss 4.4909  best 4.4909
+  [s46] epoch  40  val_loss 2.8448  best 2.7208
+  [s46] epoch  80  val_loss 2.6645  best 2.4947
+  [s46] epoch 120  val_loss 2.6708  best 2.4613
+  [s46] epoch 160  val_loss 2.3847  best 2.3847
+  [s46] epoch 200  val_loss 2.3796  best 2.3469
+  [s46] epoch 240  val_loss 2.3654  best 2.3124
+  [s46] early stop @ epoch 265, best val = 2.3124
+  seed 46: median=0.934  mean=1.367  p90=3.633  val=2.312
+
+══════════ Best single (seed 44) ══════════
+  median=0.981  mean=1.290  p90=2.994
+
+══════════ ENSEMBLE (mean of 5 MAPs) ══════════
+  median=0.942  mean=1.242  p90=2.993
+
+══════════ Final Split A ladder ══════════
+  KNN k=5:                            1.568 m
+  Set Transformer (208k):             1.093 m
+  Big × 5-ensemble (no synth):        1.083 m
+  Big + 5000 synth single:            0.906 m
+  Big + synth × 5-ensemble:           0.889 m
+  Big + C-Mixup (no synth):           1.016 m
+  Big + synth + C-Mixup single:       0.900 m
+  Big + synth + C-Mixup best single:  0.981 m
+  Big + synth + C-Mixup × 5-ensemble: 0.942 m  ⭐
+
+[save] -> metrics.csv

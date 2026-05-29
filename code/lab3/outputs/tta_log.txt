@@ -1,0 +1,31 @@
+device: cuda
+[load] real records ...
+  test set: 363 samples (Split A test)
+
+Evaluating with TTA: N_TTA=20, jitter=±2.0 dBm, AP dropout=0.05
+======================================================================
+seed 42:  baseline median=0.936  TTA median=0.974  Δ=+0.038
+seed 43:  baseline median=0.987  TTA median=1.064  Δ=+0.076
+seed 44:  baseline median=1.030  TTA median=1.030  Δ=+0.000
+seed 45:  baseline median=0.929  TTA median=0.980  Δ=+0.050
+seed 46:  baseline median=0.927  TTA median=0.975  Δ=+0.048
+
+======================================================================
+ENSEMBLE BASELINE (mean of 5 seeds, no TTA):
+  median=0.889  mean=1.169  p90=2.750
+ENSEMBLE + TTA (mean of 5 seeds × 20 TTA):
+  median=0.936  mean=1.171  p90=2.678
+  Δ vs baseline: +0.048 m (+5.4%)
+
+per-seed detail:
+ seed     mode  median_err_m  mean_err_m  p90_err_m  p10_err_m
+   42 baseline      0.936223    1.319526   3.228001   0.022109
+   42      tta      0.974176    1.262192   2.914198   0.021800
+   43 baseline      0.987236    1.262439   2.987542   0.019484
+   43      tta      1.063619    1.233857   2.775403   0.020867
+   44 baseline      1.030221    1.283929   2.913343   0.023576
+   44      tta      1.030255    1.269070   2.932335   0.025805
+   45 baseline      0.929303    1.267643   3.018542   0.035822
+   45      tta      0.979633    1.240980   2.951067   0.033929
+   46 baseline      0.927297    1.250135   3.200817   0.012374
+   46      tta      0.975049    1.258130   2.891717   0.017641

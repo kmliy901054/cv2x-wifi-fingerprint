@@ -1,0 +1,179 @@
+device: cuda  (NVIDIA GeForce RTX 4070)
+[load] reading wifi/*.jsonl ...
+       1812 records, 80 BSSID features, 4 splits
+[arch] BIG SetTransformer: 614,473 params  (vs ~209k baseline → 2.94x bigger)
+
+══════════ split = A_random  (train 1449, test 363) ══════════
+  [seed 42]
+    [A_random/Big_s42] epoch   1  train 5.5030  val 4.6806  best 4.6806
+    [A_random/Big_s42] epoch  40  train 2.6894  val 2.2691  best 2.2489
+    [A_random/Big_s42] epoch  80  train 2.1332  val 2.0407  best 1.9562
+    [A_random/Big_s42] epoch 120  train 1.9581  val 2.0145  best 1.8525
+    [A_random/Big_s42] epoch 160  train 1.7160  val 1.8754  best 1.7682
+    [A_random/Big_s42] early stop @ epoch 172  best val = 1.7682
+    seed 42: median=1.119  mean=1.360  p90=3.079  NLL=1.768  val_loss=1.768
+  [seed 43]
+    [A_random/Big_s43] epoch   1  train 5.6192  val 4.8646  best 4.8646
+    [A_random/Big_s43] epoch  40  train 2.6777  val 2.2300  best 2.2300
+    [A_random/Big_s43] epoch  80  train 2.2472  val 1.8285  best 1.8285
+    [A_random/Big_s43] epoch 120  train 1.9634  val 1.8038  best 1.7599
+    [A_random/Big_s43] epoch 160  train 1.7178  val 1.7995  best 1.7265
+    [A_random/Big_s43] epoch 200  train 1.4750  val 1.7878  best 1.7265
+    [A_random/Big_s43] early stop @ epoch 201  best val = 1.7265
+    seed 43: median=0.967  mean=1.287  p90=2.916  NLL=1.726  val_loss=1.726
+  [seed 44]
+    [A_random/Big_s44] epoch   1  train 5.7987  val 4.7400  best 4.7400
+    [A_random/Big_s44] epoch  40  train 2.5472  val 2.2638  best 2.2076
+    [A_random/Big_s44] epoch  80  train 2.2672  val 1.9025  best 1.9025
+    [A_random/Big_s44] epoch 120  train 1.9614  val 1.7528  best 1.7528
+    [A_random/Big_s44] epoch 160  train 1.7193  val 1.8437  best 1.7221
+    [A_random/Big_s44] early stop @ epoch 187  best val = 1.7221
+    seed 44: median=1.100  mean=1.328  p90=3.202  NLL=1.722  val_loss=1.722
+  [seed 45]
+    [A_random/Big_s45] epoch   1  train 5.5856  val 4.6998  best 4.6998
+    [A_random/Big_s45] epoch  40  train 2.9855  val 2.5457  best 2.5457
+    [A_random/Big_s45] epoch  80  train 2.2712  val 2.0227  best 1.9783
+    [A_random/Big_s45] epoch 120  train 1.9455  val 2.0456  best 1.8869
+    [A_random/Big_s45] epoch 160  train 1.7093  val 2.0025  best 1.8653
+    [A_random/Big_s45] early stop @ epoch 179  best val = 1.8653
+    seed 45: median=1.136  mean=1.384  p90=3.078  NLL=1.865  val_loss=1.865
+  [seed 46]
+    [A_random/Big_s46] epoch   1  train 5.5129  val 4.3758  best 4.3758
+    [A_random/Big_s46] epoch  40  train 2.8114  val 2.5272  best 2.5272
+    [A_random/Big_s46] epoch  80  train 2.3679  val 2.2933  best 2.1627
+    [A_random/Big_s46] epoch 120  train 2.1045  val 2.1774  best 2.0034
+    [A_random/Big_s46] epoch 160  train 1.7397  val 2.1115  best 1.9851
+    [A_random/Big_s46] early stop @ epoch 173  best val = 1.9851
+    seed 46: median=1.205  mean=1.511  p90=3.451  NLL=1.985  val_loss=1.985
+  best single (seed 44): median=1.100  mean=1.328  p90=3.202
+  ENSEMBLE (mean of 5 MAPs): median=1.083  mean=1.249  p90=2.633  avg_NLL=1.813
+
+══════════ split = B_morning_holdout  (train 729, test 183) ══════════
+  [seed 42]
+    [B_morning_holdout/Big_s42] epoch   1  train 6.0280  val 5.3930  best 5.3930
+    [B_morning_holdout/Big_s42] epoch  40  train 3.2305  val 3.3190  best 3.3190
+    [B_morning_holdout/Big_s42] epoch  80  train 2.5680  val 3.2786  best 3.1865
+    [B_morning_holdout/Big_s42] epoch 120  train 2.2192  val 3.7202  best 3.1140
+    [B_morning_holdout/Big_s42] early stop @ epoch 134  best val = 3.1140
+    seed 42: median=1.387  mean=1.814  p90=4.237  NLL=3.114  val_loss=3.114
+  [seed 43]
+    [B_morning_holdout/Big_s43] epoch   1  train 6.1149  val 5.3410  best 5.3410
+    [B_morning_holdout/Big_s43] epoch  40  train 3.2124  val 3.4173  best 3.4173
+    [B_morning_holdout/Big_s43] epoch  80  train 2.7044  val 3.2233  best 3.1892
+    [B_morning_holdout/Big_s43] epoch 120  train 2.2130  val 3.4793  best 3.1257
+    [B_morning_holdout/Big_s43] early stop @ epoch 133  best val = 3.1257
+    seed 43: median=1.560  mean=1.930  p90=4.199  NLL=3.126  val_loss=3.126
+  [seed 44]
+    [B_morning_holdout/Big_s44] epoch   1  train 6.7220  val 5.3715  best 5.3715
+    [B_morning_holdout/Big_s44] epoch  40  train 3.3296  val 3.4791  best 3.3238
+    [B_morning_holdout/Big_s44] epoch  80  train 2.6440  val 3.0057  best 2.9168
+    [B_morning_holdout/Big_s44] epoch 120  train 2.3871  val 3.3191  best 2.9168
+    [B_morning_holdout/Big_s44] early stop @ epoch 128  best val = 2.9168
+    seed 44: median=1.447  mean=1.786  p90=3.664  NLL=2.917  val_loss=2.917
+  [seed 45]
+    [B_morning_holdout/Big_s45] epoch   1  train 6.2657  val 5.3745  best 5.3745
+    [B_morning_holdout/Big_s45] epoch  40  train 3.4768  val 3.7373  best 3.6202
+    [B_morning_holdout/Big_s45] epoch  80  train 2.6316  val 3.6664  best 3.4052
+    [B_morning_holdout/Big_s45] early stop @ epoch 116  best val = 3.4052
+    seed 45: median=1.940  mean=2.337  p90=4.896  NLL=3.405  val_loss=3.405
+  [seed 46]
+    [B_morning_holdout/Big_s46] epoch   1  train 6.1825  val 5.4281  best 5.4281
+    [B_morning_holdout/Big_s46] epoch  40  train 3.3809  val 3.7049  best 3.4598
+    [B_morning_holdout/Big_s46] epoch  80  train 2.6752  val 3.5330  best 3.3290
+    [B_morning_holdout/Big_s46] epoch 120  train 2.2107  val 3.6258  best 3.3255
+    [B_morning_holdout/Big_s46] early stop @ epoch 144  best val = 3.3255
+    seed 46: median=1.607  mean=2.001  p90=4.403  NLL=3.326  val_loss=3.326
+  best single (seed 44): median=1.447  mean=1.786  p90=3.664
+  ENSEMBLE (mean of 5 MAPs): median=1.564  mean=1.801  p90=3.567  avg_NLL=3.177
+
+══════════ split = C_morning_to_evening  (train 912, test 900) ══════════
+  [seed 42]
+    [C_morning_to_evening/Big_s42] epoch   1  train 5.9207  val 4.5324  best 4.5324
+    [C_morning_to_evening/Big_s42] epoch  40  train 3.1402  val 4.2400  best 3.6421
+    [C_morning_to_evening/Big_s42] epoch  80  train 2.6882  val 5.2656  best 3.6421
+    [C_morning_to_evening/Big_s42] early stop @ epoch 81  best val = 3.6421
+    seed 42: median=1.726  mean=1.980  p90=3.873  NLL=3.642  val_loss=3.642
+  [seed 43]
+    [C_morning_to_evening/Big_s43] epoch   1  train 6.0952  val 4.9830  best 4.9830
+    [C_morning_to_evening/Big_s43] epoch  40  train 3.2058  val 5.5559  best 3.8573
+    [C_morning_to_evening/Big_s43] epoch  80  train 2.7754  val 5.2704  best 3.8573
+    [C_morning_to_evening/Big_s43] early stop @ epoch 85  best val = 3.8573
+    seed 43: median=2.214  mean=2.356  p90=4.166  NLL=3.857  val_loss=3.857
+  [seed 44]
+    [C_morning_to_evening/Big_s44] epoch   1  train 6.1759  val 5.2298  best 5.2298
+    [C_morning_to_evening/Big_s44] epoch  40  train 3.0804  val 4.5426  best 4.0025
+    [C_morning_to_evening/Big_s44] epoch  80  train 2.6711  val 4.2137  best 4.0025
+    [C_morning_to_evening/Big_s44] early stop @ epoch 88  best val = 4.0025
+    seed 44: median=2.024  mean=2.430  p90=4.580  NLL=4.002  val_loss=4.002
+  [seed 45]
+    [C_morning_to_evening/Big_s45] epoch   1  train 5.9781  val 5.2344  best 5.2344
+    [C_morning_to_evening/Big_s45] epoch  40  train 3.3214  val 4.6344  best 4.1109
+    [C_morning_to_evening/Big_s45] early stop @ epoch 73  best val = 4.1109
+    seed 45: median=2.607  mean=2.849  p90=5.713  NLL=4.111  val_loss=4.111
+  [seed 46]
+    [C_morning_to_evening/Big_s46] epoch   1  train 6.0302  val 4.6044  best 4.6044
+    [C_morning_to_evening/Big_s46] epoch  40  train 3.0973  val 4.4620  best 4.3189
+    [C_morning_to_evening/Big_s46] epoch  80  train 2.6796  val 4.7935  best 3.9702
+    [C_morning_to_evening/Big_s46] early stop @ epoch 116  best val = 3.9702
+    seed 46: median=1.793  mean=2.166  p90=4.402  NLL=3.970  val_loss=3.970
+  best single (seed 42): median=1.726  mean=1.980  p90=3.873
+  ENSEMBLE (mean of 5 MAPs): median=1.851  mean=2.036  p90=3.775  avg_NLL=3.917
+
+══════════ split = D_stratified  (train 1449, test 363) ══════════
+  [seed 42]
+    [D_stratified/Big_s42] epoch   1  train 5.5236  val 4.5266  best 4.5266
+    [D_stratified/Big_s42] epoch  40  train 2.4423  val 2.2607  best 2.2607
+    [D_stratified/Big_s42] epoch  80  train 2.2573  val 2.1411  best 2.0507
+    [D_stratified/Big_s42] epoch 120  train 1.8128  val 1.9396  best 1.9396
+    [D_stratified/Big_s42] epoch 160  train 1.5597  val 2.0078  best 1.9396
+    [D_stratified/Big_s42] early stop @ epoch 170  best val = 1.9396
+    seed 42: median=1.067  mean=1.435  p90=3.545  NLL=1.940  val_loss=1.940
+  [seed 43]
+    [D_stratified/Big_s43] epoch   1  train 5.5834  val 4.9832  best 4.9832
+    [D_stratified/Big_s43] epoch  40  train 2.6149  val 2.4869  best 2.4869
+    [D_stratified/Big_s43] epoch  80  train 2.0759  val 2.1016  best 2.1016
+    [D_stratified/Big_s43] epoch 120  train 1.8886  val 2.0757  best 2.0209
+    [D_stratified/Big_s43] epoch 160  train 1.6286  val 2.0580  best 1.8976
+    [D_stratified/Big_s43] early stop @ epoch 194  best val = 1.8976
+    seed 43: median=0.977  mean=1.385  p90=3.537  NLL=1.898  val_loss=1.898
+  [seed 44]
+    [D_stratified/Big_s44] epoch   1  train 5.5772  val 4.8931  best 4.8931
+    [D_stratified/Big_s44] epoch  40  train 2.5963  val 2.6972  best 2.4033
+    [D_stratified/Big_s44] epoch  80  train 2.2158  val 2.2200  best 2.1500
+    [D_stratified/Big_s44] epoch 120  train 1.8856  val 2.1177  best 2.0069
+    [D_stratified/Big_s44] epoch 160  train 1.6290  val 2.0189  best 1.9331
+    [D_stratified/Big_s44] epoch 200  train 1.4952  val 2.0867  best 1.9331
+    [D_stratified/Big_s44] early stop @ epoch 209  best val = 1.9331
+    seed 44: median=1.112  mean=1.500  p90=3.912  NLL=1.933  val_loss=1.933
+  [seed 45]
+    [D_stratified/Big_s45] epoch   1  train 5.4429  val 4.6122  best 4.6122
+    [D_stratified/Big_s45] epoch  40  train 2.7288  val 2.5806  best 2.5806
+    [D_stratified/Big_s45] epoch  80  train 2.1803  val 2.2988  best 2.2279
+    [D_stratified/Big_s45] epoch 120  train 1.9348  val 2.1482  best 2.0687
+    [D_stratified/Big_s45] epoch 160  train 1.5863  val 2.1995  best 2.0503
+    [D_stratified/Big_s45] early stop @ epoch 184  best val = 2.0503
+    seed 45: median=1.145  mean=1.536  p90=3.849  NLL=2.050  val_loss=2.050
+  [seed 46]
+    [D_stratified/Big_s46] epoch   1  train 5.4928  val 4.5123  best 4.5123
+    [D_stratified/Big_s46] epoch  40  train 2.6814  val 2.6084  best 2.5944
+    [D_stratified/Big_s46] epoch  80  train 2.2166  val 2.3031  best 2.1920
+    [D_stratified/Big_s46] epoch 120  train 1.9613  val 2.2236  best 2.0010
+    [D_stratified/Big_s46] early stop @ epoch 160  best val = 2.0010
+    seed 46: median=1.049  mean=1.497  p90=3.514  NLL=2.001  val_loss=2.001
+  best single (seed 43): median=0.977  mean=1.385  p90=3.537
+  ENSEMBLE (mean of 5 MAPs): median=1.033  mean=1.321  p90=3.111  avg_NLL=1.964
+
+[total time] 660.0s
+
+=== new rows added ===
+               split                     model  median_err_m  mean_err_m  p90_err_m  p10_err_m  max_err_m      nll
+            A_random         SetTransformerBig      1.100071    1.328088   3.202445   0.012245   7.356946 1.722140
+            A_random SetTransformerBigEnsemble      1.083306    1.248616   2.632862   0.007247   6.329131 1.813442
+   B_morning_holdout         SetTransformerBig      1.447012    1.786313   3.664301   0.204795   6.989598 2.916786
+   B_morning_holdout SetTransformerBigEnsemble      1.564043    1.800752   3.566724   0.192098   6.012741 3.177434
+C_morning_to_evening         SetTransformerBig      1.725988    1.980021   3.872953   0.521718   8.422937 3.642110
+C_morning_to_evening SetTransformerBigEnsemble      1.851120    2.036127   3.775444   0.608195   8.604663 3.916592
+        D_stratified         SetTransformerBig      0.977381    1.384845   3.536995   0.009898   6.557294 1.897644
+        D_stratified SetTransformerBigEnsemble      1.033044    1.321194   3.110854   0.006649   5.896677 1.964329
+
+✓ outputs -> A:\DP_learn\cv2x-lab2-wifi-fingerprint-main\code\lab3\outputs

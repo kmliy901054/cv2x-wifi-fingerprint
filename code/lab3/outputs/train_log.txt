@@ -1,0 +1,176 @@
+device: cuda  (NVIDIA GeForce RTX 4070)
+[load] reading wifi/*.jsonl ...
+       1812 records, 80 BSSID features
+[set]  building set-form inputs ...
+
+══════════ split = A_random  (train 1449, test 363) ══════════
+  KNN_k1  median=1.649  mean=2.169  p90=5.252
+  KNN_k5  median=1.568  mean=1.820  p90=4.070
+  [train MLP]
+    [A_random/MLP] epoch   1  train 2.2879  val 1.9042  best 1.9042
+    [A_random/MLP] epoch  40  train 0.6369  val 0.6765  best 0.6631
+    [A_random/MLP] epoch  80  train 0.4821  val 0.6301  best 0.6130
+    [A_random/MLP] epoch 120  train 0.4034  val 0.6312  best 0.6061
+    [A_random/MLP] early stop @ epoch 150  best val = 0.6061
+  MLP                 median=1.302  mean=1.498  p90=3.063
+  [train MDN]
+    [A_random/MDN] epoch   1  train 7.8421  val 5.0564  best 5.0564
+    [A_random/MDN] epoch  40  train 2.5568  val 2.3637  best 2.3637
+    [A_random/MDN] epoch  80  train 2.0884  val 2.2723  best 2.1959
+    [A_random/MDN] epoch 120  train 1.8082  val 2.2402  best 2.1906
+    [A_random/MDN] early stop @ epoch 126  best val = 2.1906
+  MDN                 median=1.264  mean=1.507  p90=3.385  NLL=2.191
+  [train MaskedMLP]
+    [A_random/MaskedMLP] epoch   1  train 2.2744  val 1.8297  best 1.8297
+    [A_random/MaskedMLP] epoch  40  train 0.5764  val 0.6423  best 0.6261
+    [A_random/MaskedMLP] epoch  80  train 0.4061  val 0.6300  best 0.6085
+    [A_random/MaskedMLP] early stop @ epoch 116  best val = 0.6085
+  MaskedMLP           median=1.370  mean=1.508  p90=3.195
+  [train MaskedMDN]
+    [A_random/MaskedMDN] epoch   1  train 7.7084  val 5.0219  best 5.0219
+    [A_random/MaskedMDN] epoch  40  train 2.5841  val 2.4682  best 2.4162
+    [A_random/MaskedMDN] epoch  80  train 1.9243  val 2.5933  best 2.3144
+    [A_random/MaskedMDN] early stop @ epoch 103  best val = 2.3144
+  MaskedMDN           median=1.371  mean=1.540  p90=3.356  NLL=2.314
+  [train SetTransformerMDN]
+    [A_random/SetTrans] epoch   1  train 5.8418  val 4.7071  best 4.7071
+    [A_random/SetTrans] epoch  40  train 2.3282  val 2.3195  best 2.2870
+    [A_random/SetTrans] epoch  80  train 1.6168  val 2.3186  best 1.9866
+    [A_random/SetTrans] early stop @ epoch 112  best val = 1.9866
+  SetTransformerMDN   median=1.093  mean=1.300  p90=2.966  NLL=1.987
+
+══════════ split = B_morning_holdout  (train 729, test 183) ══════════
+  KNN_k1  median=2.434  mean=2.870  p90=6.741
+  KNN_k5  median=1.994  mean=2.345  p90=4.736
+  [train MLP]
+    [B_morning_holdout/MLP] epoch   1  train 2.5603  val 2.3718  best 2.3718
+    [B_morning_holdout/MLP] epoch  40  train 0.7813  val 0.9380  best 0.9164
+    [B_morning_holdout/MLP] epoch  80  train 0.5915  val 0.8857  best 0.8571
+    [B_morning_holdout/MLP] early stop @ epoch 106  best val = 0.8571
+  MLP                 median=1.526  mean=1.965  p90=3.902
+  [train MDN]
+    [B_morning_holdout/MDN] epoch   1  train 9.5239  val 5.9417  best 5.9417
+    [B_morning_holdout/MDN] epoch  40  train 3.1386  val 3.3632  best 3.3632
+    [B_morning_holdout/MDN] early stop @ epoch 80  best val = 3.3632
+  MDN                 median=1.673  mean=2.002  p90=4.312  NLL=3.363
+  [train MaskedMLP]
+    [B_morning_holdout/MaskedMLP] epoch   1  train 2.6242  val 2.3645  best 2.3645
+    [B_morning_holdout/MaskedMLP] epoch  40  train 0.7768  val 0.9265  best 0.9265
+    [B_morning_holdout/MaskedMLP] epoch  80  train 0.5340  val 0.8751  best 0.8608
+    [B_morning_holdout/MaskedMLP] early stop @ epoch 115  best val = 0.8608
+  MaskedMLP           median=1.661  mean=1.973  p90=4.031
+  [train MaskedMDN]
+    [B_morning_holdout/MaskedMDN] epoch   1  train 9.9443  val 5.9684  best 5.9684
+    [B_morning_holdout/MaskedMDN] epoch  40  train 3.0753  val 3.4678  best 3.3582
+    [B_morning_holdout/MaskedMDN] epoch  80  train 2.4788  val 3.7524  best 3.3529
+    [B_morning_holdout/MaskedMDN] early stop @ epoch 92  best val = 3.3529
+  MaskedMDN           median=1.788  mean=2.038  p90=4.028  NLL=3.353
+  [train SetTransformerMDN]
+    [B_morning_holdout/SetTrans] epoch   1  train 7.4247  val 5.4577  best 5.4577
+    [B_morning_holdout/SetTrans] epoch  40  train 3.0284  val 3.1864  best 3.1864
+    [B_morning_holdout/SetTrans] epoch  80  train 1.9808  val 3.8681  best 3.0773
+    [B_morning_holdout/SetTrans] early stop @ epoch 88  best val = 3.0773
+  SetTransformerMDN   median=1.536  mean=1.793  p90=4.026  NLL=3.077
+
+══════════ split = C_morning_to_evening  (train 912, test 900) ══════════
+  KNN_k1  median=3.125  mean=3.637  p90=6.612
+  KNN_k5  median=2.754  mean=3.015  p90=5.325
+  [train MLP]
+    [C_morning_to_evening/MLP] epoch   1  train 2.7841  val 1.8541  best 1.8541
+    [C_morning_to_evening/MLP] epoch  40  train 0.8243  val 1.0262  best 0.9727
+    [C_morning_to_evening/MLP] epoch  80  train 0.6144  val 1.0796  best 0.9393
+    [C_morning_to_evening/MLP] epoch 120  train 0.5175  val 1.0110  best 0.9257
+    [C_morning_to_evening/MLP] early stop @ epoch 122  best val = 0.9257
+  MLP                 median=1.873  mean=2.095  p90=3.979
+  [train MDN]
+    [C_morning_to_evening/MDN] epoch   1  train 8.8566  val 5.3758  best 5.3758
+    [C_morning_to_evening/MDN] epoch  40  train 3.1891  val 4.4174  best 3.8693
+    [C_morning_to_evening/MDN] early stop @ epoch 55  best val = 3.8693
+  MDN                 median=2.313  mean=2.493  p90=4.583  NLL=3.869
+  [train MaskedMLP]
+    [C_morning_to_evening/MaskedMLP] epoch   1  train 2.6228  val 2.0846  best 2.0846
+    [C_morning_to_evening/MaskedMLP] epoch  40  train 0.7426  val 1.1266  best 0.9641
+    [C_morning_to_evening/MaskedMLP] epoch  80  train 0.5547  val 1.0088  best 0.9292
+    [C_morning_to_evening/MaskedMLP] early stop @ epoch 109  best val = 0.9292
+  MaskedMLP           median=1.884  mean=2.112  p90=3.895
+  [train MaskedMDN]
+    [C_morning_to_evening/MaskedMDN] epoch   1  train 9.3885  val 5.7147  best 5.7147
+    [C_morning_to_evening/MaskedMDN] epoch  40  train 3.0304  val 4.2884  best 3.9411
+    [C_morning_to_evening/MaskedMDN] early stop @ epoch 53  best val = 3.9411
+  MaskedMDN           median=2.115  mean=2.332  p90=4.265  NLL=3.941
+  [train SetTransformerMDN]
+    [C_morning_to_evening/SetTrans] epoch   1  train 6.1321  val 4.8051  best 4.8051
+    [C_morning_to_evening/SetTrans] epoch  40  train 2.9048  val 4.6395  best 4.2579
+    [C_morning_to_evening/SetTrans] epoch  80  train 2.2227  val 5.8367  best 4.2537
+    [C_morning_to_evening/SetTrans] early stop @ epoch 91  best val = 4.2537
+  SetTransformerMDN   median=2.324  mean=2.617  p90=5.158  NLL=4.254
+
+══════════ split = D_stratified  (train 1449, test 363) ══════════
+  KNN_k1  median=1.847  mean=2.319  p90=5.720
+  KNN_k5  median=1.675  mean=1.959  p90=4.345
+  [train MLP]
+    [D_stratified/MLP] epoch   1  train 2.2767  val 1.8534  best 1.8534
+    [D_stratified/MLP] epoch  40  train 0.6068  val 0.7552  best 0.7465
+    [D_stratified/MLP] epoch  80  train 0.4575  val 0.7499  best 0.7187
+    [D_stratified/MLP] epoch 120  train 0.3577  val 0.7315  best 0.7138
+    [D_stratified/MLP] epoch 160  train 0.3274  val 0.7436  best 0.7119
+    [D_stratified/MLP] early stop @ epoch 185  best val = 0.7119
+  MLP                 median=1.389  mean=1.685  p90=3.578
+  [train MDN]
+    [D_stratified/MDN] epoch   1  train 7.5070  val 5.1336  best 5.1336
+    [D_stratified/MDN] epoch  40  train 2.5709  val 2.5884  best 2.5884
+    [D_stratified/MDN] epoch  80  train 2.0630  val 2.5112  best 2.4979
+    [D_stratified/MDN] epoch 120  train 1.8106  val 2.5950  best 2.4416
+    [D_stratified/MDN] early stop @ epoch 130  best val = 2.4416
+  MDN                 median=1.502  mean=1.719  p90=3.593  NLL=2.442
+  [train MaskedMLP]
+    [D_stratified/MaskedMLP] epoch   1  train 2.3089  val 1.8042  best 1.8042
+    [D_stratified/MaskedMLP] epoch  40  train 0.5675  val 0.7931  best 0.7533
+    [D_stratified/MaskedMLP] epoch  80  train 0.4123  val 0.7486  best 0.7321
+    [D_stratified/MaskedMLP] early stop @ epoch 107  best val = 0.7321
+  MaskedMLP           median=1.580  mean=1.727  p90=3.535
+  [train MaskedMDN]
+    [D_stratified/MaskedMDN] epoch   1  train 7.4903  val 5.0403  best 5.0403
+    [D_stratified/MaskedMDN] epoch  40  train 2.3907  val 2.8084  best 2.6365
+    [D_stratified/MaskedMDN] epoch  80  train 1.9254  val 2.6861  best 2.5596
+    [D_stratified/MaskedMDN] early stop @ epoch 96  best val = 2.5596
+  MaskedMDN           median=1.584  mean=1.720  p90=3.686  NLL=2.560
+  [train SetTransformerMDN]
+    [D_stratified/SetTrans] epoch   1  train 5.6671  val 4.6220  best 4.6220
+    [D_stratified/SetTrans] epoch  40  train 2.2743  val 2.5361  best 2.3531
+    [D_stratified/SetTrans] epoch  80  train 1.5351  val 2.5269  best 2.2057
+    [D_stratified/SetTrans] early stop @ epoch 97  best val = 2.2057
+  SetTransformerMDN   median=1.339  mean=1.547  p90=3.458  NLL=2.206
+
+=== final metrics ===
+               split             model  median_err_m  mean_err_m  p90_err_m  p10_err_m  max_err_m      nll
+            A_random            KNN_k1      1.648667    2.169340   5.252111   0.000000   9.727895      NaN
+            A_random            KNN_k5      1.567711    1.819861   4.069561   0.000004   6.861923      NaN
+            A_random               MLP      1.302117    1.498192   3.063123   0.189196   6.551980      NaN
+            A_random               MDN      1.263711    1.507164   3.385293   0.035558   7.538390 2.190583
+            A_random         MaskedMLP      1.369611    1.507847   3.194866   0.165885   5.338553      NaN
+            A_random         MaskedMDN      1.371461    1.540261   3.356128   0.057340   6.206705 2.314380
+            A_random SetTransformerMDN      1.092656    1.300197   2.966413   0.027879   6.507674 1.986628
+   B_morning_holdout            KNN_k1      2.434394    2.869784   6.740556   0.189189  10.558458      NaN
+   B_morning_holdout            KNN_k5      1.994348    2.345480   4.736350   0.419795   9.016148      NaN
+   B_morning_holdout               MLP      1.526361    1.965450   3.902280   0.436191   8.180540      NaN
+   B_morning_holdout               MDN      1.672991    2.002001   4.311726   0.284230   8.042746 3.363155
+   B_morning_holdout         MaskedMLP      1.661256    1.973191   4.031292   0.482578   7.575448      NaN
+   B_morning_holdout         MaskedMDN      1.788179    2.038224   4.028481   0.286499   7.391798 3.352949
+   B_morning_holdout SetTransformerMDN      1.535782    1.792654   4.025599   0.193265   6.615033 3.077334
+C_morning_to_evening            KNN_k1      3.124877    3.636658   6.612039   0.585856  11.503832      NaN
+C_morning_to_evening            KNN_k5      2.753746    3.015367   5.324576   1.108717   8.940465      NaN
+C_morning_to_evening               MLP      1.873217    2.095283   3.979128   0.590555   8.424570      NaN
+C_morning_to_evening               MDN      2.312506    2.492540   4.583048   0.618897   7.132323 3.869335
+C_morning_to_evening         MaskedMLP      1.883766    2.112221   3.895146   0.667441   7.930103      NaN
+C_morning_to_evening         MaskedMDN      2.115380    2.331748   4.264510   0.817619   7.736096 3.941128
+C_morning_to_evening SetTransformerMDN      2.324171    2.617424   5.158398   0.645763   8.667596 4.253728
+        D_stratified            KNN_k1      1.847131    2.319180   5.720259   0.000000  10.318367      NaN
+        D_stratified            KNN_k5      1.675491    1.959411   4.345493   0.000002   8.267190      NaN
+        D_stratified               MLP      1.388933    1.684534   3.578347   0.210012   7.892326      NaN
+        D_stratified               MDN      1.501698    1.719387   3.593343   0.047232   6.791133 2.441622
+        D_stratified         MaskedMLP      1.579945    1.727217   3.535245   0.255607   7.454422      NaN
+        D_stratified         MaskedMDN      1.583996    1.719645   3.686023   0.044731   6.675894 2.559561
+        D_stratified SetTransformerMDN      1.338740    1.546548   3.457983   0.035091   6.602199 2.205694
+
+all outputs -> A:\DP_learn\cv2x-lab2-wifi-fingerprint-main\code\lab3\outputs

@@ -1,0 +1,52 @@
+device: cuda
+[load] real records ...
+[build] enhanced set features (D1+D2) ...
+  feature tensor shape: (1812, 50, 3)  (3 channels: rssi, rank, rel_rssi)
+[arch] SetTransformerMDNv2 (D1+D2 features): 614,857 params  (vs ~619k baseline)
+
+══════════ split = A_random  (train 1449, test 363) ══════════
+  [A_random/Enh] epoch   1  train 5.7052  val 4.8095  best 4.8095
+  [A_random/Enh] epoch  30  train 2.8748  val 2.4412  best 2.3881
+  [A_random/Enh] epoch  60  train 2.5195  val 1.9885  best 1.9885
+  [A_random/Enh] epoch  90  train 2.4102  val 1.8665  best 1.8665
+  [A_random/Enh] epoch 120  train 2.2379  val 1.8448  best 1.7595
+  [A_random/Enh] epoch 150  train 2.1357  val 1.7319  best 1.7081
+  [A_random/Enh] epoch 180  train 1.9508  val 1.7435  best 1.6597
+  [A_random/Enh] epoch 210  train 1.8398  val 1.7276  best 1.6597
+  [A_random/Enh] epoch 240  train 1.7162  val 1.6910  best 1.6575
+  [A_random/Enh] early stop @ epoch 267, best val = 1.6575
+  RESULT: median=0.950  mean=1.202  p90=2.729  NLL=1.658
+
+══════════ split = C_morning_to_evening  (train 912, test 900) ══════════
+  [C_morning_to_evening/Enh] epoch   1  train 6.0908  val 5.0750  best 5.0750
+  [C_morning_to_evening/Enh] epoch  30  train 3.3420  val 3.7145  best 3.6805
+  [C_morning_to_evening/Enh] epoch  60  train 3.0640  val 3.6577  best 3.4010
+  [C_morning_to_evening/Enh] epoch  90  train 3.0087  val 3.7514  best 3.3928
+  [C_morning_to_evening/Enh] epoch 120  train 2.8415  val 3.7764  best 3.3928
+  [C_morning_to_evening/Enh] early stop @ epoch 136, best val = 3.3928
+  RESULT: median=1.524  mean=1.770  p90=3.416  NLL=3.393
+
+══════════ split = D_stratified  (train 1449, test 363) ══════════
+  [D_stratified/Enh] epoch   1  train 5.6309  val 4.7671  best 4.7671
+  [D_stratified/Enh] epoch  30  train 3.0800  val 2.7935  best 2.7586
+  [D_stratified/Enh] epoch  60  train 2.4653  val 2.4559  best 2.3028
+  [D_stratified/Enh] epoch  90  train 2.2542  val 2.1824  best 2.0426
+  [D_stratified/Enh] epoch 120  train 2.1301  val 2.1345  best 1.8952
+  [D_stratified/Enh] epoch 150  train 1.9783  val 1.9282  best 1.8592
+  [D_stratified/Enh] epoch 180  train 1.8064  val 1.8347  best 1.8125
+  [D_stratified/Enh] epoch 210  train 1.7007  val 1.8119  best 1.7925
+  [D_stratified/Enh] epoch 240  train 1.6238  val 1.8214  best 1.7740
+  [D_stratified/Enh] epoch 270  train 1.5525  val 1.8063  best 1.7740
+  [D_stratified/Enh] early stop @ epoch 274, best val = 1.7740
+  RESULT: median=1.126  mean=1.448  p90=3.493  NLL=1.774
+
+=== ENHANCED RESULTS ===
+               split                  model  median_err_m  mean_err_m  p90_err_m  p10_err_m  max_err_m      nll
+            A_random SetTransformerEnhanced      0.950349    1.202367   2.729480   0.007045   6.056380 1.657539
+C_morning_to_evening SetTransformerEnhanced      1.523647    1.770083   3.415947   0.450706   9.069682 3.392816
+        D_stratified SetTransformerEnhanced      1.125700    1.448094   3.493127   0.005792   7.113050 1.773964
+
+vs baselines:
+  A_random:           Big single 1.10 m,  ensemble 1.08 m
+  C_morning_to_evening: Big single 1.73 m,  ensemble 1.85 m
+  D_stratified:       Big single 0.98 m,  ensemble 1.03 m
