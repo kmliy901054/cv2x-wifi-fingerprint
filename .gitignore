@@ -26,8 +26,10 @@ log/
 # rqt cache
 .rqt_pose_config
 
-# Lab 3 — large model checkpoints (239 MB, regenerable via training scripts)
-code/lab3/outputs/checkpoints/
+# Lab 3 — model checkpoints. Ignore all 90 (239 MB), but keep the 5-seed
+# winning model (Cascade 2-level, ~18 MB) so the best result is reproducible.
+code/lab3/outputs/checkpoints/*
+!code/lab3/outputs/checkpoints/A_random__Cascade_s4[2-6].pt
 
 # Claude Code working files (local notes / settings, not project deliverables)
 .claude/
