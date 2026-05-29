@@ -82,7 +82,19 @@ python realtime_demo.py --port COM3
 python realtime_demo.py --port /dev/ttyACM0      # or /dev/ttyUSB0, /dev/tty.usbserial-*
 ```
 
-Optional flags: `--baud 115200` (default), `--device cpu` (default).
+Optional flags:
+- `--baud 115200` (default serial baud)
+- `--device cpu` (default; `cuda` if you happen to have a GPU)
+- `--smooth N` — moving-average the last N predictions. `1` = raw (default);
+  `3`–`5` visibly steadies the dot when you stand still (small lag when walking).
+- `--min-aps K` — if fewer than K known APs are visible (default 2), the dot
+  turns **red** and shows `LOW CONFIDENCE` instead of a bogus position
+  (happens if you walk out of range or the lab's APs changed since Lab 2).
+
+Example, steadier dot:
+```bash
+python realtime_demo.py --port COM3 --smooth 5
+```
 
 Walk around the lab — the blue dot tracks your estimated position and the hot
 blob shows where the model thinks you are with what confidence.
@@ -119,9 +131,8 @@ the model only knows the 80 APs from Lab 2.
 - The model only knows the **80 APs present during Lab 2 collection**. New/removed
   APs degrade accuracy.
 - **Single-scan** localization: ~16% of predictions can be >2 m off due to WiFi
-  symmetric ambiguity (two places with similar RSSI). Smoothing across
-  consecutive scans (a moving average of the predicted `(x,y)`) visibly steadies
-  the dot — the trail in the demo hints at this.
+  symmetric ambiguity (two places with similar RSSI). Use `--smooth 5` to
+  average across consecutive scans — visibly steadies the dot when stationary.
 - Coverage bias: Lab 2 sampled the lower half of the room densely and the upper
   open area sparsely, so predictions in the upper area are less reliable.
 

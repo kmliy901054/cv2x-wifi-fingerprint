@@ -179,7 +179,7 @@ def serial_source(port, baud):
 # ─────────────────────────────────────────────────────────────────────
 # Visualization
 # ─────────────────────────────────────────────────────────────────────
-def run_viz(loc, source, show_truth):
+def run_viz(loc, source, show_truth, smooth=1, min_aps=2):
     import matplotlib
     import matplotlib.pyplot as plt
     import yaml
@@ -208,6 +208,7 @@ def run_viz(loc, source, show_truth):
                          alpha=0.6, vmin=0, vmax=0.05, zorder=2,
                          interpolation='bilinear')
     trail = deque(maxlen=15)
+    smooth_buf = deque(maxlen=max(1, smooth))
     (trail_ln,) = ax.plot([], [], '-', color='deepskyblue', lw=1.5,
                            alpha=0.7, zorder=3)
     (pred_pt,) = ax.plot([], [], 'o', color='deepskyblue', ms=16,
@@ -226,27 +227,37 @@ def run_viz(loc, source, show_truth):
     err_hist = []
     for aps, true_xy in source:
         t0 = time.time()
-        xy, heat, n_matched = loc.localize(aps)
+        xy_raw, heat, n_matched = loc.localize(aps)
         dt = (time.time() - t0) * 1000
         n += 1
 
+        confident = n_matched >= min_aps
         heat_im.set_data(np.ma.masked_less(heat, max(1e-4, heat.max() * 0.08)))
         heat_im.set_clim(0, max(0.02, heat.max()))
-        trail.append(xy)
-        tr = np.array(trail)
-        trail_ln.set_data(tr[:, 0], tr[:, 1])
-        pred_pt.set_data([xy[0]], [xy[1]])
 
-        info = [f'scan #{n}',
-                f'APs matched: {n_matched}/{len(aps)}',
-                f'pred: ({xy[0]:+.2f}, {xy[1]:+.2f}) m',
-                f'infer: {dt:.0f} ms']
-        if show_truth and true_xy is not None:
-            true_pt.set_data([true_xy[0]], [true_xy[1]])
-            e = float(np.hypot(xy[0] - true_xy[0], xy[1] - true_xy[1]))
-            err_hist.append(e)
-            info.append(f'true: ({true_xy[0]:+.2f}, {true_xy[1]:+.2f}) m')
-            info.append(f'error: {e:.2f} m   (median {np.median(err_hist):.2f})')
+        info = [f'scan #{n}', f'APs matched: {n_matched}/{len(aps)}']
+        if confident:
+            smooth_buf.append(xy_raw)
+            xy = np.mean(smooth_buf, axis=0)            # moving-average if smooth>1
+            trail.append(xy)
+            tr = np.array(trail)
+            trail_ln.set_data(tr[:, 0], tr[:, 1])
+            pred_pt.set_data([xy[0]], [xy[1]])
+            pred_pt.set_color('deepskyblue')
+            sm = f' (smooth {len(smooth_buf)})' if smooth > 1 else ''
+            info.append(f'pred: ({xy[0]:+.2f}, {xy[1]:+.2f}) m{sm}')
+            info.append(f'infer: {dt:.0f} ms')
+            if show_truth and true_xy is not None:
+                true_pt.set_data([true_xy[0]], [true_xy[1]])
+                e = float(np.hypot(xy[0] - true_xy[0], xy[1] - true_xy[1]))
+                err_hist.append(e)
+                info.append(f'true: ({true_xy[0]:+.2f}, {true_xy[1]:+.2f}) m')
+                info.append(f'error: {e:.2f} m   (median {np.median(err_hist):.2f})')
+        else:
+            # too few known APs → prediction is unreliable; flag it, freeze trail
+            pred_pt.set_color('red')
+            info.append(f'LOW CONFIDENCE: only {n_matched} known AP(s)')
+            info.append('(out of range or AP set changed?)')
         txt.set_text('\n'.join(info))
         plt.pause(0.001)
 
@@ -267,6 +278,12 @@ def main():
     ap.add_argument('--interval', type=float, default=0.6,
                     help='replay seconds between scans (default 0.6)')
     ap.add_argument('--device', default='cpu', choices=['cpu', 'cuda'])
+    ap.add_argument('--smooth', type=int, default=1,
+                    help='moving-average window over recent predictions '
+                         '(1 = raw/off; 3-5 steadies the dot when standing still)')
+    ap.add_argument('--min-aps', type=int, default=2,
+                    help='below this many known APs, flag low confidence '
+                         'instead of showing a bogus position')
     ap.add_argument('--no-viz', action='store_true',
                     help='headless: print predictions, no matplotlib window')
     args = ap.parse_args()
@@ -282,8 +299,14 @@ def main():
 
     if args.no_viz:
         errs = []
+        sbuf = deque(maxlen=max(1, args.smooth))
         for n, (aps, true_xy) in enumerate(src, 1):
-            xy, _, nm = loc.localize(aps)
+            xy_raw, _, nm = loc.localize(aps)
+            if nm < args.min_aps:
+                print(f'#{n:4d}  LOW CONFIDENCE: {nm} known AP(s)', flush=True)
+                continue
+            sbuf.append(xy_raw)
+            xy = np.mean(sbuf, axis=0)
             line = f'#{n:4d}  pred=({xy[0]:+.2f},{xy[1]:+.2f})  APs={nm}'
             if true_xy is not None:
                 e = float(np.hypot(xy[0] - true_xy[0], xy[1] - true_xy[1]))
@@ -293,7 +316,7 @@ def main():
         if errs:
             print(f'\nmedian error {np.median(errs):.3f} m over {len(errs)} scans')
     else:
-        run_viz(loc, src, show_truth)
+        run_viz(loc, src, show_truth, smooth=args.smooth, min_aps=args.min_aps)
 
 
 if __name__ == '__main__':
