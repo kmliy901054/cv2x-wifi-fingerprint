@@ -1,0 +1,13 @@
+# Real-time WiFi localization demo — laptop dependencies
+# CPU-only is fine (no GPU needed; inference ~9 ms/scan on CPU).
+#
+# Install:  pip install -r requirements_demo.txt
+# For CPU-only torch on a laptop without CUDA, the default torch wheel works.
+
+torch>=2.0           # model inference (CPU build is sufficient)
+numpy>=1.23
+scipy>=1.9           # geometric-median / KDTree
+matplotlib>=3.6      # live visualization
+PyYAML>=6.0          # read map yaml
+Pillow>=9.0          # read map .pgm
+pyserial>=3.5        # ONLY needed for live ESP32 mode (--port); replay mode doesn't use it
