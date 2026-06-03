@@ -59,6 +59,8 @@ bbox 15.97 × 11.87 m = 189.5 m²。格式說明見
 ```bash
 # 重現冠軍數字(用已 commit 的權重)
 cd lab3 && python3 load_best_model.py        # → median 0.793 m
+# 重新產生所有報告/簡報圖表
+cd lab3 && python3 make_report_figures.py    # 圖輸出到 outputs/figures/
 # 實驗室即時 demo(ESP32 + RViz)
 cd lab3 && ./run_at_lab.sh                    # 或 ./run_at_lab.sh replay
 ```
