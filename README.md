@@ -2,7 +2,7 @@
 
 NYCU CV2X 課程專案,分兩階段:
 
-- **Lab 2 — 蒐集**:TurtleBot3 burger + LDS-01 + ESP32-S3,在 BME Lab(189.5 m²)
+- **Lab 2 — 蒐集**:TurtleBot3 burger + LDS-01 + ESP32-S3,在 Lab 338(189.5 m²)
   邊定位邊掃 WiFi,做出一份 1,812 筆的 (RSSI, pose) 指紋資料集。
 - **Lab 3 — 使用**:用這份資料訓練室內定位模型,從 KNN baseline 的中位誤差
   1.57 m 一路做到 coarse-to-fine cascade 的 **0.79 m**,並在實驗室即時 demo。
