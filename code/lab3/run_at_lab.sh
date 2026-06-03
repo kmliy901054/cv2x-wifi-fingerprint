@@ -2,8 +2,10 @@
 # 實驗室現場 demo 一鍵啟動。
 #
 # 用法:
-#     ./run_at_lab.sh                 # Live (ESP32),預設 /dev/ttyACM0
+#     ./run_at_lab.sh                 # Live (ESP32),5-seed ensemble(最準)
+#     ./run_at_lab.sh single          # Live,只跑 seed 42 — 箭頭永遠在 heatmap 上
 #     ./run_at_lab.sh replay          # Replay 用內建 jsonl
+#     ./run_at_lab.sh replay single   # Replay + single seed
 #     ./run_at_lab.sh replay /path/to/some.jsonl
 #
 # 自動處理:
@@ -17,6 +19,22 @@ cd "$(dirname "$0")"
 source /opt/ros/humble/setup.bash
 export ROS_DOMAIN_ID=30
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+
+# Accept `single` as either the first or second arg
+unset WIFI_NO_ENSEMBLE
+for arg in "$@"; do
+    [ "$arg" = "single" ] && export WIFI_NO_ENSEMBLE=1
+done
+if [ -n "$WIFI_NO_ENSEMBLE" ]; then
+    echo "[mode] single-seed (arrow on heatmap, ~0.1 m worse than ensemble)"
+fi
+
+# Strip `single` from positional args so MODE/JSONL still work
+ARGS=()
+for arg in "$@"; do
+    [ "$arg" != "single" ] && ARGS+=("$arg")
+done
+set -- "${ARGS[@]}"
 
 MODE="${1:-live}"
 JSONL="${2:-../../wifi/wifi_20260523_231102.jsonl}"

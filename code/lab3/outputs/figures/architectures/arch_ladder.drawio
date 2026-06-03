@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="lab3-arch-gen" version="23.0.0">
+  <diagram name="Lab 3 model ladder" id="ladder">
+    <mxGraphModel dx="1422" dy="757" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="100" value="KNN k=5
+median 1.568 m" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="60" y="60" width="260" height="36" as="geometry"/></mxCell>
+        <mxCell id="101" value="WiFi scan
+(variable BSSID/RSSI)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="60" y="116" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="102" value="Vectorize 115-D RSSI
+(missing → −100)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="60" y="206" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="103" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="101" target="102"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="104" value="KNN search, k=5" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="60" y="296" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="105" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="103" target="104"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="106" value="Mean of 5 neighbors' (x, y)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="60" y="386" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="107" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="105" target="106"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="108" value="Predicted (x, y)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="60" y="476" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="109" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="107" target="108"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="110" value="MaskedMDN
+median 1.200 m" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="380" y="60" width="260" height="36" as="geometry"/></mxCell>
+        <mxCell id="111" value="RSSI 115-D + mask 115-D" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="380" y="116" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="112" value="Linear 230 → 256 → 128" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="380" y="206" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="113" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="111" target="112"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="114" value="MDN head (K=3)
+log π / μ / σ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="380" y="296" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="115" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="113" target="114"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="116" value="argmax π → μ_{k*}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="380" y="386" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="117" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="115" target="116"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="118" value="Predicted (x, y)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="380" y="476" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="119" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="117" target="118"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="120" value="Set Transformer MDN
+median 1.090 m" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="700" y="60" width="260" height="36" as="geometry"/></mxCell>
+        <mxCell id="121" value="Set of (BSSID, RSSI) ≤50" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="700" y="116" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="122" value="Embed + Linear → 192-D" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="700" y="206" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="123" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="121" target="122"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="124" value="SAB × 3
+masked attention" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="700" y="296" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="125" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="123" target="124"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="126" value="Mean pool → MDN K=3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="700" y="386" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="127" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="125" target="126"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="128" value="Predicted (x, y)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="700" y="476" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="129" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="127" target="128"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="130" value="Heatmap ×5-ens
+median 0.836 m" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1020" y="60" width="260" height="36" as="geometry"/></mxCell>
+        <mxCell id="131" value="Set tokens" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1020" y="116" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="132" value="Set Transformer encoder" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1020" y="206" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="133" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="131" target="132"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="134" value="Linear → 1320 logits
+(40 × 33 grid, 0.4 m)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1020" y="296" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="135" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="133" target="134"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="136" value="softmax ⊙ free_mask" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1020" y="386" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="137" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="135" target="136"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="138" value="E[xy] = Σ p · cell_center" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1020" y="476" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="139" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="137" target="138"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="140" value="Cascade ×5-ens  [WINNER]
+median 0.793 m" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1340" y="60" width="260" height="36" as="geometry"/></mxCell>
+        <mxCell id="141" value="Set tokens" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1340" y="116" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="142" value="Set Transformer encoder" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1340" y="206" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="143" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="141" target="142"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="144" value="Coarse 10×9  +  Fine 40×33" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1340" y="296" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="145" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="143" target="144"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="146" value="Gate: p_fine · p_coarse[parent]
+⊙ free_mask" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1340" y="386" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="147" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="145" target="146"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="148" value="E[xy] + geom-median over 5 seeds" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1340" y="476" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="149" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="147" target="148"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

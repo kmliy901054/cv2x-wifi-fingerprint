@@ -23,6 +23,7 @@ Replay mode (no hardware) for sanity check:
 """
 import argparse
 import json
+import os
 import sys
 import threading
 import time
@@ -58,10 +59,32 @@ MAX_APS = 50
 RSSI_MISSING = -100.0
 
 
-class Localizer:
-    """Holds the 5-seed Cascade ensemble; maps a scan list → (xy, heatmap, n_matched)."""
+def geom_median_2d(pts, eps=1e-5, max_iter=100):
+    """Weiszfeld geometric median for a (K, 2) array — matches load_best_model.py."""
+    m = pts.mean(0)
+    for _ in range(max_iter):
+        d = np.clip(np.linalg.norm(pts - m, axis=-1), eps, None)
+        w = 1.0 / d
+        w = w / w.sum()
+        new = (w[:, None] * pts).sum(0)
+        if np.linalg.norm(new - m) < eps:
+            break
+        m = new
+    return m
 
-    def __init__(self, device='cpu'):
+
+class Localizer:
+    """Holds the Cascade model(s); maps a scan list → (xy, heatmap, n_matched).
+
+    With ensemble (default): 5 seeds, per-seed expected (x,y), geom-median across seeds
+    — matches the paper's reported median 0.793 m on Split A test.
+
+    Without ensemble (`--no-ensemble`): single seed (42). Arrow always sits on the
+    heatmap because it's the centroid of the SAME distribution that's drawn.
+    Slightly worse accuracy (~0.9-1.1 m vs 0.79 m), but 5× faster and visually clean.
+    """
+
+    def __init__(self, device='cpu', seeds=None):
         self.device = torch.device(device)
         self.bssids = json.load(open(BSSID_JSON, encoding='utf-8'))
         self.bidx = {b.upper(): i for i, b in enumerate(self.bssids)}
@@ -74,7 +97,7 @@ class Localizer:
         self.bounds = data.HEATMAP_BOUNDS
 
         self.models = []
-        for s in SEEDS:
+        for s in (seeds if seeds is not None else SEEDS):
             ck = CKPT_DIR / f'A_random__Cascade_s{s}.pt'
             if not ck.exists():
                 continue
@@ -115,7 +138,11 @@ class Localizer:
             p = m._gated_fine_prob(fine_l, coarse_l)
             probs.append(p.cpu().numpy()[0])
             xys.append((p @ m.fine_xy).cpu().numpy()[0])
-        return np.mean(xys, axis=0), np.mean(probs, axis=0).reshape(self.Gh, self.Gw), n_matched
+        if len(self.models) == 1:
+            xy = xys[0]                              # single seed → arrow == heatmap centroid
+        else:
+            xy = geom_median_2d(np.stack(xys, axis=0))   # matches paper's 5-seed ensemble
+        return xy, np.mean(probs, axis=0).reshape(self.Gh, self.Gw), n_matched
 
 
 # ────────────────────────── ROS node ───────────────────────────────────
@@ -123,7 +150,11 @@ class LocalizerNode(Node):
     def __init__(self, args):
         super().__init__('esp32_localizer')
         self.args = args
-        self.loc = Localizer(device=args.device)
+        no_ens = args.no_ensemble or os.environ.get('WIFI_NO_ENSEMBLE') == '1'
+        seeds = [SEEDS[0]] if no_ens else None
+        if no_ens:
+            self.get_logger().info('single-seed mode (no ensemble) — arrow tied to heatmap')
+        self.loc = Localizer(device=args.device, seeds=seeds)
 
         latched = QoSProfile(
             depth=1,
@@ -180,7 +211,13 @@ class LocalizerNode(Node):
         low_conf = n_matched < self.args.min_aps
         if not low_conf:
             self.smooth_buf.append(xy)
-            xy_smooth = np.mean(self.smooth_buf, axis=0)
+            buf = np.array(self.smooth_buf)
+            if self.args.smooth_mode == 'median':
+                xy_smooth = np.median(buf, axis=0)
+            elif self.args.smooth_mode == 'geom_median' and len(buf) >= 2:
+                xy_smooth = geom_median_2d(buf)
+            else:
+                xy_smooth = buf.mean(axis=0)
         else:
             xy_smooth = xy   # don't pollute buffer
 
@@ -303,7 +340,13 @@ def main():
     ap.add_argument('--baud', type=int, default=115200)
     ap.add_argument('--device', default='cpu')
     ap.add_argument('--smooth', type=int, default=1,
-                    help='Moving average over last N predictions (default 1 = raw)')
+                    help='Window size over last N predictions (default 1 = raw)')
+    ap.add_argument('--smooth-mode', default='median',
+                    choices=['mean', 'median', 'geom_median'],
+                    help='How to combine the smoothing window (default median — robust to one bad scan)')
+    ap.add_argument('--no-ensemble', action='store_true',
+                    help='Use only seed 42 — arrow always sits on the heatmap, '
+                         'but ~0.1 m worse than 5-seed ensemble')
     ap.add_argument('--min-aps', type=int, default=2,
                     help='If fewer known APs matched, mark LOW CONFIDENCE (red)')
     ap.add_argument('--replay-interval', type=float, default=1.0,
