@@ -1,30 +1,69 @@
-# CV2X Lab 2 — WiFi Fingerprint Indoor Localization
+# CV2X — WiFi 室內定位(資料蒐集 + 深度學習)
 
-TurtleBot3 burger + LDS-01 + ESP32-S3 室內 WiFi fingerprint dataset。
-NYCU CV2X Lab 2 完整交付。
+NYCU CV2X 課程專案,分兩階段:
 
-- 完整報告:[REPORT.md](lab2/REPORT.md)
-- 重現指南:[SETUP.md](lab2/SETUP.md)
-- 簡報講稿:[PRESENTATION.md](lab2/PRESENTATION.md)
-- 簡報投影片:[CV2X_Lab2_presentation.pptx](lab2/CV2X_Lab2_presentation.pptx)(27 張)
+- **Lab 2 — 蒐集**:TurtleBot3 burger + LDS-01 + ESP32-S3,在 BME Lab(189.5 m²)
+  邊定位邊掃 WiFi,做出一份 1,812 筆的 (RSSI, pose) 指紋資料集。
+- **Lab 3 — 使用**:用這份資料訓練室內定位模型,從 KNN baseline 的中位誤差
+  1.57 m 一路做到 coarse-to-fine cascade 的 **0.79 m**,並在實驗室即時 demo。
 
-> **Lab 3(下游):用這份 dataset 做深度學習室內定位** → [lab3/](lab3/)
-> 從 KNN baseline 1.57 m 一路到 coarse-to-fine cascade **0.79 m**,並在實驗室即時 demo。
-> 演進故事 [EVOLUTION.md](lab3/EVOLUTION.md)、簡報 [lab3_journey.pptx](lab3/outputs/slides/lab3_journey.pptx)。
+## 專案結構
 
-## 蒐集數字
+```
+.
+├── lab2/                ROS 蒐集程式、架構圖、視覺化、報告、簡報
+├── lab3/                深度學習模型、即時 demo、圖表、簡報
+├── map/                 SLAM 樓層平面圖 ── 共用
+├── wifi/                原始指紋 jsonl ── 共用(lab2 產、lab3 讀)
+├── trajectories/        表格化軌跡 CSV ── 共用
+├── README.md            (本檔)
+└── LICENSE
+```
+
+每個資料夾都有自己的 README 說明內容與格式。
+
+## 兩個 Lab
+
+| | Lab 2 — 蒐集 | Lab 3 — 定位 |
+|---|---|---|
+| 做什麼 | 開機器人收 WiFi 指紋資料集 | 用資料集訓練定位模型 |
+| 入口 | [lab2/README.md](lab2/README.md) | [lab3/README.md](lab3/README.md) |
+| 報告 | [lab2/REPORT.md](lab2/REPORT.md) | [lab3/LAB3_REPORT.md](lab3/LAB3_REPORT.md) |
+| 故事 | [lab2/PRESENTATION.md](lab2/PRESENTATION.md) | [lab3/EVOLUTION.md](lab3/EVOLUTION.md)(演進史) |
+| 簡報 | [pptx](lab2/CV2X_Lab2_presentation.pptx)(27 張) | [lab3_journey.pptx](lab3/outputs/slides/lab3_journey.pptx)(18 張) |
+
+## 資料集(共用,在根目錄)
 
 | | 早 (5/17) | 晚 (5/23) | 合計 |
 |---|---:|---:|---:|
 | WiFi-pose record | 912 | 900 | 1,812 |
 | AP detection | 24,359 | 25,837 | 50,196 |
-| Paths (30s 切) | 113 | 108 | 221 |
-| Avg AP / scan | 26.7 | 28.7 | 27.7 |
-| Unique BSSID | 89 | 102 | 115 |
+| 軌跡段 (30s 切) | 113 | 108 | 221 |
+| Unique BSSID | 89 | 102 | 115(取 ≥10 次的 80 個當特徵) |
 
-bbox 15.97 × 11.87 m = 189.5 m²。
+bbox 15.97 × 11.87 m = 189.5 m²。格式說明見
+[`wifi/`](wifi/)、[`trajectories/`](trajectories/)、[`map/`](map/)。
 
-## 視覺化(github 直接看)
+## Lab 3 成果(Split A 隨機 80/20 測試,363 筆)
+
+| 模型 | 中位誤差 | 重點 |
+|---|---:|---|
+| KNN k=5 | 1.568 m | 經典 fingerprinting 基準線 |
+| Set Transformer MDN | 1.093 m | 變長集合輸入 |
+| + GP 合成資料 | 0.906 m | 填補空間覆蓋缺口 |
+| Heatmap + free-mask(×5) | 0.883 m | 分類取代回歸 |
+| **Cascade ×5-ens** | **0.793 m** | 粗網格守門細網格 ── 冠軍 |
+
+完整演進(含失敗路線)見 [lab3/EVOLUTION.md](lab3/EVOLUTION.md)。
+
+```bash
+# 重現冠軍數字(用已 commit 的權重)
+cd lab3 && python3 load_best_model.py        # → median 0.793 m
+# 實驗室即時 demo(ESP32 + RViz)
+cd lab3 && ./run_at_lab.sh                    # 或 ./run_at_lab.sh replay
+```
+
+## 視覺化(Lab 2,github 直接看)
 
 | 早上軌跡 | 晚上軌跡 |
 |:---:|:---:|
@@ -33,48 +72,6 @@ bbox 15.97 × 11.87 m = 189.5 m²。
 | ![combined](lab2/visualizations/trajectories_overlay_combined.png) | ![heatmap](lab2/visualizations/heatmap_combined_best.png) |
 | **Dominant AP** | **早晚 RSSI 差異(BMELab +2.6 dBm)** |
 | ![dominant](lab2/visualizations/heatmap_dominant_ap.png) | ![diff](lab2/visualizations/morning_vs_evening/diff_03_BMELab.png) |
-
-## ROS 架構
-
-| SLAM 階段 | AMCL 蒐集階段 |
-|:---:|:---:|
-| ![slam](lab2/architecture/rqt_graph_slam.png) | ![amcl](lab2/architecture/rqt_graph_amcl.png) |
-
-## 為什麼這樣設計
-
-兩階段拆開,先 SLAM 建一張固定地圖,再 AMCL 純定位邊走邊收 wifi。
-原因:同一個物理位置在所有 record 中對應同一個座標,fingerprint 才有意義。
-邊 SLAM 邊收的話 map frame 會持續微調,前後 record 配的座標不一致。
-
-wifi-pose 對齊用 `lookup_transform(target, source, msg.header.stamp)`,
-不是常見的 `rclpy.time.Time()`(最新 TF)。
-ESP32 scan 要 ~3.8 秒,用最新 TF 等於配給「scan 結束後又走了一段」的位置,~1 m 偏移。
-ESP32 firmware 端再把 stamp 設成 `now - scan_dur/2`,等於把那筆 scan 對應到「中段」位置。
-
-跨機 ROS 2 用 CycloneDDS,不是預設的 FastRTPS。
-FastRTPS 在 WiFi 上 multicast 不可靠,跨機 /tf 會掉,SLAM 跟 AMCL 都會掛。
-
-T 秒切片可調(`--split-by-time T`),直接對應 spec 要求的 "軌跡為 T 秒,可設定參數"。
-
-## Quick start
-
-```bash
-# 建圖
-ros2 launch lab2/code/lab2.launch.py
-
-# 蒐集
-ros2 launch lab2/code/lab2_amcl.launch.py
-
-# 後處理
-cd lab2/code
-python3 jsonl_to_csv.py --split-by-time 30
-python3 make_rssi_heatmap.py
-python3 make_morning_evening_diff.py
-python3 make_trajectory_split.py
-python3 make_trajectory_overlay.py
-```
-
-詳細看 [SETUP.md](lab2/SETUP.md)。
 
 ## License
 
