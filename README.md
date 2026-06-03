@@ -3,14 +3,14 @@
 TurtleBot3 burger + LDS-01 + ESP32-S3 室內 WiFi fingerprint dataset。
 NYCU CV2X Lab 2 完整交付。
 
-- 完整報告:[REPORT.md](REPORT.md)
-- 重現指南:[SETUP.md](SETUP.md)
-- 簡報講稿:[PRESENTATION.md](PRESENTATION.md)
-- 簡報投影片:[CV2X_Lab2_presentation.pptx](CV2X_Lab2_presentation.pptx)(27 張)
+- 完整報告:[REPORT.md](lab2/REPORT.md)
+- 重現指南:[SETUP.md](lab2/SETUP.md)
+- 簡報講稿:[PRESENTATION.md](lab2/PRESENTATION.md)
+- 簡報投影片:[CV2X_Lab2_presentation.pptx](lab2/CV2X_Lab2_presentation.pptx)(27 張)
 
-> **Lab 3(下游):用這份 dataset 做深度學習室內定位** → [code/lab3/](code/lab3/)
+> **Lab 3(下游):用這份 dataset 做深度學習室內定位** → [lab3/](lab3/)
 > 從 KNN baseline 1.57 m 一路到 coarse-to-fine cascade **0.79 m**,並在實驗室即時 demo。
-> 演進故事 [EVOLUTION.md](code/lab3/EVOLUTION.md)、簡報 [lab3_journey.pptx](code/lab3/outputs/slides/lab3_journey.pptx)。
+> 演進故事 [EVOLUTION.md](lab3/EVOLUTION.md)、簡報 [lab3_journey.pptx](lab3/outputs/slides/lab3_journey.pptx)。
 
 ## 蒐集數字
 
@@ -28,17 +28,17 @@ bbox 15.97 × 11.87 m = 189.5 m²。
 
 | 早上軌跡 | 晚上軌跡 |
 |:---:|:---:|
-| ![morning](visualizations/trajectories_overlay_morning.png) | ![evening](visualizations/trajectories_overlay_evening.png) |
+| ![morning](lab2/visualizations/trajectories_overlay_morning.png) | ![evening](lab2/visualizations/trajectories_overlay_evening.png) |
 | **全 221 條合併** | **RSSI combined-best** |
-| ![combined](visualizations/trajectories_overlay_combined.png) | ![heatmap](visualizations/heatmap_combined_best.png) |
+| ![combined](lab2/visualizations/trajectories_overlay_combined.png) | ![heatmap](lab2/visualizations/heatmap_combined_best.png) |
 | **Dominant AP** | **早晚 RSSI 差異(BMELab +2.6 dBm)** |
-| ![dominant](visualizations/heatmap_dominant_ap.png) | ![diff](visualizations/morning_vs_evening/diff_03_BMELab.png) |
+| ![dominant](lab2/visualizations/heatmap_dominant_ap.png) | ![diff](lab2/visualizations/morning_vs_evening/diff_03_BMELab.png) |
 
 ## ROS 架構
 
 | SLAM 階段 | AMCL 蒐集階段 |
 |:---:|:---:|
-| ![slam](architecture/rqt_graph_slam.png) | ![amcl](architecture/rqt_graph_amcl.png) |
+| ![slam](lab2/architecture/rqt_graph_slam.png) | ![amcl](lab2/architecture/rqt_graph_amcl.png) |
 
 ## 為什麼這樣設計
 
@@ -60,13 +60,13 @@ T 秒切片可調(`--split-by-time T`),直接對應 spec 要求的 "軌跡為 T 
 
 ```bash
 # 建圖
-ros2 launch code/lab2.launch.py
+ros2 launch lab2/code/lab2.launch.py
 
 # 蒐集
-ros2 launch code/lab2_amcl.launch.py
+ros2 launch lab2/code/lab2_amcl.launch.py
 
 # 後處理
-cd code
+cd lab2/code
 python3 jsonl_to_csv.py --split-by-time 30
 python3 make_rssi_heatmap.py
 python3 make_morning_evening_diff.py
@@ -74,7 +74,7 @@ python3 make_trajectory_split.py
 python3 make_trajectory_overlay.py
 ```
 
-詳細看 [SETUP.md](SETUP.md)。
+詳細看 [SETUP.md](lab2/SETUP.md)。
 
 ## License
 

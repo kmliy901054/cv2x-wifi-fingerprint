@@ -10,7 +10,7 @@ Live(預設):
     ros2 launch lab3_demo.launch.py min_aps:=3           # 少於 3 個 matched 就 LOW
 
 Replay(不需 ESP32):
-    ros2 launch lab3_demo.launch.py mode:=replay jsonl:=../../wifi/wifi_20260523_231102.jsonl
+    ros2 launch lab3_demo.launch.py mode:=replay jsonl:=../wifi/wifi_20260523_231102.jsonl
     ros2 launch lab3_demo.launch.py mode:=replay jsonl:=... interval:=0.3
 
 關閉 RViz(只跑 publisher,等別人接):
@@ -30,7 +30,7 @@ def generate_launch_description():
     node_py = os.path.join(here, 'esp32_localizer_ros.py')
     rviz_cfg = os.path.join(here, 'esp32_localizer.rviz')
     default_jsonl = os.path.realpath(
-        os.path.join(here, '..', '..', 'wifi', 'wifi_20260523_231102.jsonl'))
+        os.path.join(here, '..', 'wifi', 'wifi_20260523_231102.jsonl'))
 
     mode = LaunchConfiguration('mode')
     port = LaunchConfiguration('port')

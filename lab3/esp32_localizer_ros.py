@@ -11,7 +11,7 @@ reads ESP32 scan JSON from serial, publishes:
 Usage:
     # one terminal
     source /opt/ros/humble/setup.bash
-    cd ~/lab2_submit_FINAL_20260523/code/lab3
+    cd ~/lab2_submit_FINAL_20260523/lab3
     python3 esp32_localizer_ros.py --port /dev/ttyACM0
 
     # another terminal
@@ -19,7 +19,7 @@ Usage:
     rviz2 -d esp32_localizer.rviz
 
 Replay mode (no hardware) for sanity check:
-    python3 esp32_localizer_ros.py --replay ../../wifi/wifi_20260517_101315.jsonl
+    python3 esp32_localizer_ros.py --replay ../wifi/wifi_20260517_101315.jsonl
 """
 import argparse
 import json
@@ -48,7 +48,7 @@ import models
 
 
 HERE = Path(__file__).resolve().parent
-REPO_ROOT = HERE.parents[1]
+REPO_ROOT = HERE.parents[0]
 CKPT_DIR = HERE / 'outputs' / 'checkpoints'
 BSSID_JSON = HERE / 'outputs' / 'bssids.json'
 MAP_YAML = REPO_ROOT / 'map' / 'psquare.yaml'

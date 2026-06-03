@@ -14,7 +14,7 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset, DataLoader
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 WIFI_DIR = ROOT / 'wifi'
 
 RSSI_MISSING = -100.0

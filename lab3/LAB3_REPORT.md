@@ -457,9 +457,9 @@ AMCL 給出的 ground truth 本身有 ±0.3 m 的雜訊。**理論下限約 0.3 
 
 | 階段 | 檔案 |
 |------|------|
-| 資料 / 切分 | `code/lab3/data.py` |
-| 模型 (含所有 variant) | `code/lab3/models.py` |
-| GP 合成 | `code/lab3/synthetic.py` |
+| 資料 / 切分 | `lab3/data.py` |
+| 模型 (含所有 variant) | `lab3/models.py` |
+| GP 合成 | `lab3/synthetic.py` |
 | Baseline 訓練 | `train_baselines.py`, `train_settransformer.py` |
 | 最強 MDN ensemble | `train_best_ensemble.py` |
 | Heatmap | `train_heatmap.py` |

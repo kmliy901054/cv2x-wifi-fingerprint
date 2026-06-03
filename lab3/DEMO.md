@@ -26,14 +26,14 @@ part, so a GPU buys you nothing here.
 
 ```bash
 git clone https://github.com/kmliy901054/cv2x-lab2-wifi-fingerprint.git
-cd cv2x-lab2-wifi-fingerprint/code/lab3
+cd cv2x-lab2-wifi-fingerprint/lab3
 pip install -r requirements_demo.txt
 ```
 
 The repo already contains everything the demo needs:
 - `outputs/checkpoints/A_random__Cascade_s4[2-6].pt` — the 5 model weights (~18 MB)
 - `outputs/bssids.json` — the 80-BSSID vocabulary (must match training; included)
-- `../../map/psquare.yaml` + `.pgm` — the floor plan
+- `../map/psquare.yaml` + `.pgm` — the floor plan
 - `models.py`, `data.py` — model + grid helpers
 
 It does **not** need the training dataset present.
@@ -46,13 +46,13 @@ Replays a recorded scan log and shows prediction vs. recorded ground truth, so
 you can verify everything works before wiring up the ESP32:
 
 ```bash
-python realtime_demo.py --replay ../../wifi/wifi_20260517_101315.jsonl
+python realtime_demo.py --replay ../wifi/wifi_20260517_101315.jsonl
 ```
 
 - A matplotlib window opens and animates the predicted position.
 - Headless / no-window check (prints numbers only):
   ```bash
-  python realtime_demo.py --replay ../../wifi/wifi_20260517_101315.jsonl --no-viz
+  python realtime_demo.py --replay ../wifi/wifi_20260517_101315.jsonl --no-viz
   ```
 
 > Note: the bundled recordings were part of training (Split A is a random
@@ -108,7 +108,7 @@ in RViz (floor-plan map + probability heatmap + predicted-pose arrow), instead o
 the matplotlib window. Use this on the lab machine (ROS 2 Humble, CycloneDDS).
 
 ```bash
-cd code/lab3
+cd lab3
 sudo chmod 666 /dev/ttyACM0          # once per boot, so the user can read the ESP32
 ./run_at_lab.sh                      # live, 5-seed ensemble (most accurate)
 ./run_at_lab.sh single               # live, single seed — arrow always sits on the heatmap

@@ -10,7 +10,7 @@ export const meta = {
 // The deck (English slides + Traditional-Chinese speaker notes) comes from `args`,
 // or is loaded from disk by a loader agent if args is not supplied.
 let deck = args
-const DECK_PATH = '/home/wayne/lab2_submit_FINAL_20260523/code/lab3/outputs/slides/deck_spec.json'
+const DECK_PATH = '/home/wayne/lab2_submit_FINAL_20260523/lab3/outputs/slides/deck_spec.json'
 
 // ---- Ground truth the agents must respect (no invented numbers) -------------
 const FACTS = `

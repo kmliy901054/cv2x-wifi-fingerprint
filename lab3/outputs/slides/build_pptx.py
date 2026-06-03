@@ -17,7 +17,7 @@ from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 
 HERE = Path(__file__).resolve().parent
-LAB3 = HERE.parents[1]            # code/lab3
+LAB3 = HERE.parents[1]            # lab3
 FIG_ROOT = LAB3 / 'outputs' / 'figures'
 
 # 16:9 canvas

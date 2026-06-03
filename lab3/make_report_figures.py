@@ -26,7 +26,7 @@ plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei', 'PMingLiU', 'SimHei',
                                      'DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 LAB3 = Path(__file__).parent
 PRED_DIR = LAB3 / 'outputs' / 'predictions'
 FIG_DIR = LAB3 / 'outputs' / 'figures'

@@ -26,7 +26,7 @@ try:
 except Exception:
     pass
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 MAP_YAML = ROOT / 'map' / 'psquare.yaml'
 
 OUT_DIR = Path(__file__).parent / 'outputs'

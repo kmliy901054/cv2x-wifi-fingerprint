@@ -37,7 +37,7 @@ done
 set -- "${ARGS[@]}"
 
 MODE="${1:-live}"
-JSONL="${2:-../../wifi/wifi_20260523_231102.jsonl}"
+JSONL="${2:-../wifi/wifi_20260523_231102.jsonl}"
 
 if [ "$MODE" = "live" ]; then
     PORT="/dev/ttyACM0"

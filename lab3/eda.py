@@ -6,7 +6,7 @@
   Q3 需要多少 BSSID?       top-N curve(N=5/10/20/50/100,看 KNN 誤差曲線)
   Q4 需要機率模型嗎?       within-cell RSSI std 分布(噪聲 > signal range → 要 uncertainty)
 
-輸入: ../../wifi/wifi_*.jsonl
+輸入: ../wifi/wifi_*.jsonl
 輸出: eda_output/
   eda_report.md          完整文字報告
   feature_table.csv      per-BSSID 統計表(rank, samples, coverage, RSSI 範圍, drift)
@@ -37,7 +37,7 @@ plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei', 'Microsoft YaHei',
                                      'SimHei', 'PingFang TC', 'DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 WIFI_DIR = ROOT / 'wifi'
 MAP_YAML = ROOT / 'map' / 'psquare.yaml'
 OUT_DIR = Path(__file__).parent / 'eda_output'

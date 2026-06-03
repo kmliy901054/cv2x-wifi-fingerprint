@@ -15,7 +15,7 @@ Two input modes
 
   Replay (no hardware — step through a recorded .jsonl, also shows the
           recorded ground-truth pose so you can eyeball accuracy):
-      python realtime_demo.py --replay ../../wifi/wifi_20260517_101315.jsonl
+      python realtime_demo.py --replay ../wifi/wifi_20260517_101315.jsonl
 
 Self-contained: only needs this repo (model weights, bssids.json, map/).
 Does NOT require the training dataset to be present.
@@ -186,7 +186,7 @@ def run_viz(loc, source, show_truth, smooth=1, min_aps=2):
     from PIL import Image
 
     # load floor plan
-    map_yaml = HERE.parents[1] / 'map' / 'psquare.yaml'
+    map_yaml = HERE.parents[0] / 'map' / 'psquare.yaml'
     with open(map_yaml) as f:
         mp = yaml.safe_load(f)
     pgm = np.array(Image.open(map_yaml.parent / mp['image']))

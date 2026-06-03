@@ -35,7 +35,7 @@ import data
 import models
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[1]
+ROOT = HERE.parents[0]
 CKPT = HERE / 'outputs' / 'checkpoints' / 'A_random__Cascade_s42.pt'
 FIG_DIR = HERE / 'outputs' / 'figures'
 CFG = dict(embed_dim=48, model_dim=192, num_heads=4, num_sab=3, dropout=0.3)

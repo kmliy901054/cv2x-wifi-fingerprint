@@ -19,7 +19,7 @@ Chinese (in the PowerPoint notes pane).
 ## Rebuild
 
 ```bash
-# from code/lab3/outputs/slides
+# from lab3/outputs/slides
 python3 build_pptx.py deck_final.json lab3_journey.pptx
 # optional flat render (needs libreoffice)
 soffice --headless --convert-to pdf lab3_journey.pptx
