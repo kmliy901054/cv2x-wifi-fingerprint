@@ -8,6 +8,10 @@ NYCU CV2X Lab 2 完整交付。
 - 簡報講稿:[PRESENTATION.md](PRESENTATION.md)
 - 簡報投影片:[CV2X_Lab2_presentation.pptx](CV2X_Lab2_presentation.pptx)(27 張)
 
+> **Lab 3(下游):用這份 dataset 做深度學習室內定位** → [code/lab3/](code/lab3/)
+> 從 KNN baseline 1.57 m 一路到 coarse-to-fine cascade **0.79 m**,並在實驗室即時 demo。
+> 演進故事 [EVOLUTION.md](code/lab3/EVOLUTION.md)、簡報 [lab3_journey.pptx](code/lab3/outputs/slides/lab3_journey.pptx)。
+
 ## 蒐集數字
 
 | | 早 (5/17) | 晚 (5/23) | 合計 |

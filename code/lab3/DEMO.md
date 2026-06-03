@@ -101,6 +101,36 @@ blob shows where the model thinks you are with what confidence.
 
 ---
 
+## 3b. ROS 2 + RViz (recommended live visualisation)
+
+A second, richer demo path runs the same model as a ROS 2 node and visualises it
+in RViz (floor-plan map + probability heatmap + predicted-pose arrow), instead of
+the matplotlib window. Use this on the lab machine (ROS 2 Humble, CycloneDDS).
+
+```bash
+cd code/lab3
+sudo chmod 666 /dev/ttyACM0          # once per boot, so the user can read the ESP32
+./run_at_lab.sh                      # live, 5-seed ensemble (most accurate)
+./run_at_lab.sh single               # live, single seed — arrow always sits on the heatmap
+./run_at_lab.sh replay               # no hardware, replays the bundled jsonl
+```
+
+Files:
+- `esp32_localizer_ros.py` — the ROS 2 node (publishes `/map`, `/wifi_heatmap`,
+  `/wifi_estimated_pose`, `/wifi_confidence`)
+- `lab3_demo.launch.py` — launches the node + RViz together
+- `esp32_localizer.rviz` — the RViz layout
+- `run_at_lab.sh` — one-command wrapper (sources ROS, sets `ROS_DOMAIN_ID=30`,
+  checks the serial port)
+- `gt_error_node.py` — optional: click your real position in RViz
+  (`Publish Point` or `2D Pose Estimate`) and it prints live error vs. each prediction
+
+`--smooth-mode median` (default) makes the live track robust to a single bad scan;
+`--no-ensemble` (or `run_at_lab.sh single`) trades ~0.1 m accuracy for an arrow that
+always coincides with the heatmap peak.
+
+---
+
 ## 4. How the input is built (must match training exactly)
 
 For each scan the demo:

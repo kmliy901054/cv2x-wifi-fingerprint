@@ -1,0 +1,224 @@
+{
+  "meta": {
+    "title": "WiFi Indoor Localization with Deep Learning",
+    "subtitle": "From a 1.57 m KNN baseline to a 0.79 m cascade model",
+    "author": "CV2X Lab 3",
+    "lang_slides": "en",
+    "lang_notes": "zh-TW",
+    "fig_root": "outputs/figures"
+  },
+  "slides": [
+    {
+      "id": "title",
+      "title": "WiFi Indoor Localization with Deep Learning",
+      "subtitle": "From a 1.57 m KNN baseline to a 0.79 m cascade model",
+      "bullets": [],
+      "figure": null,
+      "notes": "這份報告講的是一個過程,不是單一模型。題目是用 WiFi 訊號強度幫機器人在室內定位。我會從最簡單的 KNN 基準線開始,一步一步說明每次卡關、為什麼換方法、最後怎麼把中位數誤差從 1.57 公尺壓到 0.79 公尺,並在實驗室實際跑過一次。"
+    },
+    {
+      "id": "problem",
+      "title": "The task: turn one WiFi scan into a point on the map",
+      "bullets": [
+        "Input: one scan = a set of (BSSID, RSSI) pairs, ~28 access points",
+        "Output: robot position (x, y) in metres on the floor plan",
+        "No GPS indoors; WiFi fingerprinting is the classic fallback",
+        "Metric: median / p90 localization error in metres"
+      ],
+      "figure": "demo_snapshot.png",
+      "notes": "先定義問題。輸入是一筆 WiFi 掃描,大概會掃到二三十個 AP,每個 AP 有一個訊號強度 RSSI。輸出就是機器人在地圖上的座標。室內沒有 GPS,所以業界傳統做法就是 WiFi 指紋定位。這張圖就是目標的縮影:從一筆掃描,在地圖上點出一個位置。評估用中位數誤差跟 p90 誤差,單位公尺。"
+    },
+    {
+      "id": "data",
+      "title": "1,812 fingerprints over a 189.5 m² lab, two sessions",
+      "bullets": [
+        "1,812 (RSSI, pose) records from Lab 2 robot runs",
+        "Morning 912 + evening 900; 80 stable BSSIDs kept (>=10 hits)",
+        "Coverage follows the driven path, not a uniform grid",
+        "Upper region (y > 10 m) is barely visited"
+      ],
+      "figure": "data_coverage.png",
+      "notes": "資料來自 Lab 2 機器人實際跑出來的,總共 1812 筆,每筆是一個 RSSI 向量配一個位置。分早上跟晚上兩個時段,各約九百筆。我們只留出現超過十次的 80 個 BSSID 當特徵。要注意覆蓋是沿著機器人走過的路徑,不是均勻網格;地圖上半部幾乎沒走到,這個之後會變成誤差的來源。"
+    },
+    {
+      "id": "challenge",
+      "title": "Two things make this hard: drift and uneven coverage",
+      "bullets": [
+        "Same spot, morning vs evening: median RSSI drift ~0.8 dBm",
+        "Within-cell RSSI std ~3.5 dBm — the signal is noisy by nature",
+        "More matched APs generally means lower error",
+        "Sparse regions are where the model fails"
+      ],
+      "figure": "error_vs_aps_drift.png",
+      "notes": "有兩個難點。第一是訊號會漂:同一個位置早上跟晚上量,中位漂移大概 0.8 dBm,而且同一格內本身的標準差就有三點五 dBm,訊號天生就吵。右圖顯示大部分 AP 都貼在對角線上,代表日夜其實相當穩定,這是定位可行的前提。左圖顯示掃到的已知 AP 越多,誤差傾向越低。第二個難點是覆蓋不均,稀疏的地方就是模型會錯的地方。"
+    },
+    {
+      "id": "baseline-knn",
+      "title": "Baseline: classic KNN fingerprinting lands at 1.57 m",
+      "bullets": [
+        "Vectorize scan to 80-D RSSI; missing AP = -100 dBm",
+        "k=5 nearest neighbours in RSSI space, distance-weighted pose",
+        "No training; this is the number every NN must beat",
+        "Split A median 1.57 m, p90 4.07 m"
+      ],
+      "figure": "architectures/arch_knn.png",
+      "notes": "從基準線開始。最經典的指紋定位就是 KNN:把一筆掃描攤成 80 維的 RSSI 向量,沒掃到的填 -100,然後在 RSSI 空間找最近的五個鄰居,用距離加權平均它們的座標。完全不用訓練。它的中位數誤差是 1.57 公尺,這是後面所有神經網路都必須打敗的門檻。"
+    },
+    {
+      "id": "first-nn",
+      "title": "First neural nets barely beat KNN — the fixed vector caps out",
+      "bullets": [
+        "MLP regression: 1.30 m; MDN with uncertainty: 1.26 m",
+        "Masking missing APs explicitly did not help (1.37 m)",
+        "Problem: a fixed 80-D vector with -100 padding wastes capacity",
+        "A scan is really a variable-size set, not a dense vector"
+      ],
+      "figure": "architectures/arch_masked_mdn.png",
+      "notes": "第一版神經網路其實只小贏 KNN。普通的 MLP 回歸大概 1.30,加上混合高斯輸出不確定度的 MDN 是 1.26。我們試著明確標記哪些 AP 沒掃到,結果反而沒幫助。問題出在資料表示:把掃描硬塞成固定 80 維、缺的補 -100,模型有一半的輸入都是無意義的填充值。真正的本質是,一筆掃描其實是一個大小會變的集合,不是一個密集向量。"
+    },
+    {
+      "id": "turn-set-transformer",
+      "title": "Turning point 1: treat the scan as a set -> 1.09 m",
+      "bullets": [
+        "Each AP becomes a token: (BSSID embedding, scaled RSSI)",
+        "Set Transformer with masked attention, permutation-invariant",
+        "Only real APs enter; no -100 padding to learn around",
+        "Split A median drops to 1.09 m"
+      ],
+      "figure": "architectures/arch_set_transformer_mdn.png",
+      "notes": "第一個關鍵轉折,是改變資料的表示方式。把每個掃到的 AP 當成一個 token,內容是 BSSID 的 embedding 加上正規化的 RSSI,然後丟進 Set Transformer 做有遮罩的注意力。這個架構對順序不敏感,而且只有真正掃到的 AP 會進去,不用再去學那些 -100 的填充。中位數一口氣降到 1.09 公尺,這是第一次明顯拉開跟 KNN 的差距。"
+    },
+    {
+      "id": "turn-synth",
+      "title": "Turning point 2: synthetic data fills the spatial gap (-19%)",
+      "bullets": [
+        "1,449 real positions cover a fraction of the free space",
+        "Fit a per-BSSID Gaussian Process: (x, y) -> RSSI",
+        "Sample 5,000 free-space points, predict realistic scans",
+        "Split A: 1.12 -> 0.91 m; but it slightly hurts cross-session"
+      ],
+      "figure": "synth_ablation.png",
+      "notes": "第二個轉折是合成資料。真實資料只覆蓋了空間的一小部分,而一般的加噪是在同一個點上加變化,沒辦法填補沒走到的區域。做法是每個 BSSID 各擬合一個高斯過程,學位置到 RSSI 的對應,再從地圖的可行空間隨機抽五千個點,預測出帶真實噪音的合成掃描。在隨機切分上,中位數從 1.12 降到 0.91,進步 19%。但要誠實說,在早訓晚測的切分上它反而小幅變差,因為高斯過程是用早上的資料擬合的,合成點帶了早上的偏差。所以它解決的是空間覆蓋,不是時間泛化。"
+    },
+    {
+      "id": "turn-heatmap",
+      "title": "Turning point 3: regression -> classification on a grid (0.88 m)",
+      "bullets": [
+        "Discretize the floor into a 40x33 grid (0.4 m cells)",
+        "Predict a probability over cells, not raw coordinates",
+        "Free-space mask zeroes out cells inside walls",
+        "Expected position = probability-weighted cell centres"
+      ],
+      "figure": "architectures/arch_heatmap.png",
+      "notes": "第三個轉折是換掉輸出方式:從直接回歸座標,改成在地圖網格上做分類。把樓層切成 40 乘 33 的格子,每格 0.4 公尺,模型輸出每一格的機率而不是一個座標。再乘上一個可行空間遮罩,把牆裡面的格子歸零。最後的位置是機率加權的格子中心。這樣做的好處是模型可以表達不確定,也不會預測到牆裡面。中位數來到 0.88 公尺。"
+    },
+    {
+      "id": "turn-cascade",
+      "title": "Turning point 4: a coarse gate guards the fine grid -> 0.79 m",
+      "bullets": [
+        "Two heads share the encoder: coarse 10x9, fine 40x33",
+        "Gate: fine probability x coarse probability at its parent cell",
+        "The coarse belief kills far-away fine-grid hallucinations",
+        "Split A median 0.79 m — the best model (5-seed ensemble)"
+      ],
+      "figure": "architectures/arch_cascade.png",
+      "notes": "第四個轉折,也是最後勝出的模型,是粗到細的串接。同一個編碼器接兩個頭:一個粗的 10 乘 9,一個細的 40 乘 33。關鍵在 gating:把細網格每一格的機率,乘上它所屬粗格的機率。粗網格先決定大概在哪個區,這個信念會把細網格那些離很遠的假峰壓掉。中位數降到 0.79 公尺,這是所有模型裡最好的,用五個隨機種子做幾何中位數集成。"
+    },
+    {
+      "id": "why-cascade",
+      "title": "Why it works: the coarse gate removes fine-grid ambiguity",
+      "bullets": [
+        "Fine head alone can be multi-modal — two plausible spots",
+        "Its expected position then lands between the peaks (wrong)",
+        "Coarse head picks the right region; the product is single-peaked",
+        "This example: 2.59 m -> 0.90 m after gating"
+      ],
+      "figure": "gating_before_after.png",
+      "notes": "這張圖說明 cascade 為什麼有效。左邊是細網格單獨的輸出,它是多峰的:除了正確位置附近,左上角還冒出一個假峰。因為最後取的是機率加權的期望位置,兩個峰一拉扯,預測就落在中間,誤差 2.59 公尺。中間是粗網格,它很篤定地選對了區域。右邊是兩者相乘的結果,假峰被壓掉,只剩一個乾淨的峰,誤差降到 0.90 公尺。這就是粗網格當守門員的價值。"
+    },
+    {
+      "id": "dead-ends",
+      "title": "Not every idea worked: the dead ends",
+      "bullets": [
+        "C-Mixup augmentation: 0.94 m, no gain over plain synth",
+        "Map-conditioned CNN cross-attention: 0.91 m",
+        "3-level cascade (x10 ensemble): 0.80 m, more cost no gain",
+        "Diffusion regression head: 1.82 m, clearly worse"
+      ],
+      "figure": "error_boxplot.png",
+      "notes": "也不是每個想法都成功,這裡誠實列出走過的彎路。C-Mixup 這種插值增強,0.94,沒贏過單純的合成資料。用地圖當條件做 CNN 交叉注意力,0.91。三層的 cascade 加上十個種子集成,0.80,成本高很多卻沒有更好。擴散模型當回歸頭最慘,1.82,明顯更差。把這些放進來,是想說明最後的 cascade 不是運氣,是比較過一輪才留下來的。"
+    },
+    {
+      "id": "climb",
+      "title": "The full climb: 1.57 m -> 0.79 m across the experiments",
+      "bullets": [
+        "Each bar is one experiment on the same Split A test set",
+        "Green = winner, blue = kept ideas, red = abandoned",
+        "Biggest single jumps: set representation, then synthetic data",
+        "Final gain over KNN baseline: about 50%"
+      ],
+      "figure": "ladder_bar.png",
+      "notes": "這張是完整的爬坡圖,每一條是同一個測試集上的一次實驗。綠色是最後勝出的,藍色是有保留下來的想法,紅色是放棄的。最大的兩個跳躍,一個是改用集合表示,一個是加合成資料。從 KNN 的 1.57 到最後的 0.79,整體進步大約一半。這張圖一頁就把整個歷程交代完。"
+    },
+    {
+      "id": "cdf",
+      "title": "Error distribution: the cascade dominates the whole CDF",
+      "bullets": [
+        "Cascade: median 0.79 m, mean 1.12 m, p90 2.56 m",
+        "27% of predictions within the 0.3 m AMCL noise floor",
+        "Curve sits left of every other model at all percentiles",
+        "Tail (>2 m) comes from symmetric/sparse-region ambiguity"
+      ],
+      "figure": "error_cdf.png",
+      "notes": "看誤差的累積分布。Cascade 的中位數 0.79,平均 1.12,p90 是 2.56。有 27% 的預測落在 0.3 公尺以內,那大概是 AMCL 定位的噪音底線。它的曲線在每一個百分位都壓在其他模型左邊,代表不是只有中位數好。右邊那條尾巴,超過兩公尺的,主要來自對稱位置混淆跟稀疏區域。"
+    },
+    {
+      "id": "reliability",
+      "title": "Where to trust it: reliability tracks data density",
+      "bullets": [
+        "Per-cell mean error mirrors the test-sample density map",
+        "Dense, well-travelled regions: well under 0.5 m",
+        "Sparse upper region: error climbs above 2 m",
+        "Implication: to improve, collect data, not change the model"
+      ],
+      "figure": "region_reliability.png",
+      "notes": "這張回答一個實用問題:哪裡可以信任這個模型。左邊是每一格的平均誤差,右邊是測試樣本的密度,兩張幾乎是鏡像。走得多、資料密的區域,誤差遠低於 0.5 公尺;上半部稀疏的地方,誤差爬到兩公尺以上。結論很直接:要再進步,該去補資料,而不是再換模型。"
+    },
+    {
+      "id": "live-demo",
+      "title": "It runs live: real-time inference in the lab via ESP32",
+      "bullets": [
+        "ESP32 streams scans over USB; ROS 2 node + RViz visualisation",
+        "80-95% of scanned APs match the trained vocabulary",
+        "Standing still: prediction spread under 0.1 m",
+        "Single ground-truth check: 0.4-0.8 m, matching the offline median"
+      ],
+      "figure": "cascade_random100.png",
+      "notes": "最後是落地驗證。我把 ESP32 接上電腦,用 ROS 2 節點即時讀掃描、在 RViz 上畫出來。實測時掃到的 AP 有八到九成五都在訓練過的清單裡。站著不動的時候,預測的抖動小於 0.1 公尺。用地圖上點一個真實位置來比對,單點誤差落在 0.4 到 0.8 公尺,跟離線測出來的中位數一致。也就是說,離線的數字在真實環境是站得住的。"
+    },
+    {
+      "id": "limits",
+      "title": "Limits and next steps",
+      "bullets": [
+        "Cross-session transfer still degrades (morning -> evening)",
+        "No yaw/heading in the fingerprint yet",
+        "ESP32 scan period ~3.8 s caps the update rate",
+        "Next: domain-adversarial training, more time-of-day sessions"
+      ],
+      "figure": null,
+      "notes": "講限制。跨時段的泛化還是會掉,早訓晚測明顯比隨機切分差。指紋目前沒有帶方向,加上 yaw 應該會更準但需要更多資料。ESP32 一輪掃描要三點八秒,限制了更新頻率。後續方向是用領域對抗訓練去抵抗時段差異,還有收集更多時段,例如中午跟週末,把指紋資料庫做得真的能上線。"
+    },
+    {
+      "id": "conclusion",
+      "title": "Conclusion: representation and data mattered most",
+      "bullets": [
+        "Halved the KNN error: 1.57 m -> 0.79 m median",
+        "The two biggest wins were data representation and synthetic coverage",
+        "Classification + a coarse gate beat direct regression",
+        "Verified live on hardware, not just on a held-out set"
+      ],
+      "figure": null,
+      "notes": "總結。我們把 KNN 的誤差砍了一半,從 1.57 到 0.79。回頭看,最大的兩個進步來自怎麼表示資料,跟用合成資料補空間覆蓋,而不是把網路堆大。把問題從回歸改成分類、再加一個粗網格守門員,贏過直接回歸座標。而且這個結果是在真實硬體上即時跑過驗證的,不只是測試集上的數字。謝謝。"
+    }
+  ]
+}

@@ -13,17 +13,17 @@
                                   │ 加學習能力
                                   ▼
                               MLP (53k)
-                              1.34 m
+                              1.302 m
                                   │
                                   │ 多模態 posterior
                                   ▼
                               MDN  (56k, K=3 Gaussian)
-                              1.20 m
+                              1.264 m
                                   │
                                   │ 告訴模型「-100 是 padding 不是真實值」
                                   ▼
                               MaskedMDN (76k)
-                              1.20 m
+                              1.371 m
                                   │
                                   │ 改用「集合」表示變長 AP scan
                                   ▼
@@ -44,7 +44,7 @@
             ┌─────────────────────┼────────────────────┐
             ▼                     ▼                    ▼
         ✗ C-Mixup            Heatmap + mask        (Enhanced features
-        0.942 m              0.836 m (5-ens)        — combo saturate)
+        0.942 m              0.883 m (5-ens)        — combo saturate)
         (干擾,雙重           換掉 MDN head,用
         augmentation)         40×33 grid + free-mask
                                   │
@@ -102,7 +102,7 @@
 
 ---
 
-### 2. MLP — Vanilla Regressor (53k, 1.34 m)
+### 2. MLP — Vanilla Regressor (53k, 1.302 m)
 
 ```
   X (80-dim RSSI vector, -100 padded)
@@ -126,7 +126,7 @@
 
 ---
 
-### 3. MDN — Mixture Density Network (56k, 1.20 m)
+### 3. MDN — Mixture Density Network (56k, 1.264 m)
 
 ```
   X (80-dim)
@@ -158,7 +158,7 @@
 
 ---
 
-### 4. MaskedMDN (76k, 1.20 m)
+### 4. MaskedMDN (76k, 1.371 m)
 
 ```
   X (80-dim)        mask (80-dim, 0/1)
@@ -279,7 +279,7 @@
 
 ---
 
-### 8. Heatmap + Free-cell Mask (864k, 0.836 ens-geom)
+### 8. Heatmap + Free-cell Mask (864k, 0.883 ens-geom)
 
 ```
   ┌─────────────────────────────────┐
@@ -489,7 +489,7 @@
                           固定維度向量         變長集合輸入
                                 │                  │
                        MLP/MDN/MaskedMDN     Set Transformer
-                          (1.20-1.34)            (1.09)
+                         (1.26-1.37)            (1.09)
                                                   │
                                           ┌───────┴────────┐
                                           ▼                ▼
@@ -505,7 +505,7 @@
                                           ▼                                         ▼
                                   改輸入端(失敗)                            改輸出端
                                   C-Mixup, Enhanced                          MDN→Heatmap
-                                  (0.94, saturated)                         (0.836)
+                                  (0.94, saturated)                         (0.883)
                                                                                 │
                                                                 ┌───────────────┼───────────────┐
                                                                 ▼               ▼               ▼
