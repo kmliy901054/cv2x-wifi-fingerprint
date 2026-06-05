@@ -28,9 +28,16 @@ HERE = Path(__file__).resolve().parent
 CKPT_DIR = HERE / 'outputs' / 'checkpoints'
 CFG = dict(embed_dim=48, model_dim=192, num_heads=4, num_sab=3, dropout=0.3)
 SEEDS = [42, 43, 44, 45, 46]
-VARIANTS = ['Cascade', 'CascadeTuned', 'CascadeAggressive']
+VARIANTS = ['Cascade', 'CascadeTuned', 'CascadeAggressive', 'CascadeUltra']
 # extra single-model predictions saved as npz (no checkpoint reload needed)
-EXTRA_NPZ = ['EmbKNN', 'GB']
+EXTRA_NPZ = ['EmbKNN', 'EmbKNN_BaseK5', 'EmbKNN_BaseK7', 'EmbKNN_BaseK10',
+              'EmbKNN_TunedK7', 'EmbKNN_TunedK10',
+              'EmbKNN_BaseSoftK5T01', 'EmbKNN_BaseSoftK7T02',
+              'EmbKNN_TunedSoftK5T01',
+              'EmbKNN_BSoftK5T15', 'EmbKNN_BSoftK7T10', 'EmbKNN_BSoftK8T08',
+              'EmbKNN_BSoftK10T10', 'EmbKNN_BSoftK10T20',
+              'EmbKNN_TSoftK7T10', 'EmbKNN_TSoftK10T10', 'EmbKNN_TSoftK5T05',
+              'GB']
 
 
 def geom_median(pts, eps=1e-5, max_iter=100):
@@ -51,7 +58,8 @@ def stats(err):
 
 
 def main():
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    has_cuda = torch.cuda.is_available() and torch.cuda.device_count() > 0
+    device = torch.device('cuda' if has_cuda else 'cpu')
 
     records = data.load_records()
     bssids = data.build_bssid_vocab(records, min_count=10)
@@ -80,7 +88,8 @@ def main():
                 fine_cell_xy=fine_xy, fine_free_mask=fine_mask.astype(np.float32),
                 coarse_cell_xy=coarse_xy, coarse_free_mask=coarse_mask.astype(np.float32),
                 fine_to_coarse=f2c, **CFG).to(device)
-            m.load_state_dict(torch.load(ck, map_location=device))
+            m.load_state_dict(torch.load(ck, map_location='cpu'))
+            m = m.to(device)
             m.eval()
             with torch.no_grad():
                 it = torch.from_numpy(set_idx[te_A]).to(device)
