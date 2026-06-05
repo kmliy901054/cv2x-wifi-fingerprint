@@ -30,6 +30,7 @@ log/
 # winning model (Cascade 2-level, ~18 MB) so the best result is reproducible.
 lab3/outputs/checkpoints/*
 !lab3/outputs/checkpoints/A_random__Cascade_s4[2-6].pt
+!lab3/outputs/checkpoints/A_random__CascadeTuned_s4[2-6].pt
 
 # Claude Code working files (local notes / settings, not project deliverables)
 .claude/

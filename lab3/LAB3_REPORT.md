@@ -254,11 +254,24 @@ renormalize → expected (x, y)
 | 9 | + GP synth × 5-ens | 619k×5 | **0.889** | 1.24 | 2.99 | −2% |
 | 10 | + C-Mixup × 5-ens(失敗)| 619k×5 | 0.942 | 1.24 | 2.99 | +6% 退步 |
 | 11 | **Heatmap** + synth × 5-ens (geom) | 864k×5 | **0.836** | 1.13 | 2.67 | **−6%** |
-| 12 | **Cascade** + synth × 5-ens (geom) | 882k×5 | **0.793** ⭐ | **1.12** | **2.56** | **−5%** |
+| 12 | Cascade + synth × 5-ens (geom) | 882k×5 | 0.793 | 1.12 | 2.56 | −5% |
+| 12b | **Cascade-tuned**(mse_w 0.2→0.4, fine_σ 0.4→0.3)× 5-ens (geom) | 882k×5 | **0.760** ⭐ | **1.08** | 2.77 | **−4%** |
 | 13 | CNN cross-attn + synth × 5-ens(失敗)| 1.15M×5 | 0.907 | 1.14 | 2.58 | +8% 退步 |
 | 14 | CNN xattn + Cascade × 4-ens (geom) | 1.17M×4 | 0.886 | 1.15 | 2.73 | +12% 退步 |
 | 15 | 3-level Cascade + 12k synth × 10-ens (geom) | 1.38M×10 | 0.800 | 1.12 | 2.66 | +0.9% 微輸 |
 | 16 | Diffusion head + GP synth × 5-ens (snap geom) | 939k×5 | 1.821 | 1.98 | 3.43 | +130% 災難 |
+| 17 | TTA on Cascade(K=10-40 augs)| 882k×5 | 0.806-0.818 | 1.11 | 2.55 | +1.6-3% 不有效 |
+
+> **Row 12b:Cascade-tuned 是目前冠軍(0.760 m)。** 在 Cascade 同架構下調 loss 權重:
+> `mse_w` 從 0.2 翻倍到 0.4(直接 regress xy 權重)、`fine_sigma` 從 0.4 縮到 0.3
+> (更尖的 Gaussian-smoothed CE 標籤)、`ce_fine_w/coarse_w` 微降留空間給 mse。
+> 假設:baseline 80% 的 loss 在 heatmap CE,模型沒被直接優化 Euclidean error。
+> Tuned 加強直接 regression → median -4.2%、mean -3.6%。p90 略升(2.56 → 2.77)
+> — 換言之「典型表現變更準,代價是極端 outlier 略多」。是值得的 trade-off。
+>
+> **Row 17:Test-Time Augmentation 沒幫上。** 用同 5 個 Cascade 權重 + 推論時加
+> RSSI jitter ±1-3 dBm / AP dropout 0-5%,K=10-40 個 augmented 版本聚合機率分佈
+> → 全部都比 baseline 略差。Cascade 已對輸入擾動 robust,TTA 反而 blur 訊號。
 
 > Row 14 是 A+B combo:第 5 個 seed 訓練意外中斷(腳本崩潰於 s46 epoch 120),
 > 我們用前 4 個 seeds 的 checkpoint 跑 ensemble。即使這樣,結果仍**清楚輸給單純 Cascade**,
@@ -284,7 +297,11 @@ renormalize → expected (x, y)
 ─────────╋──────────────────────────────────────────────────────────────
   −0.043 ┃ Heatmap → Coarse-to-Fine Cascade                       (2)
 ─────────╋──────────────────────────────────────────────────────────────
-0.793 m  ┃ Cascade + synth × 5-ens (geom-median)               ★ 最佳
+0.793 m  ┃ Cascade + synth × 5-ens (geom-median)
+─────────╋──────────────────────────────────────────────────────────────
+  −0.033 ┃ Loss-weight retuning (mse_w 0.2→0.4, fine_σ 0.4→0.3)  (3)
+─────────╋──────────────────────────────────────────────────────────────
+0.760 m  ┃ Cascade-tuned × 5-ens (geom-median)                ★ 最佳
 ```
 
 **(1) Heatmap + Free-cell Mask 為什麼有效**
