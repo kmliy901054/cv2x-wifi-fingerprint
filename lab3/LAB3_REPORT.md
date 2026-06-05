@@ -255,7 +255,9 @@ renormalize → expected (x, y)
 | 10 | + C-Mixup × 5-ens(失敗)| 619k×5 | 0.942 | 1.24 | 2.99 | +6% 退步 |
 | 11 | **Heatmap** + synth × 5-ens (geom) | 864k×5 | **0.836** | 1.13 | 2.67 | **−6%** |
 | 12 | Cascade + synth × 5-ens (geom) | 882k×5 | 0.793 | 1.12 | 2.56 | −5% |
-| 12b | **Cascade-tuned**(mse_w 0.2→0.4, fine_σ 0.4→0.3)× 5-ens (geom) | 882k×5 | **0.760** ⭐ | **1.08** | 2.77 | **−4%** |
+| 12b | Cascade-tuned(mse_w 0.2→0.4, fine_σ 0.4→0.3)× 5-ens (geom) | 882k×5 | 0.760 | 1.08 | 2.77 | −4% |
+| 12c | Cascade-aggressive(mse_w 0.55, fine_σ 0.25)× 5-ens (geom) | 882k×5 | 0.752 | 1.11 | 2.64 | −1% |
+| 12d | **CascadeTuned + EmbKNN mega-ens(6 preds, geom)** | 882k×5 + KNN | **0.734** ⭐ | **1.06** | 2.73 | **−2%** |
 | 13 | CNN cross-attn + synth × 5-ens(失敗)| 1.15M×5 | 0.907 | 1.14 | 2.58 | +8% 退步 |
 | 14 | CNN xattn + Cascade × 4-ens (geom) | 1.17M×4 | 0.886 | 1.15 | 2.73 | +12% 退步 |
 | 15 | 3-level Cascade + 12k synth × 10-ens (geom) | 1.38M×10 | 0.800 | 1.12 | 2.66 | +0.9% 微輸 |
@@ -301,7 +303,15 @@ renormalize → expected (x, y)
 ─────────╋──────────────────────────────────────────────────────────────
   −0.033 ┃ Loss-weight retuning (mse_w 0.2→0.4, fine_σ 0.4→0.3)  (3)
 ─────────╋──────────────────────────────────────────────────────────────
-0.760 m  ┃ Cascade-tuned × 5-ens (geom-median)                ★ 最佳
+0.760 m  ┃ Cascade-tuned × 5-ens (geom-median)
+─────────╋──────────────────────────────────────────────────────────────
+  −0.008 ┃ More aggressive loss-weight push (mse_w 0.55, σ 0.25)  (4)
+─────────╋──────────────────────────────────────────────────────────────
+0.752 m  ┃ Cascade-aggressive × 5-ens (geom-median)
+─────────╋──────────────────────────────────────────────────────────────
+  −0.018 ┃ Mix in retrieval-based EmbKNN (uncorrelated errors)    (5)
+─────────╋──────────────────────────────────────────────────────────────
+0.734 m  ┃ CascadeTuned + EmbKNN mega-ensemble                ★ 最佳
 ```
 
 **(1) Heatmap + Free-cell Mask 為什麼有效**
