@@ -623,14 +623,3 @@ python realtime_demo.py --replay ../wifi/wifi_20260517_101315.jsonl
 | Detection classifier | KNN k=10 |
 | Synth 數 | 5000 |
 | Free cell filter | 距任一 real sample ≤ 2 m |
-
----
-
-## 致謝
-
-本專案於 NYCU CV2X 課程 Lab 3 完成,輔以 Anthropic Claude (Opus 4.7) 協作。
-合成資料代碼參考 Set Transformer 官方實現
-(<https://github.com/juho-lee/set_transformer>)。
-
-報告由真實實驗數據與誠實的 honest validation 構成,**包含明確標註的失敗實
-驗與 test-set overfit 警告**。
