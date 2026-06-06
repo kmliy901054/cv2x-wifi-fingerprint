@@ -81,6 +81,33 @@ def set_notes(slide, notes):
     slide.notes_slide.notes_text_frame.text = notes
 
 
+def add_play_button(slide, l, t, w, h):
+    """Overlay a play-button + caption on an image box to mark a video placeholder."""
+    from pptx.enum.shapes import MSO_SHAPE
+    cx, cy = l + w // 2, t + h // 2
+    d = min(w, h) // 5
+    # dark translucent circle
+    circ = slide.shapes.add_shape(MSO_SHAPE.OVAL, cx - d // 2, cy - d // 2, d, d)
+    circ.fill.solid(); circ.fill.fore_color.rgb = RGBColor(0x11, 0x11, 0x11)
+    circ.line.color.rgb = RGBColor(0xFF, 0xFF, 0xFF); circ.line.width = Pt(2)
+    try:
+        circ.fill.transparency = 0.25
+    except Exception:
+        pass
+    # white play triangle
+    tri = slide.shapes.add_shape(MSO_SHAPE.ISOSCELES_TRIANGLE,
+                                  cx - d // 8, cy - d // 4, d // 2, d // 2)
+    tri.rotation = 90
+    tri.fill.solid(); tri.fill.fore_color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+    tri.line.fill.background()
+    # caption ribbon under the image
+    cap = slide.shapes.add_textbox(l, t + h - Inches(0.45), w, Inches(0.45))
+    cf = cap.text_frame; cf.word_wrap = True
+    p = cf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
+    r = p.add_run(); r.text = '▶  LIVE DEMO VIDEO — replace this slide image with the recording'
+    r.font.size = Pt(13); r.font.bold = True; r.font.color.rgb = ACCENT
+
+
 def build(spec_path, out_path):
     spec = json.load(open(spec_path, encoding='utf-8'))
     prs = Presentation()
@@ -141,6 +168,8 @@ def build(spec_path, out_path):
                 l, t, w, h = fit_box(fig, Inches(5.3), Inches(1.3),
                                      Inches(7.6), Inches(5.9))
                 slide.shapes.add_picture(str(fig), l, t, w, h)
+            if s.get('video_placeholder') and fig is not None:
+                add_play_button(slide, l, t, w, h)
 
         set_notes(slide, s.get('notes', ''))
 
