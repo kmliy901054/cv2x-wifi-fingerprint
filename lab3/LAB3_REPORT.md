@@ -258,7 +258,8 @@ renormalize → expected (x, y)
 | 12b | Cascade-tuned(mse_w 0.2→0.4, fine_σ 0.4→0.3)× 5-ens (geom) | 882k×5 | 0.760 | 1.08 | 2.77 | −4% |
 | 12c | Cascade-aggressive(mse_w 0.55, fine_σ 0.25)× 5-ens (geom) | 882k×5 | 0.752 | 1.11 | 2.64 | −1% |
 | 12d | CascadeTuned + EmbKNN mega-ens(6 preds, geom) | 882k×5 + KNN | 0.734 | 1.06 | 2.73 | −2% |
-| 12e | **Greedy-Mega(CascadeTuned 5 + 4 softmax-EmbKNN)** | 882k×5 + 4 KNN | **0.650** ⭐ | **1.05** | **2.58** | **−11%** |
+| 12e | Greedy-Mega(CascadeTuned 5 + 4 softmax-EmbKNN) | 882k×5 + 4 KNN | 0.650 ⚠️ | 1.05 | 2.58 | test-tuned |
+| 12f | **Honest 5-fold val + CascadeAggressive + BSoftK8T08** | 882k×5 + KNN | **0.724** ⭐ | 1.09 | 2.67 | **真實能力** |
 | 13 | CNN cross-attn + synth × 5-ens(失敗)| 1.15M×5 | 0.907 | 1.14 | 2.58 | +8% 退步 |
 | 14 | CNN xattn + Cascade × 4-ens (geom) | 1.17M×4 | 0.886 | 1.15 | 2.73 | +12% 退步 |
 | 15 | 3-level Cascade + 12k synth × 10-ens (geom) | 1.38M×10 | 0.800 | 1.12 | 2.66 | +0.9% 微輸 |
@@ -505,6 +506,13 @@ AMCL 給出的 ground truth 本身有 ±0.3 m 的雜訊。**理論下限約 0.3 
 - `outputs/predictions/A_random__CascadeEnsemble.npz` — **最佳模型的預測 + 真值**
 - `outputs/checkpoints/A_random__Cascade_s4{2-6}.pt` — 5 個 seed 的訓練好權重
 - `outputs/*_log.txt` — 訓練 log
+
+## ⚠️ 重要 — Honest Validation 補充
+
+第 12e 行的 **0.650 m** 是用 33 個 candidate × greedy + swap 搜出來的,
+**有 test-set selection bias**。透過 5-fold cross-validation 驗證,真實
+generalization 是 **0.724 m**(第 12f 行)。詳細過程見
+[TECHNICAL_REPORT.md](TECHNICAL_REPORT.md) §6。
 
 完整架構解說與更詳細的演進史請參見 [ARCHITECTURE.md](ARCHITECTURE.md)。
 
