@@ -510,9 +510,13 @@ AMCL 給出的 ground truth 本身有 ±0.3 m 的雜訊。**理論下限約 0.3 
 ## ⚠️ 重要 — Honest Validation 補充
 
 第 12e 行的 **0.650 m** 是用 33 個 candidate × greedy + swap 搜出來的,
-**有 test-set selection bias**。透過 5-fold cross-validation 驗證,真實
-generalization 是 **0.724 m**(第 12f 行)。詳細過程見
-[TECHNICAL_REPORT.md](TECHNICAL_REPORT.md) §6。
+**有 test-set selection bias(假象)**。
+
+**最乾淨的誠實 headline = 0.752 m**(Cascade-aggressive 5-seed,full-train→test
+一次,config 事先決定)。最嚴格的 nested 5-fold CV(每折重訓、無任何洩漏)給
+~0.95 m。SWA(文獻評分最高的進一步方法)經嚴格 nested-CV 測試**沒有超過噪音的
+增益**。**真實 0.6x 不可達** —— 詳見 [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md)
+§6、§6.5。
 
 完整架構解說與更詳細的演進史請參見 [ARCHITECTURE.md](ARCHITECTURE.md)。
 
