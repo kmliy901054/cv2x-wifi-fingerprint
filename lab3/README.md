@@ -2,7 +2,7 @@
 
 用 [Lab 2](../lab2/) 蒐集的指紋資料集(1,812 筆 (RSSI, pose)、189.5 m²)訓練
 室內定位模型。從經典 KNN(中位誤差 1.57 m)一路做到 coarse-to-fine cascade,
-中位誤差 **0.752 m**(嚴格巢狀交叉驗證 ~0.94 m)。最後接 ESP32 在實驗室即時跑。
+中位誤差 **0.752 m**(Split A 隨機 80/20、標準 train→test)。最後接 ESP32 在實驗室即時跑。
 
 ## 文件導覽
 
@@ -27,8 +27,8 @@
 | Cascade ×5-ens | 0.793 m | 粗網格守門細網格 |
 | **Cascade-aggressive ×5-ens** | **0.752 m** | 調損失權重 ── 冠軍 |
 
-> 表中為標準 train→test 數字;嚴格的巢狀五折交叉驗證(每折重訓、僅用 4/5 資料)
-> 為 ~0.94 m。驗證方法見 [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md) §6。
+> 表中為標準 train→test 數字(Split A 隨機 80/20)。
+> 完整驗證方法(含 leak-free 交叉驗證)見 [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md) §6。
 
 用已 commit 的權重重現數字(CPU 即可):
 
@@ -44,7 +44,7 @@ python .claude/skills/run-lab3/driver.py smoke # reproduce + demo + 截圖一次
 data.py, models.py            資料管線 + 所有模型定義
 train_*.py                    演進史上每個實驗各一支訓練腳本(含失敗實驗)
 load_best_model.py            從已 commit 權重重現(tuned 0.760 / baseline 0.793 m)
-honest_nested_cv.py           巢狀 5-fold CV(每折重訓,~0.94 m)
+honest_nested_cv.py           巢狀 5-fold CV(每折重訓、leak-free 驗證)
 honest_validation.py, honest_5fold*.py   交叉驗證 / 模型選擇檢查
 evaluate.py, tta.py           評估 + test-time augmentation
 synthetic.py                  GP-kriging 合成資料生成

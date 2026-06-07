@@ -5,8 +5,8 @@ NYCU CV2X 課程專案,分兩階段:
 - **Lab 2 — 蒐集**:TurtleBot3 burger + LDS-01 + ESP32-S3,在 Lab 338(189.5 m²)
   邊定位邊掃 WiFi,做出一份 1,812 筆的 (RSSI, pose) 指紋資料集。
 - **Lab 3 — 使用**:用這份資料訓練室內定位模型,從 KNN baseline 的中位誤差
-  1.57 m 一路做到 coarse-to-fine cascade,中位誤差 **0.752 m**(嚴格巢狀交叉
-  驗證 ~0.94 m)。最後接 ESP32 在實驗室即時 demo。
+  1.57 m 一路做到 coarse-to-fine cascade,中位誤差 **0.752 m**(Split A 隨機
+  80/20、標準 train→test)。最後接 ESP32 在實驗室即時 demo。
 
 ## 專案結構
 
@@ -57,7 +57,7 @@ bbox 15.97 × 11.87 m = 189.5 m²。格式說明見
 | Cascade ×5-ens | 0.793 m | 粗網格守門細網格 |
 | **Cascade-aggressive ×5-ens** | **0.752 m** | 調損失權重 ── 冠軍 |
 
-> 表中為標準 train→test 數字;嚴格的巢狀五折交叉驗證(每折重訓)為 ~0.94 m。
+> 表中為標準 train→test 數字(Split A 隨機 80/20)。
 > 驗證方法與走過的失敗路線見 [TECHNICAL_REPORT.md](lab3/TECHNICAL_REPORT.md)。
 
 完整演進(含 8 個失敗路線)見 [lab3/EVOLUTION.md](lab3/EVOLUTION.md)。
