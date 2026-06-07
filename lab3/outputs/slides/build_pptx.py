@@ -83,6 +83,21 @@ def set_notes(slide, notes):
     slide.notes_slide.notes_text_frame.text = notes
 
 
+def add_footer(slide, left_text, mid_text, right_text):
+    """open-slide-style footer: thin accent rule + deck title / section / n-of-N."""
+    add_rule(slide, Inches(0.5), Inches(7.08), Inches(12.33), Pt(1.3),
+             RGBColor(0xD8, 0xDE, 0xE6))
+    def t(x, w, text, align, color):
+        tb = slide.shapes.add_textbox(x, Inches(7.12), w, Inches(0.3))
+        p = tb.text_frame.paragraphs[0]; p.alignment = align
+        r = p.add_run(); r.text = text
+        r.font.size = Pt(9); r.font.color.rgb = color
+    t(Inches(0.5), Inches(5.0), left_text, PP_ALIGN.LEFT, RGBColor(0x99, 0xA3, 0xAF))
+    if mid_text:
+        t(Inches(4.0), Inches(5.33), mid_text, PP_ALIGN.CENTER, ACCENT)
+    t(Inches(8.33), Inches(4.5), right_text, PP_ALIGN.RIGHT, RGBColor(0x99, 0xA3, 0xAF))
+
+
 def add_play_button(slide, l, t, w, h):
     """Overlay a play-button + caption on an image box to mark a video placeholder."""
     from pptx.enum.shapes import MSO_SHAPE
@@ -184,12 +199,12 @@ def build_textcard_slide(slide, s, bullets):
         sr = sp.add_run(); sr.text = sub
         sr.font.size = Pt(16); sr.font.italic = True; sr.font.color.rgb = ACCENT
         top = Inches(1.85)
-    # card
-    card = add_rule(slide, Inches(0.7), top, Inches(11.93), Inches(7.15) - top, LIGHT)
-    add_rule(slide, Inches(0.7), top, Pt(7), Inches(7.15) - top, ACCENT)  # left accent bar
+    # card (ends above the footer at 7.08")
+    card = add_rule(slide, Inches(0.7), top, Inches(11.93), Inches(6.9) - top, LIGHT)
+    add_rule(slide, Inches(0.7), top, Pt(7), Inches(6.9) - top, ACCENT)  # left accent bar
     # bullets inside card, generously sized, top-anchored
-    tb = slide.shapes.add_textbox(Inches(1.15), top + Inches(0.35),
-                                   Inches(11.1), Inches(7.15) - top - Inches(0.7))
+    tb = slide.shapes.add_textbox(Inches(1.15), top + Inches(0.3),
+                                   Inches(11.1), Inches(6.9) - top - Inches(0.6))
     tf = tb.text_frame; tf.word_wrap = True
     tf.vertical_anchor = MSO_ANCHOR.MIDDLE
     n = len(bullets)
@@ -214,14 +229,22 @@ def build(spec_path, out_path):
 
     slides = spec['slides']
     meta = spec.get('meta', {})
+    deck_tag = meta.get('footer', 'WiFi Indoor Localization · Lab 3')
+    total = len(slides)
     dividers = [x for x in slides if str(x.get('id', '')).startswith('section-')]
     div_index = {id(d): k + 1 for k, d in enumerate(dividers)}
+
+    def section_short(title):
+        return title.split('/')[0].strip() if title else ''
+
+    current_section = ''
     for i, s in enumerate(slides):
         slide = prs.slides.add_slide(blank)
         is_title = (i == 0) or s.get('id') == 'title'
         is_div = str(s.get('id', '')).startswith('section-')
         fig = resolve_fig(s.get('figure'))
         bullets = s.get('bullets') or []
+        foot = (deck_tag, current_section, f'{i + 1} / {total}')
 
         if is_title:
             ts = dict(s); ts.setdefault('author', meta.get('author'))
@@ -230,12 +253,14 @@ def build(spec_path, out_path):
             continue
 
         if is_div:
+            current_section = section_short(s.get('title', ''))
             build_divider_slide(slide, s, div_index[id(s)], len(dividers))
             set_notes(slide, s.get('notes', ''))
             continue
 
         if fig is None:
             build_textcard_slide(slide, s, bullets)
+            add_footer(slide, *foot)
             set_notes(slide, s.get('notes', ''))
             continue
 
@@ -250,25 +275,26 @@ def build(spec_path, out_path):
             if aspect >= 1.5 and bullets:
                 # wide figure: bullets band under title, image fills the rest
                 add_bullets(slide, bullets, Inches(0.6), Inches(1.25),
-                            Inches(12.1), Inches(1.55), size=16)
-                l, t, w, h = fit_box(fig, Inches(0.5), Inches(2.95),
-                                     Inches(12.33), Inches(4.3))
+                            Inches(12.1), Inches(1.5), size=16)
+                l, t, w, h = fit_box(fig, Inches(0.5), Inches(2.9),
+                                     Inches(12.33), Inches(4.0))
                 slide.shapes.add_picture(str(fig), l, t, w, h)
             elif not bullets:
                 # figure only: large centered
                 l, t, w, h = fit_box(fig, Inches(0.5), Inches(1.3),
-                                     Inches(12.33), Inches(5.9))
+                                     Inches(12.33), Inches(5.55))
                 slide.shapes.add_picture(str(fig), l, t, w, h)
             else:
                 # tall/square: bullets left, image right
                 add_bullets(slide, bullets, Inches(0.6), Inches(1.4),
-                            Inches(4.5), Inches(5.6), size=18)
+                            Inches(4.5), Inches(5.3), size=18)
                 l, t, w, h = fit_box(fig, Inches(5.3), Inches(1.3),
-                                     Inches(7.6), Inches(5.9))
+                                     Inches(7.6), Inches(5.55))
                 slide.shapes.add_picture(str(fig), l, t, w, h)
             if s.get('video_placeholder') and fig is not None:
                 add_play_button(slide, l, t, w, h)
 
+        add_footer(slide, *foot)
         set_notes(slide, s.get('notes', ''))
 
     prs.save(out_path)

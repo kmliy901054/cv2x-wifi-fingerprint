@@ -9,35 +9,41 @@ Chinese (in the PowerPoint notes pane).
 
 | File | Purpose |
 |---|---|
-| **`lab3_presentation.pptx`** | **The course deck (6/08) — 26 slides, present this one** |
-| `PRESENTATION_SCRIPT.md` | Read-along: every slide's title/bullets + zh-TW speaker script |
-| `deck_v2.json` | Content spec for the 26-slide deck |
-| `build_pptx.py` | Generator: JSON spec → `.pptx` (figures, notes, ▶ video placeholder) |
-| `make_script_md.py` | Generator: deck JSON → `PRESENTATION_SCRIPT.md` |
-| `lab3_journey.pptx` / `deck_final.json` | Earlier 18-slide journey deck (superseded) |
+| **`lab3_presentation.pptx`** | **The course deck (6/08) — 33 slides, present this one** |
+| `PRESENTATION_SCRIPT.md` | Read-along: every slide's title/bullets + long zh-TW speaker script |
+| `deck_v3.json` | Content spec for the 33-slide deck (current) |
+| `build_pptx.py` | Generator: JSON → `.pptx` (figures, notes, footer, ▶ video placeholder) |
+| `make_script_md.py` | Generator: `python make_script_md.py deck_v3.json` → script |
+| `deck_v2.json` | Previous 26-slide spec |
+| `lab3_journey.pptx` / `deck_final.json` | Earliest 18-slide journey deck |
 
-The 26-slide deck adds: explicit section dividers for the four required parts
-(題目定義 / 做法 / 資料集切分 / 實驗結果), a per-split results slide, an
-**honesty-audit** slide (0.650 m was test-set overfitting; **0.752 m** is the
-honest headline; ~0.95 m strict nested-CV), and a reserved **live-demo video
-slide** (▶ placeholder — drop the recording onto that slide: Insert → Video).
+The 33-slide deck = the 26-slide deck + 7 depth slides (anatomy of one scan, how
+data was collected, how the Set Transformer reads a set, how GP-kriging fabricates
+coverage, the training recipe, why predict a distribution, nested-CV methodology),
+with substantially longer zh-TW speaker notes on every slide. Design borrows from
+open-slide: a footer on every content slide (`deck title · section · n / N`),
+chapter-style section dividers, and a hero title.
 
-Built by a multi-agent workflow: 5 section drafters → professor + audience +
-design reviewers → an editor agent that folded the feedback in.
+Required-section dividers (題目定義 / 做法 / 資料集切分 / 實驗結果), an
+**honesty-audit** slide (0.650 m was test-set overfitting; **0.752 m** honest
+headline; ~0.94 m strict nested-CV), and a reserved **live-demo video slide**
+(▶ placeholder — Insert → Video over it) are all present.
+
+Built by multi-agent workflows: section drafters → professor + audience + design
+reviewers → an editor agent that folded the feedback in.
 
 ## Rebuild
 
 ```bash
-# from lab3/outputs/slides
-python3 build_pptx.py deck_v2.json lab3_presentation.pptx
-python3 make_script_md.py
-# optional flat PDF render (needs libreoffice)
-soffice --headless --convert-to pdf lab3_presentation.pptx
+# from lab3/outputs/slides   (close the .pptx in PowerPoint first — it locks the file)
+python build_pptx.py deck_v3.json lab3_presentation.pptx
+python make_script_md.py deck_v3.json
+soffice --headless --convert-to pdf lab3_presentation.pptx   # optional flat PDF
 ```
 
-Edit `deck_v2.json` (text/notes/figure) and re-run `build_pptx.py`. Figures are
-pulled from `../figures/`. To embed the demo video: open the deck, go to the
-live-demo slide, Insert → Video over the ▶ placeholder image.
+Edit `deck_v3.json` (text/notes/figure) and re-run. Figures come from `../figures/`.
+To embed the demo video: open the deck, go to the live-demo slide, Insert → Video
+over the ▶ placeholder image.
 
 ## How the deck was made
 

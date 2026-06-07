@@ -1,9 +1,13 @@
-"""Render deck_v2.json into a human-readable bilingual speaker script."""
+"""Render a deck JSON into a human-readable bilingual speaker script.
+Usage: python make_script_md.py [deck.json]  (default deck_v3.json)
+"""
 import json
+import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-d = json.load(open(HERE / 'deck_v2.json', encoding='utf-8'))
+deck_file = sys.argv[1] if len(sys.argv) > 1 else 'deck_v3.json'
+d = json.load(open(HERE / deck_file, encoding='utf-8'))
 m = d['meta']
 L = []
 L.append(f"# {m['title']}\n")
