@@ -33,6 +33,7 @@ lab3/outputs/checkpoints/*
 !lab3/outputs/checkpoints/A_random__CascadeTuned_s4[2-6].pt
 !lab3/outputs/checkpoints/A_random__CascadeAggressive_s4[2-6].pt
 
-# Claude Code working files (local notes / settings, not project deliverables)
-.claude/
-memory/
+# Claude Code session/working files at the repo root (machine-specific).
+# Anchored to root so nested deliverables like lab3/.claude/skills/ ARE tracked.
+/.claude/
+/memory/
