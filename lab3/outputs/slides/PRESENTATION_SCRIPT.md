@@ -55,7 +55,7 @@
 
 - One scan = an unordered bag like {(ap_3f, -52), (ap_1a, -67), (ap_b2, -78), ...}
 - Length varies scan-to-scan (~12 to ~40 APs); same spot need not list the same APs
-- Force it into an 80-D vector and a typical scan is ~2/3 -100 padding (27.7 of 80)
+- Force it into an 80-D vector and ~2/3 of it is -100 padding (only 27.7 of 80 slots are real APs)
 - Order carries no meaning; only which APs are present and how strong they are
 
 口稿: (這張是深入剖析、屬於可快可慢的彈性投影片:若時間緊,口頭講兩句『一筆掃描就是一袋無序又變長的配對,硬塞成固定向量會塞進一堆假欄位』就推進;若有時間或被問到再展開。)後面整條技術路線的第一個轉折完全建立在一筆掃描長什麼樣這件事上,值得攤開。一筆原始掃描就是一袋無序的配對,像 ap_3f 強度 -52、ap_1a 強度 -67、ap_b2 強度 -78 這樣列下去,單位 dBm,越接近零代表訊號越強、離 AP 越近,大概落在 -40 到 -90 之間。注意兩個字:無序、變長。無序是這一袋裡誰先誰後完全沒意義;變長是不同掃描裝的 AP 數量不一樣,少則十幾個、多則三四十個。
@@ -198,17 +198,17 @@
 
 ---
 
-## 17. GP-kriging synthetic data: the single biggest jump, -17% to 0.91 m
+## 17. GP-kriging synthetic data: -19% to 0.91 m by filling the coverage hole
 *Filling the coverage hole beats any architecture change*
 
 - Per-BSSID Gaussian Process learns a smooth position-to-RSSI field
 - Sample 5000 synthetic scans from the empty upper region
-- Split A: 1.09 to 0.91 m (-17%) — the project's largest single gain
-- In-session win; cross-time drift is revisited at the end
+- Same-model ablation, Split A: real-only 1.12 m -> +synth 0.91 m (-19%)
+- Cross-time (Split C) is +5% worse - the GP carries the morning bias
 
 圖: `outputs/figures/synth_ablation.png`
 
-口稿: 這是整份報告單一影響力最大的一招,請在這裡停久一點,因為它證明了整份工作的主軸——限制準度的是覆蓋,不是模型。先把標題那個 kriging 用白話講掉:kriging 就是用高斯過程在沒資料的位置做有原則的空間內插。回到最開頭那張覆蓋圖的痛點:機器人沿路徑收資料,房間上半部幾乎沒走到,模型在那塊根本沒見過樣本、只能瞎猜。解法不是再換更聰明的模型,而是去把缺的資料補回來,但補得有物理根據。具體做法是對每一個 BSSID 各自擬合一個二維高斯過程,輸入位置、輸出該 AP 的 RSSI,等於替每個 AP 學出一張平滑的訊號強度地形圖;高斯過程的好處是它是有原則的平滑內插,在沒資料的地方給平滑而合理的外推與不確定度,生出來的訊號可信而不是隨機噪音。接著在可行空間特別是那塊空白上半部抽樣生成五千筆合成掃描塞回訓練集。看左邊 CDF,整條往左移,中位數從 1.09 掉到 0.91,進步約 17%,比任何一次換架構都大。口徑要講清楚以免被質疑:這個基準是爬坡圖上純真實單模型的 1.093,合成資料把它降到 0.906,這兩個數字在 ladder_bar 上都查得到、同口徑可比;再上五種子集成可到 0.889。右邊長條:A 大進步,但 C 早訓晚測反而從約 1.73 微升到約 1.81——因為合成資料補的是空間覆蓋,解不了時間漂移,跨時段是另一個完全獨立的軸,最後再回來。一句話:資料量只有一千多筆時,正確補上覆蓋勝過任何模型花招。下一張我把這個高斯過程怎麼生出可信掃描、又怎麼驗證它沒亂生,完整拆給大家看。
+口稿: 這是整份報告單一影響力最大的一招,請在這裡停久一點,因為它證明了整份工作的主軸——限制準度的是覆蓋,不是模型。先把標題那個 kriging 用白話講掉:kriging 就是用高斯過程在沒資料的位置做有原則的空間內插。回到最開頭那張覆蓋圖的痛點:機器人沿路徑收資料,房間上半部幾乎沒走到,模型在那塊根本沒見過樣本、只能瞎猜。解法不是再換更聰明的模型,而是去把缺的資料補回來,但補得有物理根據。具體做法是對每一個 BSSID 各自擬合一個二維高斯過程,輸入位置、輸出該 AP 的 RSSI,等於替每個 AP 學出一張平滑的訊號強度地形圖;高斯過程的好處是它是有原則的平滑內插,在沒資料的地方給平滑而合理的外推與不確定度,生出來的訊號可信而不是隨機噪音。接著在可行空間特別是那塊空白上半部抽樣生成五千筆合成掃描塞回訓練集。看左邊 CDF,整條往左移。這裡用的是最嚴謹的同模型對照(ablation):同一個 Set Transformer,只差有沒有加合成資料——純真實 1.12 掉到加合成 0.91,進步約 19%,這就是合成資料單獨的貢獻。補一個口徑:爬坡圖(slide 24)上那個里程碑步是從 1.093(SetTransformerMDN)到 0.906,讀起來是 17%,差別只在前一格的基準不同;兩個數字都對、都查得到。再上五種子集成可到 0.889。右邊長條:A 大進步,但 C 早訓晚測反而從約 1.73 微升到約 1.81——因為合成資料補的是空間覆蓋,解不了時間漂移,跨時段是另一個完全獨立的軸,最後再回來。一句話:資料量只有一千多筆時,正確補上覆蓋勝過任何模型花招。下一張我把這個高斯過程怎麼生出可信掃描、又怎麼驗證它沒亂生,完整拆給大家看。
 
 ---
 

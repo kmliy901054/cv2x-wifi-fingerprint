@@ -82,13 +82,13 @@ def fig_knn():
     fig, ax = plt.subplots(figsize=(6, 8))
     setup_ax(ax, 'KNN k=5  (baseline, median 1.568 m)', w=6, h=10)
     draw_block(ax, 3, 9,   4.4, 0.8, 'WiFi scan\n{(BSSID, RSSI)} × N', 'input')
-    draw_block(ax, 3, 7.5, 4.4, 0.8, 'Vectorize to fixed 80-D\n(missing BSSID → −100 dBm)', 'embed')
+    draw_block(ax, 3, 7.5, 4.4, 0.8, 'Vectorize to fixed 80-D\n(missing BSSID -> -100 dBm)', 'embed')
     draw_block(ax, 3, 6,   4.4, 0.8, 'KNN search\n(brute-force, k=5)', 'encoder')
     draw_block(ax, 3, 4.5, 4.4, 0.8, 'Mean of 5 neighbors\' (x, y)', 'head')
     draw_block(ax, 3, 3,   4.4, 0.8, 'Predicted (x, y)', 'output', font_weight='bold')
     draw_block(ax, 3, 1.3, 5,   1.0,
                'No training. Distance metric = Euclidean in 80-D\n'
-               'RSSI space. Test ⇒ median 1.568 m.', 'note', fontsize=8)
+               'RSSI space. Test -> median 1.568 m.', 'note', fontsize=8)
     for y in [8.6, 7.1, 5.6, 4.1]:
         draw_arrow(ax, 3, y, 3, y - 0.7)
     fig.tight_layout()
@@ -130,7 +130,7 @@ def fig_set_transformer_mdn():
     draw_block(ax, 3.5, 6.7, 5.4, 1.0,
                'Set Attention Block × 3\n(heads=4, model_dim=192, masked attention)',
                'encoder')
-    draw_block(ax, 3.5, 5.2, 5.4, 0.7, 'Masked mean pool → 192-D', 'encoder')
+    draw_block(ax, 3.5, 5.2, 5.4, 0.7, 'PMA: 1 learned query attends\nover tokens → 192-D', 'encoder')
     draw_block(ax, 3.5, 3.9, 5.4, 0.8, 'MDN head: K=3 mixtures', 'head')
     draw_block(ax, 3.5, 2.6, 5.4, 0.8, 'Predicted (x, y) = μ_{argmax π}', 'output', font_weight='bold')
     draw_block(ax, 3.5, 1.1, 6,   1.0,
@@ -150,7 +150,7 @@ def fig_heatmap():
     setup_ax(ax, 'Set Transformer + Heatmap  (median 0.883 m, ×5-ens)', w=7, h=12)
     draw_block(ax, 3.5, 11, 5.4, 0.8, 'Set of (BSSID, RSSI) tokens', 'input')
     draw_block(ax, 3.5, 9.6, 5.4, 1.0,
-               'Set Transformer encoder\n(embed + SAB×3 + mean pool → 192-D)',
+               'Set Transformer encoder\n(embed + SAB×3 + PMA pool → 192-D)',
                'encoder')
     draw_block(ax, 3.5, 8, 5.4, 0.8,
                'Linear head: 192 → 1320', 'head')
@@ -161,7 +161,7 @@ def fig_heatmap():
                'softmax(logits) ⊙ free_cell_mask\nrenormalize',
                'head')
     draw_block(ax, 3.5, 3.45, 5.4, 0.8,
-               'Expected position\nx̂ = Σ p[c] · cell_center[c]',
+               'Expected position\nE[xy] = Σ p[c] · cell_center[c]',
                'output', font_weight='bold')
     draw_block(ax, 3.5, 1.5, 6, 1.5,
                'Classification not regression.\nLoss = CE on Gaussian-smoothed soft target (σ=0.4 m)\n'
@@ -181,7 +181,7 @@ def fig_cascade():
     # Encoder stack centered
     draw_block(ax, 5, 11, 6, 0.8, 'Set of (BSSID, RSSI) tokens', 'input')
     draw_block(ax, 5, 9.6, 6, 1.0,
-               'Set Transformer encoder\n(embed + SAB×3 + mean pool → 192-D)',
+               'Set Transformer encoder\n(embed + SAB×3 + PMA pool → 192-D)',
                'encoder')
     # Two parallel heads
     draw_block(ax, 2.3, 8, 3.6, 0.8, 'Coarse head\nLinear 192 → 90', 'head')
@@ -260,7 +260,7 @@ def make_drawio_ladder():
         # (title, blocks=[(text, kind)], median)
         ('KNN k=5', 1.568, [
             ('WiFi scan\n(variable BSSID/RSSI)', 'input'),
-            ('Vectorize 80-D RSSI\n(missing → −100)', 'embed'),
+            ('Vectorize 80-D RSSI\n(missing -> -100)', 'embed'),
             ('KNN search, k=5', 'encoder'),
             ('Mean of 5 neighbors\' (x, y)', 'head'),
             ('Predicted (x, y)', 'output'),
@@ -276,7 +276,7 @@ def make_drawio_ladder():
             ('Set of (BSSID, RSSI) ≤50', 'input'),
             ('Embed + Linear → 192-D', 'embed'),
             ('SAB × 3\nmasked attention', 'encoder'),
-            ('Mean pool → MDN K=3', 'head'),
+            ('PMA pool → MDN K=3', 'head'),
             ('Predicted (x, y)', 'output'),
         ]),
         ('Heatmap ×5-ens', 0.883, [
