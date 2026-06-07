@@ -9,7 +9,7 @@
 median 1.568 m" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="60" y="60" width="260" height="36" as="geometry"/></mxCell>
         <mxCell id="101" value="WiFi scan
 (variable BSSID/RSSI)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="60" y="116" width="260" height="60" as="geometry"/></mxCell>
-        <mxCell id="102" value="Vectorize 115-D RSSI
+        <mxCell id="102" value="Vectorize 80-D RSSI
 (missing → −100)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="60" y="206" width="260" height="60" as="geometry"/></mxCell>
         <mxCell id="103" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="101" target="102"><mxGeometry relative="1" as="geometry"/></mxCell>
         <mxCell id="104" value="KNN search, k=5" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="60" y="296" width="260" height="60" as="geometry"/></mxCell>
@@ -19,9 +19,9 @@ median 1.568 m" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;stroke
         <mxCell id="108" value="Predicted (x, y)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="60" y="476" width="260" height="60" as="geometry"/></mxCell>
         <mxCell id="109" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="107" target="108"><mxGeometry relative="1" as="geometry"/></mxCell>
         <mxCell id="110" value="MaskedMDN
-median 1.200 m" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="380" y="60" width="260" height="36" as="geometry"/></mxCell>
-        <mxCell id="111" value="RSSI 115-D + mask 115-D" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="380" y="116" width="260" height="60" as="geometry"/></mxCell>
-        <mxCell id="112" value="Linear 230 → 256 → 128" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="380" y="206" width="260" height="60" as="geometry"/></mxCell>
+median 1.371 m" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="380" y="60" width="260" height="36" as="geometry"/></mxCell>
+        <mxCell id="111" value="RSSI 80-D + mask 80-D" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="380" y="116" width="260" height="60" as="geometry"/></mxCell>
+        <mxCell id="112" value="Linear 160 → 256 → 128" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="380" y="206" width="260" height="60" as="geometry"/></mxCell>
         <mxCell id="113" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="111" target="112"><mxGeometry relative="1" as="geometry"/></mxCell>
         <mxCell id="114" value="MDN head (K=3)
 log π / μ / σ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="380" y="296" width="260" height="60" as="geometry"/></mxCell>
@@ -43,7 +43,7 @@ masked attention" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;stro
         <mxCell id="128" value="Predicted (x, y)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="700" y="476" width="260" height="60" as="geometry"/></mxCell>
         <mxCell id="129" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="127" target="128"><mxGeometry relative="1" as="geometry"/></mxCell>
         <mxCell id="130" value="Heatmap ×5-ens
-median 0.836 m" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1020" y="60" width="260" height="36" as="geometry"/></mxCell>
+median 0.883 m" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1020" y="60" width="260" height="36" as="geometry"/></mxCell>
         <mxCell id="131" value="Set tokens" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1020" y="116" width="260" height="60" as="geometry"/></mxCell>
         <mxCell id="132" value="Set Transformer encoder" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1020" y="206" width="260" height="60" as="geometry"/></mxCell>
         <mxCell id="133" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="131" target="132"><mxGeometry relative="1" as="geometry"/></mxCell>

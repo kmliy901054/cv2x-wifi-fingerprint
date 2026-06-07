@@ -2,7 +2,7 @@
 
 Outputs to outputs/figures/architectures/:
   - arch_knn.png              KNN k=5 baseline (1.568 m)
-  - arch_masked_mdn.png       MaskedMDN baseline (1.20 m)
+  - arch_masked_mdn.png       MaskedMDN baseline (1.37 m)
   - arch_set_transformer_mdn.png   Set Transformer + MDN (1.09 m)
   - arch_heatmap.png          Heatmap classification head (0.836 m)
   - arch_cascade.png          Cascade coarse→fine WINNER (0.793 m)
@@ -82,12 +82,12 @@ def fig_knn():
     fig, ax = plt.subplots(figsize=(6, 8))
     setup_ax(ax, 'KNN k=5  (baseline, median 1.568 m)', w=6, h=10)
     draw_block(ax, 3, 9,   4.4, 0.8, 'WiFi scan\n{(BSSID, RSSI)} × N', 'input')
-    draw_block(ax, 3, 7.5, 4.4, 0.8, 'Vectorize to fixed 115-D\n(missing BSSID → −100 dBm)', 'embed')
+    draw_block(ax, 3, 7.5, 4.4, 0.8, 'Vectorize to fixed 80-D\n(missing BSSID → −100 dBm)', 'embed')
     draw_block(ax, 3, 6,   4.4, 0.8, 'KNN search\n(brute-force, k=5)', 'encoder')
     draw_block(ax, 3, 4.5, 4.4, 0.8, 'Mean of 5 neighbors\' (x, y)', 'head')
     draw_block(ax, 3, 3,   4.4, 0.8, 'Predicted (x, y)', 'output', font_weight='bold')
     draw_block(ax, 3, 1.3, 5,   1.0,
-               'No training. Distance metric = Euclidean in 115-D\n'
+               'No training. Distance metric = Euclidean in 80-D\n'
                'RSSI space. Test ⇒ median 1.568 m.', 'note', fontsize=8)
     for y in [8.6, 7.1, 5.6, 4.1]:
         draw_arrow(ax, 3, y, 3, y - 0.7)
@@ -99,9 +99,9 @@ def fig_knn():
 
 def fig_masked_mdn():
     fig, ax = plt.subplots(figsize=(6, 9))
-    setup_ax(ax, 'MaskedMDN  (NN baseline, median 1.20 m)', w=6, h=11)
-    draw_block(ax, 3, 10,  4.4, 0.8, 'WiFi scan vector\n115-D RSSI + 115-D mask', 'input')
-    draw_block(ax, 3, 8.5, 4.4, 0.8, 'Linear (230 → 256)\nReLU + Dropout', 'encoder')
+    setup_ax(ax, 'MaskedMDN  (NN baseline, median 1.37 m)', w=6, h=11)
+    draw_block(ax, 3, 10,  4.4, 0.8, 'WiFi scan vector\n80-D RSSI + 80-D mask', 'input')
+    draw_block(ax, 3, 8.5, 4.4, 0.8, 'Linear (160 → 256)\nReLU + Dropout', 'encoder')
     draw_block(ax, 3, 7.2, 4.4, 0.8, 'Linear (256 → 128)\nReLU + Dropout', 'encoder')
     draw_block(ax, 3, 5.9, 4.4, 0.8, 'MDN head: K=3 mixtures\nlog π[3] + μ[3,2] + log σ[3,2]', 'head')
     draw_block(ax, 3, 4.5, 4.4, 0.8, 'argmax over π:  pick μ_{k*}', 'head')
@@ -125,7 +125,7 @@ def fig_set_transformer_mdn():
     draw_block(ax, 3.5, 11, 5.4, 0.9,
                'Variable-length set of (BSSID_idx, RSSI)\nup to 50 tokens, padded with mask',
                'input')
-    draw_block(ax, 3.5, 9.5, 5.4, 0.8, 'Embed BSSID (115+1 → 48-D)', 'embed')
+    draw_block(ax, 3.5, 9.5, 5.4, 0.8, 'Embed BSSID (80+1 → 48-D)', 'embed')
     draw_block(ax, 3.5, 8.2, 5.4, 0.8, 'Token = concat(embed, RSSI_scaled)\n→ Linear → 192-D', 'embed')
     draw_block(ax, 3.5, 6.7, 5.4, 1.0,
                'Set Attention Block × 3\n(heads=4, model_dim=192, masked attention)',
@@ -260,14 +260,14 @@ def make_drawio_ladder():
         # (title, blocks=[(text, kind)], median)
         ('KNN k=5', 1.568, [
             ('WiFi scan\n(variable BSSID/RSSI)', 'input'),
-            ('Vectorize 115-D RSSI\n(missing → −100)', 'embed'),
+            ('Vectorize 80-D RSSI\n(missing → −100)', 'embed'),
             ('KNN search, k=5', 'encoder'),
             ('Mean of 5 neighbors\' (x, y)', 'head'),
             ('Predicted (x, y)', 'output'),
         ]),
-        ('MaskedMDN', 1.20, [
-            ('RSSI 115-D + mask 115-D', 'input'),
-            ('Linear 230 → 256 → 128', 'encoder'),
+        ('MaskedMDN', 1.371, [
+            ('RSSI 80-D + mask 80-D', 'input'),
+            ('Linear 160 → 256 → 128', 'encoder'),
             ('MDN head (K=3)\nlog π / μ / σ', 'head'),
             ('argmax π → μ_{k*}', 'head'),
             ('Predicted (x, y)', 'output'),
@@ -279,7 +279,7 @@ def make_drawio_ladder():
             ('Mean pool → MDN K=3', 'head'),
             ('Predicted (x, y)', 'output'),
         ]),
-        ('Heatmap ×5-ens', 0.836, [
+        ('Heatmap ×5-ens', 0.883, [
             ('Set tokens', 'input'),
             ('Set Transformer encoder', 'encoder'),
             ('Linear → 1320 logits\n(40 × 33 grid, 0.4 m)', 'head'),

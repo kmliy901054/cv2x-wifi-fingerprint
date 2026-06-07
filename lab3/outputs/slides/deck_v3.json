@@ -48,7 +48,6 @@
       "bullets": [
         "Input: one scan = a variable-length set of (BSSID, RSSI) pairs",
         "Output: robot position (x, y) on the 189.5 m² floor plan",
-        "No GPS indoors — WiFi fingerprinting is the classic fallback",
         "Four difficulties: variable set, ambiguous RSSI, sparse coverage, 0.3 m label floor"
       ],
       "figure": null,
@@ -159,17 +158,17 @@
     },
     {
       "id": "first-nn",
-      "title": "Plain neural nets barely beat KNN — and reveal two lessons",
-      "subtitle": "MLP 1.30 m, MaskedMDN 1.37 m: the wins come from fixing these, not from depth",
+      "title": "Plain neural nets clear KNN but plateau near 1.3 m — two lessons",
+      "subtitle": "MLP 1.30 m · MDN 1.26 m · masked variants 1.37 m — all stuck on a fixed vector; depth is not the lever",
       "bullets": [
-        "Lesson 1: a dense -100-padded vector wastes most of the capacity",
-        "Lesson 2: regression averages multimodal answers into the void",
-        "MLP regression: 1.30 m — only a sliver below KNN",
-        "MaskedMDN: 1.37 m — a mixture head alone does not fix multimodality"
+        "MLP 1.30 m and MDN 1.26 m: both about -17% vs KNN 1.57 m, yet barely apart from each other",
+        "A mixture head (MDN) only inches past the MLP; masking the -100 padding (1.37 m) made it worse, not better",
+        "Lesson 1 - representation: a fixed 80-D, -100-padded vector wastes most of the model capacity",
+        "Lesson 2 - output: a point/mixture readout still averages two plausible places - it needs a grid"
       ],
       "figure": "architectures/arch_masked_mdn.png",
       "video_placeholder": false,
-      "notes": "我故意把兩個教訓放最上面、數字壓下面,因為這張的價值不在那兩個成績,而在它釣出來的兩個問題,這兩個問題決定了後面整條路。先對齊畫面:這張結構圖是 MaskedMDN,對應下面那個 1.37 的版本,別跟純 MLP 的 1.30 搞混。第一版神經網路只小贏 KNN 一點點,從 1.57 到 1.30,差不多就是查表跟一個普通回歸器的差距,但它讓兩個獨立問題浮出來。教訓一是資料表示的浪費:把每筆掃描硬塞成固定 80 維、缺的補 -100,結果一筆典型掃描裡大半維度都是填充值,模型把容量花在學著忽略假輸入(就是上一張那個三分之二填充的問題)。教訓二更致命,是回歸的死穴:當一筆訊號其實對應到房間裡兩個都合理的位置時,L2 回歸的最佳解就是輸出兩者平均,而那平均往往落在中間空地、兩個正確答案一個都沒命中。我們本想用 MDN 混合高斯輸出讓模型同時表達好幾個可能位置,結果 1.37 還比單純 MLP 的 1.30 差——這個反直覺結果證明光換輸出頭不能真正解掉多峰,還得靠後面在地圖網格上分類。所以接下來順序是:下一張先正面討論為什麼要預測分布而不是單點,再解表示問題,最後回來用網格分類把平均問題算總帳。常見追問:那 MDN 不就白做了?沒有,它讓我們確認問題出在輸出空間的幾何、而不是模型不夠大,這個診斷直接省下後面亂加參數的彎路。"
+      "notes": "這張的價值不在成績,而在它釣出來的兩個問題,這兩個問題決定後面整條路。先把數字講清楚,因為很容易混:純 MLP 回歸 1.30,純 MDN(混合高斯)1.26 — MDN 確實小贏 MLP 一點點,但兩個都只比 KNN 的 1.57 好大約一成七,而且彼此幾乎沒差。我們又把 -100 填充遮掉做了 Masked 版本(MaskedMLP、MaskedMDN 都落在 1.37),結果不但沒變好反而更差 — 下面那張結構圖畫的就是 MaskedMDN 這個嘗試,請注意它對應的是 1.37,不要跟純 MLP 的 1.30 或純 MDN 的 1.26 搞混。所以結論很清楚:在「固定向量 + 點/混合輸出」這個框架裡,換頭、加遮罩、調深度,都只在 1.3 附近原地打轉。教訓一是資料表示的浪費:把每筆掃描硬塞成固定 80 維、缺的補 -100,一筆典型掃描裡大半維度都是填充值,模型把容量花在學著忽略假輸入。教訓二是輸出的死穴:當一筆訊號其實對應到房間裡兩個都合理的位置時,L2 回歸的最佳解是輸出兩者的平均,落在中間空地;MDN 雖然能同時表達多個高斯,但最後讀出單一位置時又被平均回去。這兩個問題,分別由下一段的 Set Transformer(換掉表示)和再後面的熱度圖分類(換掉輸出)各解掉一個。記住這兩個教訓,後面每一步都是在還這兩筆債。"
     },
     {
       "id": "why-distribution",
@@ -322,17 +321,17 @@
     },
     {
       "id": "results-by-split",
-      "title": "Across all four splits: in-session is strong, cross-time is the weak spot",
-      "subtitle": "Cascade median per split — A measured, B/C/D estimates",
+      "title": "In-distribution splits A & D are both strong (~0.8 m); cross-time C is the open problem",
+      "subtitle": "A & D now MEASURED (Cascade-aggressive ×5); B & C are estimates",
       "bullets": [
-        "A_random: 0.75 m (MEASURED, main headline)",
-        "B_morning: ~0.85 m (same-session, estimate)",
-        "D_stratified: ~0.90 m (all-session deployment, estimate)",
-        "C_morning to evening: ~2.3 m (cross-time, ESTIMATE) — the open problem"
+        "A_random (MAIN): 0.752 m measured — random 80/20",
+        "D_stratified: 0.807 m measured — both times of day in train & test",
+        "B_morning: ~1.0 m (estimate; morning-only, so less training data than A)",
+        "C_morning to evening: ~2.3 m (estimate) — cross-time, the open problem"
       ],
-      "figure": "synth_ablation.png",
+      "figure": "split_a_vs_d.png",
       "video_placeholder": false,
-      "notes": "兌現前面 splits 那張的承諾——把每種切法的數字真正給出來,我特意把它放在講完 cascade、看過完整爬坡之後,這樣大家已經知道 cascade 是什麼,這些數字才有意義。先把但書放最前面,這是這張的關鍵:只有 A_random 的 0.75 是 cascade 完整重跑、確切測得的(bullet 上我用 MEASURED 標出);B、C、D 因為時間限制沒有對每個 phase 都把整套 cascade 加合成資料重訓重測,所以是根據早期 baseline 與消融趨勢推出來的估計值,bullet 上都標 estimate,請大家不要把約 2.3 當成精確結果引用——這正是這份報告一致的口徑。趨勢本身很清楚也很合理:A 約 0.75;同時段的 B 約 0.85,只比 A 略差;涵蓋早晚的部署情境 D 約 0.90,難一點;而跨時段的 C 一口氣跳到約 2.3,差一個量級。這個落差不是模型爛,而是訊號本身在幾小時內漂掉了,模型訓練時根本沒看過晚上的分布。畫面這張合成資料的消融長條圖正好佐證:合成資料在 A 帶來大進步,但在 C 反而從約 1.73 微升到約 1.81——因為合成資料補的是空間覆蓋、解不了時間漂移。結論一句:同時段我們做得很好且有實測背書,跨時段是這份工作唯一沒解掉、也明白承認的弱點,解法(IMU、時序融合、晚場資料)留到結論。預期會被問:為什麼不現在把 C 也重跑出精確值?坦白說是算力與時間取捨,我們把有限資源投在把主線 A 做到最嚴格的驗證;與其給四個都不完整的精確數字,不如給一個紮實的主數字加三個標註清楚的估計。"
+      "notes": "這張補上 splits 那頁承諾、卻一直沒給的數字,也回應老師對嚴謹度的要求。重點:現在 A 和 D 都是 cascade-aggressive 五種子完整重跑、確切測得的,不是估計——A_random 中位數 0.752、D_stratified 0.807,兩個都是同分布切法。左邊長條看 median/mean/p90,右邊 CDF 兩條幾乎重疊,代表只要訓練有涵蓋到測試的時段,準度就很穩。D 比 A 略高一點點(0.807 對 0.752),是因為 D 的測試集刻意按比例放進晚上的點,晚上本來就比較難,但因為訓練也看過晚上,所以只差 0.05、沒有崩。B_morning 和 C 我還沒對每個 phase 重跑,給的是早期 baseline 推得的估計、會標清楚是估計:B 同時段約 0.85,C 早訓晚測約 2.3。最關鍵的對比:A、D 這種同分布切法都壓在 0.8 公尺上下,C 卻一跳到 2.3——空間覆蓋我們解得很好,跨時段是唯一沒解掉的開放問題,留到結論談未來方向。預期被問:D 為什麼要按時段分層?它模擬真實部署——指紋庫已在不同時段都採過點;跟 A 純隨機的差別是 D 保證訓練和測試都含早晚。"
     },
     {
       "id": "cdf",
