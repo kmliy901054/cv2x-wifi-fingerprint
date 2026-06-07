@@ -26,8 +26,10 @@ EMU_H = Inches(7.5)
 
 NAVY = RGBColor(0x1F, 0x2D, 0x3D)
 ACCENT = RGBColor(0x1B, 0x6E, 0xC2)
+ACCENT_LT = RGBColor(0x6F, 0xB7, 0xF0)
 GREY = RGBColor(0x55, 0x55, 0x55)
 LIGHT = RGBColor(0xF2, 0xF4, 0xF7)
+WHITE = RGBColor(0xFF, 0xFF, 0xFF)
 
 
 def fit_box(img_path, bx, by, bw, bh):
@@ -108,6 +110,101 @@ def add_play_button(slide, l, t, w, h):
     r.font.size = Pt(13); r.font.bold = True; r.font.color.rgb = ACCENT
 
 
+def add_bg(slide, color):
+    from pptx.enum.shapes import MSO_SHAPE
+    bg = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, EMU_W, EMU_H)
+    bg.fill.solid(); bg.fill.fore_color.rgb = color
+    bg.line.fill.background()
+    bg.shadow.inherit = False
+    return bg
+
+
+def add_rule(slide, left, top, width, height, color):
+    from pptx.enum.shapes import MSO_SHAPE
+    r = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, left, top, width, height)
+    r.fill.solid(); r.fill.fore_color.rgb = color
+    r.line.fill.background(); r.shadow.inherit = False
+    return r
+
+
+def build_title_slide(slide, s):
+    add_bg(slide, NAVY)
+    add_rule(slide, Inches(5.17), Inches(2.35), Inches(3.0), Pt(5), ACCENT_LT)
+    tb = slide.shapes.add_textbox(Inches(0.8), Inches(2.7), Inches(11.73), Inches(2.2))
+    tf = tb.text_frame; tf.word_wrap = True
+    p = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
+    r = p.add_run(); r.text = s['title']
+    r.font.size = Pt(40); r.font.bold = True; r.font.color.rgb = WHITE
+    sub = s.get('subtitle')
+    if sub:
+        tb2 = slide.shapes.add_textbox(Inches(1.0), Inches(5.0), Inches(11.33), Inches(1.2))
+        tf2 = tb2.text_frame; tf2.word_wrap = True
+        p2 = tf2.paragraphs[0]; p2.alignment = PP_ALIGN.CENTER
+        r2 = p2.add_run(); r2.text = sub
+        r2.font.size = Pt(20); r2.font.color.rgb = ACCENT_LT
+    auth = s.get('author')
+    if auth:
+        tb3 = slide.shapes.add_textbox(Inches(1.0), Inches(6.6), Inches(11.33), Inches(0.6))
+        p3 = tb3.text_frame.paragraphs[0]; p3.alignment = PP_ALIGN.CENTER
+        r3 = p3.add_run(); r3.text = auth
+        r3.font.size = Pt(14); r3.font.color.rgb = RGBColor(0xAA, 0xB6, 0xC4)
+
+
+def build_divider_slide(slide, s, idx, total):
+    add_bg(slide, NAVY)
+    # kicker: SECTION n / total
+    kb = slide.shapes.add_textbox(Inches(0.9), Inches(2.55), Inches(11.5), Inches(0.6))
+    kp = kb.text_frame.paragraphs[0]; kp.alignment = PP_ALIGN.CENTER
+    kr = kp.add_run(); kr.text = f'SECTION {idx} / {total}'
+    kr.font.size = Pt(18); kr.font.bold = True; kr.font.color.rgb = ACCENT_LT
+    # big section title (centered)
+    tb = slide.shapes.add_textbox(Inches(0.8), Inches(3.05), Inches(11.73), Inches(1.5))
+    tf = tb.text_frame; tf.word_wrap = True
+    p = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
+    r = p.add_run(); r.text = s['title']
+    r.font.size = Pt(40); r.font.bold = True; r.font.color.rgb = WHITE
+    add_rule(slide, Inches(5.67), Inches(4.55), Inches(2.0), Pt(4), ACCENT_LT)
+    sub = s.get('subtitle')
+    if sub:
+        sb = slide.shapes.add_textbox(Inches(1.5), Inches(4.8), Inches(10.33), Inches(1.0))
+        sf = sb.text_frame; sf.word_wrap = True
+        sp = sf.paragraphs[0]; sp.alignment = PP_ALIGN.CENTER
+        sr = sp.add_run(); sr.text = sub
+        sr.font.size = Pt(18); sr.font.color.rgb = RGBColor(0xC8, 0xD2, 0xDE)
+
+
+def build_textcard_slide(slide, s, bullets):
+    """Text-only content slide: title + a filled card holding large bullets."""
+    add_title(slide, s['title'])
+    sub = s.get('subtitle')
+    top = Inches(1.45)
+    if sub:
+        sb = slide.shapes.add_textbox(Inches(0.6), Inches(1.28), Inches(12.1), Inches(0.5))
+        sp = sb.text_frame.paragraphs[0]
+        sr = sp.add_run(); sr.text = sub
+        sr.font.size = Pt(16); sr.font.italic = True; sr.font.color.rgb = ACCENT
+        top = Inches(1.85)
+    # card
+    card = add_rule(slide, Inches(0.7), top, Inches(11.93), Inches(7.15) - top, LIGHT)
+    add_rule(slide, Inches(0.7), top, Pt(7), Inches(7.15) - top, ACCENT)  # left accent bar
+    # bullets inside card, generously sized, top-anchored
+    tb = slide.shapes.add_textbox(Inches(1.15), top + Inches(0.35),
+                                   Inches(11.1), Inches(7.15) - top - Inches(0.7))
+    tf = tb.text_frame; tf.word_wrap = True
+    tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+    n = len(bullets)
+    size = 26 if n <= 4 else (22 if n <= 6 else 18)
+    first = True
+    for b in bullets:
+        p = tf.paragraphs[0] if first else tf.add_paragraph()
+        first = False
+        p.space_after = Pt(16)
+        dot = p.add_run(); dot.text = '▪  '
+        dot.font.size = Pt(size); dot.font.color.rgb = ACCENT; dot.font.bold = True
+        r = p.add_run(); r.text = b
+        r.font.size = Pt(size); r.font.color.rgb = NAVY
+
+
 def build(spec_path, out_path):
     spec = json.load(open(spec_path, encoding='utf-8'))
     prs = Presentation()
@@ -116,35 +213,36 @@ def build(spec_path, out_path):
     blank = prs.slide_layouts[6]
 
     slides = spec['slides']
+    meta = spec.get('meta', {})
+    dividers = [x for x in slides if str(x.get('id', '')).startswith('section-')]
+    div_index = {id(d): k + 1 for k, d in enumerate(dividers)}
     for i, s in enumerate(slides):
         slide = prs.slides.add_slide(blank)
         is_title = (i == 0) or s.get('id') == 'title'
+        is_div = str(s.get('id', '')).startswith('section-')
         fig = resolve_fig(s.get('figure'))
         bullets = s.get('bullets') or []
 
         if is_title:
-            # centered title + subtitle
-            tb = slide.shapes.add_textbox(Inches(1.0), Inches(2.6), Inches(11.33), Inches(1.6))
-            tf = tb.text_frame; tf.word_wrap = True
-            p = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
-            r = p.add_run(); r.text = s['title']
-            r.font.size = Pt(40); r.font.bold = True; r.font.color.rgb = NAVY
-            sub = s.get('subtitle')
-            if sub:
-                tb2 = slide.shapes.add_textbox(Inches(1.0), Inches(4.3), Inches(11.33), Inches(1.0))
-                tf2 = tb2.text_frame; tf2.word_wrap = True
-                p2 = tf2.paragraphs[0]; p2.alignment = PP_ALIGN.CENTER
-                r2 = p2.add_run(); r2.text = sub
-                r2.font.size = Pt(20); r2.font.color.rgb = GREY
+            ts = dict(s); ts.setdefault('author', meta.get('author'))
+            build_title_slide(slide, ts)
+            set_notes(slide, s.get('notes', ''))
+            continue
+
+        if is_div:
+            build_divider_slide(slide, s, div_index[id(s)], len(dividers))
+            set_notes(slide, s.get('notes', ''))
+            continue
+
+        if fig is None:
+            build_textcard_slide(slide, s, bullets)
             set_notes(slide, s.get('notes', ''))
             continue
 
         add_title(slide, s['title'])
 
-        if fig is None:
-            # text-only: centered bullets, larger
-            add_bullets(slide, bullets, Inches(1.5), Inches(1.6),
-                        Inches(10.3), Inches(5.4), size=22)
+        if False:
+            pass
         else:
             with Image.open(fig) as im:
                 iw, ih = im.size
