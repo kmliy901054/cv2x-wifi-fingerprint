@@ -2,15 +2,14 @@
 
 用 [Lab 2](../lab2/) 蒐集的指紋資料集(1,812 筆 (RSSI, pose)、189.5 m²)訓練
 室內定位模型。從經典 KNN(中位誤差 1.57 m)一路做到 coarse-to-fine cascade,
-**誠實標題 0.752 m**(標準 train→test);最嚴格的無洩漏巢狀交叉驗證為 ~0.94 m。
-最後接 ESP32 在實驗室即時跑。
+中位誤差 **0.752 m**(嚴格巢狀交叉驗證 ~0.94 m)。最後接 ESP32 在實驗室即時跑。
 
 ## 文件導覽
 
 | 文件 | 內容 |
 |---|---|
 | [LAB3_REPORT.md](LAB3_REPORT.md) | 課程報告(題目 / 做法 / 切分 / 結果) |
-| [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md) | 完整技術報告:所有方法 + 8 個失敗實驗 + 誠實驗證 |
+| [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md) | 完整技術報告:所有方法 + 8 個失敗實驗 + 驗證 |
 | [EVOLUTION.md](EVOLUTION.md) | 模型演進史 1.57 → 0.75 m,含走過的失敗路線 |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | 各模型細節與訓練配方 |
 | [DEMO.md](DEMO.md) | 即時 demo 操作(matplotlib 或 ROS 2 + RViz) |
@@ -26,11 +25,10 @@
 | + GP 合成資料 | 0.906 m | 填補空間覆蓋缺口(單一最大進步)|
 | Heatmap + free-mask ×5 | 0.883 m | 分類取代回歸 |
 | Cascade ×5-ens | 0.793 m | 粗網格守門細網格 |
-| **Cascade-aggressive ×5-ens** | **0.752 m** | 調損失權重 ── **誠實標題** |
+| **Cascade-aggressive ×5-ens** | **0.752 m** | 調損失權重 ── 冠軍 |
 
-> **誠實驗證**:曾跑出 0.650 m,但那是在測試集上貪婪挑出來的假象(+0.07 m 偏差,
-> 自我抓到)。零洩漏的巢狀五折 CV(每折重訓、僅用 4/5 資料)為 **~0.94 m**。真實
-> 0.6x 在這份單次掃描資料上做不到。完整說明見 [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md) §6。
+> 表中為標準 train→test 數字;嚴格的巢狀五折交叉驗證(每折重訓、僅用 4/5 資料)
+> 為 ~0.94 m。驗證方法見 [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md) §6。
 
 用已 commit 的權重重現數字(CPU 即可):
 
@@ -46,8 +44,8 @@ python .claude/skills/run-lab3/driver.py smoke # reproduce + demo + 截圖一次
 data.py, models.py            資料管線 + 所有模型定義
 train_*.py                    演進史上每個實驗各一支訓練腳本(含失敗實驗)
 load_best_model.py            從已 commit 權重重現(tuned 0.760 / baseline 0.793 m)
-honest_nested_cv.py           無洩漏巢狀 5-fold CV(真實泛化 ~0.94 m)
-honest_validation.py, honest_5fold*.py   誠實驗證:抓出 0.650 m 過擬合
+honest_nested_cv.py           巢狀 5-fold CV(每折重訓,~0.94 m)
+honest_validation.py, honest_5fold*.py   交叉驗證 / 模型選擇檢查
 evaluate.py, tta.py           評估 + test-time augmentation
 synthetic.py                  GP-kriging 合成資料生成
 

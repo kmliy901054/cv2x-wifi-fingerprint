@@ -5,9 +5,8 @@ NYCU CV2X 課程專案,分兩階段:
 - **Lab 2 — 蒐集**:TurtleBot3 burger + LDS-01 + ESP32-S3,在 Lab 338(189.5 m²)
   邊定位邊掃 WiFi,做出一份 1,812 筆的 (RSSI, pose) 指紋資料集。
 - **Lab 3 — 使用**:用這份資料訓練室內定位模型,從 KNN baseline 的中位誤差
-  1.57 m 一路做到 coarse-to-fine cascade。**誠實標題 0.752 m**(標準 train→test、
-  config 事先決定);並用無洩漏的巢狀交叉驗證把真實泛化釘在 ~0.94 m,還親手抓出
-  一個 0.650 m 的測試集過擬合假象。最後接 ESP32 在實驗室即時 demo。
+  1.57 m 一路做到 coarse-to-fine cascade,中位誤差 **0.752 m**(嚴格巢狀交叉
+  驗證 ~0.94 m)。最後接 ESP32 在實驗室即時 demo。
 
 ## 專案結構
 
@@ -30,7 +29,7 @@ NYCU CV2X 課程專案,分兩階段:
 |---|---|---|
 | 做什麼 | 開機器人收 WiFi 指紋資料集 | 用資料集訓練定位模型 |
 | 入口 | [lab2/README.md](lab2/README.md) | [lab3/README.md](lab3/README.md) |
-| 報告 | [lab2/REPORT.md](lab2/REPORT.md) | [lab3/LAB3_REPORT.md](lab3/LAB3_REPORT.md) · [完整技術報告](lab3/TECHNICAL_REPORT.md) |
+| 報告 | [lab2/REPORT.md](lab2/REPORT.md) | [lab3/LAB3_REPORT.md](lab3/LAB3_REPORT.md) · [技術報告](lab3/TECHNICAL_REPORT.md) |
 | 故事 | [lab2/PRESENTATION.md](lab2/PRESENTATION.md) | [lab3/EVOLUTION.md](lab3/EVOLUTION.md)(演進史) |
 | 簡報 | [pptx](lab2/CV2X_Lab2_presentation.pptx)(27 張) | [lab3_presentation.pptx](lab3/outputs/slides/lab3_presentation.pptx)(33 張)+ [講稿](lab3/outputs/slides/PRESENTATION_SCRIPT.md) |
 | 一鍵跑 | — | skill [`/run-lab3`](lab3/.claude/skills/run-lab3/)(reproduce / demo / screenshot) |
@@ -56,12 +55,10 @@ bbox 15.97 × 11.87 m = 189.5 m²。格式說明見
 | + GP 合成資料 | 0.906 m | 填補空間覆蓋缺口(單一最大進步)|
 | Heatmap + free-mask ×5 | 0.883 m | 分類取代回歸 |
 | Cascade ×5-ens | 0.793 m | 粗網格守門細網格 |
-| **Cascade-aggressive ×5-ens** | **0.752 m** | 調損失權重 ── **誠實標題** |
+| **Cascade-aggressive ×5-ens** | **0.752 m** | 調損失權重 ── 冠軍 |
 
-> **誠實驗證**:曾用貪婪集成搜尋跑出 0.650 m,但那是在測試集上挑出來的(自我抓到的
-> +0.07 m 偏差,假象)。最嚴格、零洩漏的巢狀五折交叉驗證給 **~0.94 m**。真實的 0.6x
-> 在 1,449 筆單次掃描下達不到——需要新資料 / IMU / 時序融合。細節見
-> [TECHNICAL_REPORT.md](lab3/TECHNICAL_REPORT.md)。
+> 表中為標準 train→test 數字;嚴格的巢狀五折交叉驗證(每折重訓)為 ~0.94 m。
+> 驗證方法與走過的失敗路線見 [TECHNICAL_REPORT.md](lab3/TECHNICAL_REPORT.md)。
 
 完整演進(含 8 個失敗路線)見 [lab3/EVOLUTION.md](lab3/EVOLUTION.md)。
 
