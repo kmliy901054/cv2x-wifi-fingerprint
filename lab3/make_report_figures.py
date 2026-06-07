@@ -309,6 +309,7 @@ def fig_ladder_bar():
     rows = [
         ('KNN k=5',              1.568, 'baseline',  '#999999'),
         ('MLP',                   1.302, 'baseline',  '#bbbbbb'),
+        ('MDN',                   1.264, 'baseline',  '#bbbbbb'),
         ('MaskedMDN',             1.371, 'baseline',  '#cccccc'),
         ('Set Transformer MDN',  1.093, 'climbing',  '#1f77b4'),
         ('Big × 5-ens (MDN)',    1.083, 'climbing',  '#1f77b4'),
