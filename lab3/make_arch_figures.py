@@ -147,7 +147,7 @@ def fig_set_transformer_mdn():
 
 def fig_heatmap():
     fig, ax = plt.subplots(figsize=(7, 10))
-    setup_ax(ax, 'Set Transformer + Heatmap  (median 0.836 m, ×5-ens)', w=7, h=12)
+    setup_ax(ax, 'Set Transformer + Heatmap  (median 0.883 m, ×5-ens)', w=7, h=12)
     draw_block(ax, 3.5, 11, 5.4, 0.8, 'Set of (BSSID, RSSI) tokens', 'input')
     draw_block(ax, 3.5, 9.6, 5.4, 1.0,
                'Set Transformer encoder\n(embed + SAB×3 + mean pool → 192-D)',

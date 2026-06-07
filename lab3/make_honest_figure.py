@@ -32,7 +32,7 @@ ax1.text(len(vals)-1, 0.34, 'AMCL noise floor 0.30 m', ha='right', fontsize=9, c
 ax1.set_xticks(range(len(labels)))
 ax1.set_xticklabels(labels, fontsize=9)
 ax1.set_ylabel('Median location error (m)', fontsize=11)
-ax1.set_title('The honest climb (standard train -> test, a-priori configs)',
+ax1.set_title('The climb (standard train -> test, a-priori configs)',
               fontsize=12, fontweight='bold')
 ax1.set_ylim(0, 1.75)
 ax1.grid(axis='y', alpha=0.3)
@@ -41,8 +41,8 @@ ax1.annotate('', xy=(5, 0.80), xytext=(0, 1.60),
 ax1.text(2.4, 1.35, '-52%', color='#1a7a3a', fontsize=15, fontweight='bold', rotation=-18)
 
 # ── Right: honesty audit ──
-h_labels = ['Test-tuned\ngreedy\n(MIRAGE)', 'Honest\nheadline\n(train->test)', 'Strict\nnested-CV\n(per-fold)']
-h_vals   = [0.650, 0.752, 0.95]
+h_labels = ['Test-tuned\ngreedy', 'Standard\ntrain->test', 'Strict\nnested-CV\n(per-fold)']
+h_vals   = [0.650, 0.752, 0.94]
 h_colors = ['#d62728', '#1a7a3a', '#8888aa']
 h_hatch  = ['xxx', '', '//']
 bars2 = ax2.bar(range(3), h_vals, color=h_colors, edgecolor='black',
@@ -60,13 +60,13 @@ ax2.axhline(0.3, color='gray', ls=':', lw=1.5)
 ax2.set_xticks(range(3))
 ax2.set_xticklabels(h_labels, fontsize=10)
 ax2.set_ylabel('Median location error (m)', fontsize=11)
-ax2.set_title('Honesty audit: which number can you trust?',
+ax2.set_title('Which number generalizes?',
               fontsize=12, fontweight='bold')
 ax2.set_ylim(0, 1.15)
 ax2.grid(axis='y', alpha=0.3)
 
-plt.suptitle('Honest generalization: 0.752 m is real; 0.650 m was test-set overfitting',
-             fontsize=14, fontweight='bold')
+plt.suptitle('Split A median: 0.752 m standard · 0.94 m strict nested-CV · 0.650 m was test-tuned',
+             fontsize=13, fontweight='bold')
 plt.tight_layout(rect=[0, 0, 1, 0.96])
 out = FIG / 'honest_validation.png'
 fig.savefig(out, dpi=150, bbox_inches='tight')
