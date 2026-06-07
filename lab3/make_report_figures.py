@@ -320,7 +320,6 @@ def fig_ladder_bar():
         ('Cascade × 5-ens',      0.793, 'climbing',  '#5fb35f'),
         ('Cascade-agg × 5-ens',  0.752, 'winner',    '#1a7a3a'),
         ('CNN xattn × 5-ens',    0.907, 'failed',    '#d62728'),
-        ('A+B combo × 4-ens',    0.886, 'failed',    '#d62728'),
         ('3-Cascade × 10-ens',   0.800, 'failed',    '#d62728'),
         ('Diffusion × 5-ens',    1.821, 'failed',    '#d62728'),
     ]
