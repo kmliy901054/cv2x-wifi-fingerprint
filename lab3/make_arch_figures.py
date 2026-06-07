@@ -110,8 +110,9 @@ def fig_masked_mdn():
                'NLL training loss on 3-mixture Gaussian.\n'
                'Masking lets it handle missing BSSIDs without bias.',
                'note', fontsize=8)
-    for y in [9.1, 7.6, 6.3, 5.0, 3.6]:
-        draw_arrow(ax, 3, y, 3, y - 0.5)
+    # edge-to-edge arrows: box-bottom (center-0.4) -> next box-top (center+0.4)
+    for y0, y1 in [(9.6, 8.9), (8.1, 7.6), (6.8, 6.3), (5.5, 4.9), (4.1, 3.5)]:
+        draw_arrow(ax, 3, y0, 3, y1)
     fig.tight_layout()
     fig.savefig(FIG_DIR / 'arch_masked_mdn.png', dpi=160, bbox_inches='tight')
     plt.close(fig)
