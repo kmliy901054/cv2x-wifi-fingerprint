@@ -1,4 +1,4 @@
-# WiFi Indoor Localization: from a 1.57 m baseline to a 0.75 m cascade
+# CV2X Indoor Localization with WiFi Fingerprints
 
 > A step-by-step engineering arc on 1,812 real lab scans — KNN baseline to a coarse-to-fine cascade  
 > NYCU CV2X Lab 3
@@ -9,8 +9,8 @@
 
 ---
 
-## 1. From a 1.57 m KNN baseline to a 0.75 m cascade
-*Standard protocol 0.75 m · strict nested-CV 0.94 m*
+## 1. CV2X Indoor Localization with WiFi Fingerprints
+*314831017 王瑋琛 · 314831024 李朋逸*
 
 圖: `outputs/figures/ladder_bar.png`
 
@@ -18,7 +18,7 @@
 
 ---
 
-## 2. Four required sections, told as one engineering story
+## 2. Four required sections
 *Problem · Method · Dataset & splits · Results*
 
 - 題目定義 / Problem: one variable-length scan to (x, y) in metres, no GPS

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "WiFi Indoor Localization: from a 1.57 m baseline to a 0.75 m cascade",
+    "title": "CV2X Indoor Localization with WiFi Fingerprints",
     "subtitle": "A step-by-step engineering arc on 1,812 real lab scans — KNN baseline to a coarse-to-fine cascade",
     "author": "NYCU CV2X Lab 3",
     "lang_slides": "en",
@@ -11,8 +11,8 @@
   "slides": [
     {
       "id": "title",
-      "title": "From a 1.57 m KNN baseline to a 0.75 m cascade",
-      "subtitle": "Standard protocol 0.75 m · strict nested-CV 0.94 m",
+      "title": "CV2X Indoor Localization with WiFi Fingerprints",
+      "subtitle": "314831017 王瑋琛 · 314831024 李朋逸",
       "bullets": [],
       "figure": "ladder_bar.png",
       "video_placeholder": false,
@@ -20,7 +20,7 @@
     },
     {
       "id": "roadmap",
-      "title": "Four required sections, told as one engineering story",
+      "title": "Four required sections",
       "subtitle": "Problem · Method · Dataset & splits · Results",
       "bullets": [
         "題目定義 / Problem: one variable-length scan to (x, y) in metres, no GPS",
