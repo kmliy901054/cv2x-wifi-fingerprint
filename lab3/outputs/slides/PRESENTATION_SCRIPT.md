@@ -3,7 +3,7 @@
 > A step-by-step engineering arc on 1,812 real lab scans — KNN baseline to a coarse-to-fine cascade  
 > NYCU CV2X Lab 3
 
-英文投影片標題/條列 + 中文口稿。共 32 張投影片。
+英文投影片標題/條列 + 中文口稿。共 31 張投影片。
 
 可開 `lab3_presentation.pptx` 編輯;這份是給你對稿/排練用的文字版。
 
@@ -345,21 +345,7 @@
 
 ---
 
-## 28. 0.650 m was a test-set artifact; 0.752 m is the reported headline
-*0.650 test-tuned mirage -> 0.710 exposed on held-out val -> 0.752 honest headline*
-
-- Greedy ensemble of 33 candidates hit 0.650 m — but picked ON the test set
-- A held-out val set exposed it at 0.710 m — a ~0.07 m selection bias, so we dropped it
-- Honest full-train -> test headline stands at 0.752 m
-- SWA (top literature method) moved 0.025 < bootstrap SE 0.037 -> not adopted
-
-圖: `outputs/figures/honest_validation.png`
-
-口稿: 這是我整場最想讓大家看的一張,也是這份作業真正的價值所在,請給我多一點時間。我會直接走這張圖,把三個數字的關係一次釘死,免得被誤會成在挑好看的講:圖上從左到右是我們親手抓出的 0.650、獨立驗證集現形的 0.710、以及規規矩矩標準口徑的 0.752。故事是這樣:我們曾跑出 0.650 這個非常漂亮的數字,做法是在 33 個候選模型裡用貪婪搜尋一個一個加進集成、看哪個組合在測試集上最低就留。但我們自己警覺到——這個搜尋是直接拿測試集當評分標準的,等於一邊考試一邊偷看答案,挑出來的當然好看。為驗證這個懷疑,我們拉了一個從頭到尾沒碰過的獨立驗證集去重測,結果立刻現形、從 0.650 變成 0.710,中間約 0.07 公尺的落差就是赤裸裸的選擇偏差。於是我們做了一個決定:拒絕把 0.650 當成績,把 0.752 當標題,那是規規矩矩 full-train 一次、test 一次的結果。最後簡短帶過 SWA:這是我們從一個十一個 agent 的文獻回顧裡評分最高的額外技巧,我們真的去實作了,但它只讓誤差動了 0.025,比 bootstrap 估出來的標準誤 0.037 還小。先把 bootstrap SE 用白話講掉:就是用重抽樣去估這個數字本身有多少不確定度;0.025 的改善小於 0.037 的不確定度,等於落在統計雜訊裡,所以我們不採用——這不是 SWA 不好,而是展示我們連看起來該有效的方法都用統計顯著性把關。我最期待被問:那你們不會覺得自爆很可惜嗎?完全不會,主動抓出自己的過擬合、把真實表現釘回到一個站得住的數字,這本身就是這份報告最硬的成果,比多砍 0.1 公尺有價值得多。
-
----
-
-## 29. Bigger and fancier consistently lost: at 1.4k samples, bias beats capacity
+## 28. Bigger and fancier consistently lost: at 1.4k samples, bias beats capacity
 *The three most instructive failures (full list in notes)*
 
 - Diffusion head 1.82 m: sampling noise on a deterministic task
@@ -369,11 +355,11 @@
 
 圖: `outputs/figures/failures.png`
 
-口稿: 這張攤開沒成功的實驗,我認為失敗的清單往往比成功的數字更能說明一個團隊真正學到了什麼。我把投影片收斂到三個最有教育意義的失敗、其餘留在 bullet 末尾跟口頭,免得六條密密麻麻讓人既讀不完又聽不進。畫面這張長條圖把每個失敗方法跟它的 Split A 中位數並排,綠色那根是冠軍 cascade 的 0.752 基準線,高過它的全是退步。三個主打:第一,最慘的擴散頭 1.82 公尺,失敗原因很本質——定位是確定性的回歸問題,而擴散模型是生成式、靠採樣引入隨機性,等於在一個有唯一答案的題目上硬塞雜訊,方向就錯了。第二,容量陷阱的代表 cascade-big,把參數衝到 170 萬卻只有 0.93、徹底過擬合,這正是上一張可靠度圖結論的反面佐證:瓶頸在覆蓋不在容量,所以加容量當然沒用。第三,用樓層平面圖做交叉注意力的 CNN,0.91,失敗原因是它加了一堆額外機制,但平面圖的幾何先驗在這個訊號主導的任務上沒有額外資訊可榨。其餘三個我口頭快速帶過:C-Mixup 這種樣本間插值增強 0.94;A+B 把兩個時段資料合起來訓練只有 0.89(圖上標 CNN+cascade combo)——更多 session 解的是跨時段的軸,而 A 切法壓的是同分布準度,軸對不上自然沒幫助;三層 cascade 再加到一萬二千筆合成資料是 0.80,多一層 gating 跟更多合成幾乎沒換到東西、卻把系統弄複雜,所以我們不採用。提醒一個對照細節:圖上是絕對公尺。一句話總結:在我們只有約 1449 筆單次掃描的規模下,正確的歸納偏置遠遠勝過模型容量,這跟整條爬坡贏的都是換表示、換輸出形式而非堆參數,完全一致。
+口稿: 這張攤開沒成功的實驗,我認為失敗的清單往往比成功的數字更能說明一個團隊真正學到了什麼。我把投影片收斂到三個最有教育意義的失敗、其餘留在 bullet 末尾跟口頭,免得六條密密麻麻讓人既讀不完又聽不進。畫面這張長條圖把每個失敗方法跟它的 Split A 中位數並排,綠色那根是冠軍 cascade 的 0.752 基準線,高過它的全是退步。三個主打:第一,最慘的擴散頭 1.82 公尺,失敗原因很本質——定位是確定性的回歸問題,而擴散模型是生成式、靠採樣引入隨機性,等於在一個有唯一答案的題目上硬塞雜訊,方向就錯了。第二,容量陷阱的代表 cascade-big,把參數衝到 170 萬卻只有 0.93、徹底過擬合,這正是上一張可靠度圖結論的反面佐證:瓶頸在覆蓋不在容量,所以加容量當然沒用。第三,用樓層平面圖做交叉注意力的 CNN,0.91,失敗原因是它加了一堆額外機制,但平面圖的幾何先驗在這個訊號主導的任務上沒有額外資訊可榨。其餘三個我口頭快速帶過:C-Mixup 這種樣本間插值增強 0.94;A+B 把兩個時段資料合起來訓練只有 0.89(圖上標 CNN+cascade combo)——更多 session 解的是跨時段的軸,而 A 切法壓的是同分布準度,軸對不上自然沒幫助;三層 cascade 再加到一萬二千筆合成資料是 0.80,多一層 gating 跟更多合成幾乎沒換到東西、卻把系統弄複雜,所以我們不採用。提醒一個對照細節:圖上是絕對公尺。一句話總結:在我們只有約 1449 筆單次掃描的規模下,正確的歸納偏置遠遠勝過模型容量,這跟整條爬坡贏的都是換表示、換輸出形式而非堆參數,完全一致。 另外補一個方法面的失敗,被問到再講就好:SWA(Stochastic Weight Averaging,我們文獻回顧裡評分最高的額外技巧)也實作了,但它只讓誤差動 0.025,小於 bootstrap 估出來的標準誤 0.037,落在統計雜訊裡,所以不採用——不是它不好,是統計上看不出顯著差。
 
 ---
 
-## 30. The error splits cleanly: 27% solved at the label floor, 16% unsolvable
+## 29. The error splits cleanly: 27% solved at the label floor, 16% unsolvable
 *27% at the 0.3 m AMCL floor; ~16% are symmetric-ambiguity outliers*
 
 - 27% of predictions sit at the 0.3 m AMCL floor (label-limited, not improvable)
@@ -387,7 +373,7 @@
 
 ---
 
-## 31. Live in the lab: ESP32 to 9 ms CPU inference to live heatmap
+## 30. Live in the lab: ESP32 to 9 ms CPU inference to live heatmap
 *[ Recorded demo video plays here ]*
 
 - Real ESP32 streaming live scans; CPU-only inference ~9 ms/scan (no GPU)
@@ -401,16 +387,16 @@
 
 ---
 
-## 32. Verdict: ~0.75 m is real; sub-0.65 m needs new data, not a deeper net
+## 31. Verdict: ~0.75 m is real; sub-0.65 m needs new data, not a deeper net
 *Standard-protocol median 0.752 m on the held-out Split A test*
 
 - Halved KNN error to a 0.752 m median, validated on real hardware
 - Won by inductive bias (set input, grid classification, coarse gate), not capacity
-- Validation matters: a 0.650 m test-tuned result did not hold up on a held-out set
+- (btw) an early run hit 0.65 m but was tuned on the test set — it does not generalise, so we report 0.752 m
 - To break 0.6x: upper-region data, IMU/heading, temporal fusion — not depth
 
 圖: `outputs/figures/ladder_bar.png`
 
-口稿: 總結這整份報告。最直接的成果:我們把最樸素 KNN 基準的 1.57 公尺砍了一半,得到 0.752 公尺中位數,而且是規規矩矩 full-train 一次、在獨立測試集上量一次的標準協定數字。我也想給一個外部尺度感:文獻上以 RSSI 為主、單筆掃描的室內指紋定位,典型中位誤差大多落在一兩公尺甚至更高,所以在一個只有約 189 平方公尺、標籤本身就有 0.3 公尺噪音的場域裡做到 0.75,是把誤差壓到接近標籤精度、屬於很有競爭力的結果。整段贏的關鍵是歸納偏置而不是容量:把掃描當集合編碼、把座標回歸改成網格分類、再加一個粗網格守門員殺掉對稱混淆的假峰——這三步每一步都在解前面點名過的具體難點,而且結果在真實 ESP32 硬體上即時驗證過、不是只活在 notebook 裡。我也想被記住的是把嚴謹的驗證當成核心成果:我們主動抓出自己 0.650 的海市蜃樓、用獨立驗證集把它打回原形,寧可報一個比較保守但站得住的 0.752,也不要一個漂亮但偷看過答案的數字。最後未來方向講實在的:真正的 0.6 出頭從目前這 1449 筆單次掃描裡拿不出來,因為誤差分析已證明那 16% 是物理上不可區分的對稱混淆,這不是模型問題、是訊號問題。要突破得做三件具體的事——補上半部那塊稀疏區的覆蓋資料、加入 IMU 或方向感測打破對稱、做時序融合把連續好幾筆掃描一起判斷。一句話收尾,也是整份報告的精神:下一步的增益在新的訊號,不在更深的網路。謝謝大家,歡迎提問。
+口稿: 總結這整份報告。最直接的成果:我們把最樸素 KNN 基準的 1.57 公尺砍了一半,得到 0.752 公尺中位數,而且是規規矩矩 full-train 一次、在獨立測試集上量一次的標準協定數字。我也想給一個外部尺度感:文獻上以 RSSI 為主、單筆掃描的室內指紋定位,典型中位誤差大多落在一兩公尺甚至更高,所以在一個只有約 189 平方公尺、標籤本身就有 0.3 公尺噪音的場域裡做到 0.75,是把誤差壓到接近標籤精度、屬於很有競爭力的結果。整段贏的關鍵是歸納偏置而不是容量:把掃描當集合編碼、把座標回歸改成網格分類、再加一個粗網格守門員殺掉對稱混淆的假峰——這三步每一步都在解前面點名過的具體難點,而且結果在真實 ESP32 硬體上即時驗證過、不是只活在 notebook 裡。如果有人追問極限數字,可以輕描淡寫帶一句就好:我們早期其實有 train 到過 0.65,但那是在測試集上一個個挑模型挑出來的、等於偷看過答案,拿一個從沒碰過的獨立驗證集一測就現形,所以它不太能代表真實泛化、我們不把它當成績——我們就站在 0.752 這個規規矩矩量出來的數字上。不用特別展開講,被問到再說。最後未來方向講實在的:真正的 0.6 出頭從目前這 1449 筆單次掃描裡拿不出來,因為誤差分析已證明那 16% 是物理上不可區分的對稱混淆,這不是模型問題、是訊號問題。要突破得做三件具體的事——補上半部那塊稀疏區的覆蓋資料、加入 IMU 或方向感測打破對稱、做時序融合把連續好幾筆掃描一起判斷。一句話收尾,也是整份報告的精神:下一步的增益在新的訊號,不在更深的網路。謝謝大家,歡迎提問。
 
 ---

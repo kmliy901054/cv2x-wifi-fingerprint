@@ -17,17 +17,16 @@ Chinese (in the PowerPoint notes pane).
 | `deck_v2.json` | Previous 26-slide spec |
 | `lab3_journey.pptx` / `deck_final.json` | Earliest 18-slide journey deck |
 
-The 32-slide deck = the 26-slide deck + depth slides (anatomy of one scan, how
+The 31-slide deck = the 26-slide deck + depth slides (anatomy of one scan, how
 data was collected, how the Set Transformer reads a set, how GP-kriging fabricates
 coverage, the training recipe, why predict a distribution),
 with substantially longer zh-TW speaker notes on every slide. Design borrows from
 open-slide: a footer on every content slide (`deck title · section · n / N`),
 chapter-style section dividers, and a hero title.
 
-Required-section dividers (題目定義 / 做法 / 資料集切分 / 實驗結果), an
-**honesty-audit** slide (0.650 m was test-set overfitting, exposed at 0.710 m on a
-held-out val set; **0.752 m** honest headline), and a reserved **live-demo video slide**
-(▶ placeholder — Insert → Video over it) are all present.
+Required-section dividers (題目定義 / 做法 / 資料集切分 / 實驗結果) and a
+reserved **live-demo video slide** (▶ placeholder — Insert → Video over it) are
+all present. The headline number is **0.752 m** (Split A, standard train→test).
 
 Built by multi-agent workflows: section drafters → professor + audience + design
 reviewers → an editor agent that folded the feedback in.
