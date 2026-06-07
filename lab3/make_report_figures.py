@@ -317,7 +317,8 @@ def fig_ladder_bar():
         ('+ GP synth × 5-ens',   0.889, 'breakthrough', '#ff7f0e'),
         ('C-Mixup × 5-ens',      0.942, 'failed',    '#d62728'),
         ('Heatmap × 5-ens',      0.883, 'climbing',  '#1f77b4'),
-        ('Cascade × 5-ens',      0.793, 'winner',    '#2ca02c'),
+        ('Cascade × 5-ens',      0.793, 'climbing',  '#5fb35f'),
+        ('Cascade-agg × 5-ens',  0.752, 'winner',    '#1a7a3a'),
         ('CNN xattn × 5-ens',    0.907, 'failed',    '#d62728'),
         ('A+B combo × 4-ens',    0.886, 'failed',    '#d62728'),
         ('3-Cascade × 10-ens',   0.800, 'failed',    '#d62728'),
@@ -336,8 +337,8 @@ def fig_ladder_bar():
     ax.set_yticks(y_pos)
     ax.set_yticklabels(labels)
     ax.invert_yaxis()
-    ax.axvline(0.793, color='green', linestyle='--', alpha=0.7,
-               label='Winner: Cascade 0.793 m')
+    ax.axvline(0.752, color='green', linestyle='--', alpha=0.7,
+               label='Winner: Cascade-agg 0.752 m')
     ax.axvline(0.3, color='gray', linestyle=':', alpha=0.6,
                label='AMCL noise floor 0.3 m')
     ax.set_xlabel('Median Location Error (m)')
